@@ -1,0 +1,18 @@
+\begin{abstract}
+  %
+  Dynamic 3D Gaussian Splatting (\gs{}) holds great promise as a 3D video streaming technology since it can represent complex 3D scenes with high fidelity. 
+  %
+  In this approach, every frame in a 3D video represents the environment as a collection of Gaussians with position and other attributes such as scale, rotation, opacity, and color. 
+  %
+  Frames capture fine details, permit views from any arbitrary perspective, but are an order of magnitude, or more, larger than 2D video frames.
+  %
+  A line of recent work has explored how to compress dynamic \gs{} frames, but these approaches are often slow, in part because their compression techniques are not amenable to efficient acceleration. 
+  %
+  \gsnfs{} accelerates dynamic \gs{} compression and decompression on a GPU, to the point where it can encode and decode at full frame rate. 
+  %
+  It achieves this by developing novel GPU-based parallelizations of existing algorithms for encoding both positions and attributes of Gaussians.
+  %
+  As a result, it is 1-2 orders of magnitude faster than the state-of-the-art in encoding and decoding a frame, while offering competitive compression performance and rendering quality.
+\end{abstract}
+
+

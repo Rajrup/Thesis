@@ -1,0 +1,63 @@
+% !TeX root = main.tex
+\section{Background and Motivation}
+\label{s:background}
+
+\raj{About 1-1.5 pages. For this section, as you write, if you can think of experiments/numbers to add, please note that down.}
+
+\begin{itemize}
+	\item Background on volumetric video:
+	\begin{itemize}
+		\item How it is generated? Take example of RGB-D cameras and show how depth and color are combined, and points are combined from multiple cameras.
+		\item Video as a sequence of point cloud frames; can in theory be transmitted over the network and replayed at the other end (on a HMD, or stereoscopic display).
+		\item What is different about volumetric video? fundamentally interactive; clients can "move" to and watch from different parts of a scene
+            \item Number of cameras in the datasets - N RGB or M RGBD cameras. 
+	\end{itemize}
+	
+	\item Goal
+	\begin{itemize}
+		\item Live transmission of volumetric video generated from N RGB-D cameras. \tbd{check}
+		\begin{itemize}
+			\item Applications: immersive lectures, live performances, conferencing
+		\end{itemize}
+	
+		\item Requirements/constraints:
+		\begin{itemize}
+			\item Adapt dynamically to available bandwidth
+			\item Ensure relatively low end-to-end processing requirements (today's conferencing systems have latencies of 200-300ms)
+			\item Preserve high quality
+			\item When possible, leverage existing investments in live video streaming/conferencing (briefly describe how video conferencing works today).
+			\begin{itemize}
+				\item Motion compensation is hard for live
+				\item  Should this be a requirement or an insight?\
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	
+	\item Problem/Challenges:
+	\begin{itemize}
+		\item High bandwidth requirements for point clouds (get some ballpark numbers for this)
+		\begin{itemize}
+			\item May need to adapt to a wide range of bandwidths (get rough numbers from various traces)
+		\end{itemize}
+		
+		\item High compute requirements (get some simple benchmarks for processing point clouds)
+	\end{itemize}
+	
+	\item Strawman approaches (not mutually exclusive):
+	\begin{itemize}
+		\item Compress point clouds: point cloud compression still an active topic of research, existing compression techniques do not give significant gains?
+		\begin{itemize}
+			\item Distinguish between lossy and loss-less compression, and whether existing lossy compression techniques allow for quality tradeoffs
+		\end{itemize}
+		
+		\item View culling: just transmit part of the view; can be significantly expensive, and predicting the user's view is challenging, and mispredictions can impact quality of experience; viewport-adaptive approaches have been used for 360-video, but volumetric is different because users have 6 degrees of freedom
+	\end{itemize}
+	
+\end{itemize}
+
+\raj{Related work: should have a para in the intro
+(Microbenchmarks for justifying design choices: should we include them here?)}
+\begin{itemize}
+	\item Explain the compute and network cost tradeoffs using some simple numbers/experiments - 
+            \item Some observations to motivate our design.
+\end{itemize}

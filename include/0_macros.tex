@@ -1,0 +1,91 @@
+%%%%%%%%%%%%%%%%% Add paper-specific macros here
+\newcommand{\recap}{RECAP\xspace}
+\newcommand{\cip}{CIP\xspace}
+\newcommand{\mars}{MARS\xspace}
+
+% \newcommand{\sysname}{LiVo\xspace}
+\newcommand{\livo}{LiVo\xspace}
+% \newcommand{\livogs}{LiVoGS\xspace}
+% \newcommand{\livopp}{LiVo++\xspace}
+% \newcommand{\gs}{GSplat\xspace}
+
+\newcommand{\gsnfs}{GS-NFS\xspace}
+\newcommand{\dgs}{4DGS\xspace}
+\newcommand{\gs}{3DGS\xspace}
+\newcommand{\vthree}{V\textsuperscript{3}\xspace}
+\newcommand{\dpsnr}{$\Delta$PSNR\xspace}
+\newcommand{\rcr}{RCR\xspace}
+
+\providecommand\parab[1]{\noindent\textbf{#1}}
+\providecommand\parae[1]{\textit{\textbf{#1}}}
+\providecommand\parac[1]{\noindent{\textit{#1}}}
+
+%%% Latin abbrevs
+\newcommand{\etc}{\emph{etc.}\xspace}
+\newcommand{\ie}{\emph{i.e.,}\xspace}
+\newcommand{\eg}{\emph{e.g.,}\xspace}
+\newcommand{\etal}{\emph{et al.}\xspace}
+
+\newlist{myitemize}{itemize}{1}
+\setlist[myitemize]{label=$\bullet$,nosep,wide}
+\newlist{myenumerate}{enumerate}{1}
+\setlist[myenumerate]{nosep,wide,label=\textbf{\arabic*}.}
+\newlist{mydescription}{description}{1}
+\setlist[mydescription]{nosep,wide}
+
+%%% Sections, figures etc. Please use these for uniformity
+\newcommand{\chpref}[1]{Chapter~\ref{#1}}
+\newcommand{\chref}[1]{Chapter~\ref{#1}}
+\newcommand{\secref}[1]{\S\ref{#1}}
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+\newcommand{\algoref}[1]{Algorithm~\ref{#1}}
+\newcommand{\eqnref}[1]{Equation~\ref{#1}}
+\newcommand{\lineref}[1]{Line~\ref{#1}}
+\newcommand{\custombullet}{\paraspace\noindent$\blacktriangleright$}
+\newcommand{\algolineref}[2]{Alg.~\ref{#1}, Line~\ref{#2}}
+\newcommand{\algolinesref}[3]{Alg.~\ref{#1}, Lines~\ref{#2}--\ref{#3}}
+
+\newcommand\checkmarkk[1][]{%
+  \tikz[scale=0.4,#1]{\fill(0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}%
+}
+\newcommand\crossmark[1][]{%
+  \tikz[scale=0.4,#1]{
+    \fill(0,0)--(0.1,0) .. controls (0.5,0.4) .. (1,0.7)--(0.9,0.7) ..  controls (0.5,0.5) ..(0,0.1) --cycle;
+    \fill(1,0.1)--(0.9,0.1) .. controls (0.5,0.3) .. (0,0.7)--(0.1,0.7) .. controls (0.5,0.4) ..(1,0.2) --cycle;
+  }%
+}
+
+\newcommand\ckmark[1]{\ding{52}}
+
+%%% Comment macros
+\newcommand{\christina}[1]{\todo[author=Christina,color=white,inline]{#1}}
+\newcommand{\ramesh}[1]{\todo[author=Ramesh,color=white,inline]{#1}}
+\newcommand{\raj}[1]{\todo[author=Raj,color=cyan!25,inline]{#1}}
+
+\newcommand{\note}[1]{\textcolor{red}{#1}}
+
+%%% Camera-ready macros
+\newcommand{\cradd}[1]{\textcolor{blue}{#1}}
+\newcommand{\crdel}[1]{\sout{\textcolor{red}{#1}}}
+
+%%% For tight lists
+\newcommand{\squishlist}{
+   \begin{list}{$\bullet$}
+    { \setlength{\itemsep}{0pt}      \setlength{\parsep}{1pt}
+      \setlength{\topsep}{1pt}       \setlength{\partopsep}{0pt}
+      \setlength{\leftmargin}{1.0em} \setlength{\labelwidth}{1em}
+      \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishlisttwo}{
+   \begin{list}{$\bullet$}
+    { \setlength{\itemsep}{0pt}    \setlength{\parsep}{0pt}
+      \setlength{\topsep}{0pt}     \setlength{\partopsep}{0pt}
+      \setlength{\leftmargin}{2em} \setlength{\labelwidth}{1.5em}
+      \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishend}{
+    \end{list}  }
+
+%%% For colors
+\definecolor{Gainsboro}{rgb}{0.86, 0.86, 0.86}

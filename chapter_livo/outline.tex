@@ -1,0 +1,49 @@
+%% ACM papers: uncomment one of these lines
+% \documentclass[newfonts=false,format=sigconf,10pt,letterpaper]{acmart}
+% \documentclass[letterpaper]{sig-alternate-10pt}
+% \documentclass[sigconf]{acmart}
+%\documentclass[sigconf,10pt]{acmart}
+
+%% Usenix papers: uncomment both lines below
+\documentclass[letterpaper,twocolumn,10pt]{article}
+\usepackage{usenix-2020-09}
+
+%% Change false to true for ACMart style
+\newif\ifACM
+\ACMfalse
+
+%%% Add packages, configurations, macros to the files listed below
+\input{include/0_packages}
+\input{include/0_config}
+\input{include/0_macros}
+
+%%% Make changes to title, author list
+\begin{document}
+
+\title{Towards Bandwidth-adaptive Live Volumetric Video}
+\author{}
+\date{}
+
+%% Uncomment the following line for camera-ready to add keywords,
+%% acknowledgements etc.
+\input{include/0_metadata}
+%\input{abstract}
+\maketitle
+
+%% Add as many lines here as you need
+\input{outline/intro}
+
+\input{outline/background}
+
+\input{outline/design}
+
+% \bibliographystyle{plain}
+\newpage
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references.bib}
+
+%\newpage
+%\input{appendix}
+
+\end{document}
+

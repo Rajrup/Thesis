@@ -1,0 +1,84 @@
+% !TeX root = main.tex
+\section{Design}
+\label{s:design}
+
+\raj{About 5 pages totals}
+
+\subsection{Overview}
+\label{ss:overview}
+
+\raj{1 page}
+
+Our approach is based on a novel combination of two insights:
+\begin{itemize}
+	\item Instead of synthesizing the volumetric video at the server, generate the point clouds at the client but transmit depth and color using standard video compression
+	\begin{itemize}
+		\item Allows us to leverage substantial investment in video compression, congestion control and live video bandwidth adaptation using quality tradeoffs.
+	\end{itemize}
+
+	\item View prediction is accurate over short timescales, and server can cull views by tracking short-term history of viewer motion.
+\end{itemize}
+	
+\raj{At a high-level, we should explain how bandwidth adaptation works.}
+	
+Explain the architecture of the system and highlight the 3 parts of the approach: Explain overall architecture for 2-3 paragraphs with a picture.
+
+\subsection{View Prediction}
+\label{ss:view-predicition}
+Accurate view prediction
+
+\begin{itemize}
+	\item Introduce Kalman Filter
+	\item \textbf{(novel)} Frustum estimation from Kalman filter.
+\end{itemize}
+
+\subsection{View Generation}
+\label{ss:view-generation}
+	
+Generating virtual camera views efficiently
+\begin{itemize}
+	\item Generate the point cloud, cull, and back-project
+	\begin{itemize}
+		\item Include how to use camera intrinsics/extrinsics and coordinate transformations on how to generate the point cloud (can move to appendix later)
+	\end{itemize}
+	
+	\item Contribution: using view-culling to reduce the RGB-D stream information
+	\item Depth encoding, camera intrinsics
+\end{itemize}
+	
+\subsection{Bandwidth Adaptation}
+\label{ss:bw-adaptation}
+Stream synchronization and bandwidth adaptation
+\begin{itemize}
+	\item \textbf{(novel)} tiling leveraging 4K, RGB-D have smaller frame sizes, GPUs have parallelism for fast encoding of large frames.
+        \item \textbf{(novel)} Bitrate splitting between color and depth. Check if we need to discuss our differences with MeshReduce.
+        \begin{itemize}
+            \item Depth encoding using 16-bit encoder.
+        \end{itemize}
+\end{itemize}
+
+\subsection{Point Cloud Reconstruction}
+\label{ss:ptcl-reconstruction}
+Client-side reconstruction
+\begin{itemize}
+	\item Also need to do culling to reduce rendering time
+\end{itemize}
+
+\subsection{Other Optimizations}
+\label{ss:optimizations}
+Performance and quality optimizations
+\begin{itemize}
+	\item Static voxelization culling
+	\item Threading/parallelism
+	\item Mask transmission (deprecated).
+\end{itemize}
+
+\textbf{Discuss scaling} and also think about experiments for quantifying this. Find max number of RGBD cameras that can be accommodated in 2 views. Impact of compute if increase further. Nvidia has limit on the number of nvenc encoders that can be used in parallel.
+\\
+
+In the rest of the text, you would have 1 section for each of the above.
+
+In each section, you can start by describing what the goal is, what the challenges are, give a brief idea of the approach (if possible, discuss obvious solutions that you discarded e.g., for efficiency reasons), discuss any background necessary, then discuss the approach in detail. When you discuss the approach, focus on what's novel while acknowledging well-known techniques that you have used. In the details section, focus the description on the novel aspect.
+
+
+\textbf{Impl:} Qr code.

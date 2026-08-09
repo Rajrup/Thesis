@@ -1,0 +1,90 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% hyperref configuration
+% \PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
+% \hypersetup{unicode=true,
+%             colorlinks=true,
+%             linkcolor=blue,
+%             citecolor=blue,
+%             anchorcolor=blue,
+%             urlcolor=blue,
+%             breaklinks=true}
+% \urlstyle{same}
+
+%% caption configuration
+%\captionsetup{margin=10pt,font=small,labelfont=bf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% other scaling, separation configuration, do not modify
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Breaks urls over multiple lines
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% para spacing
+\makeatletter
+\let\origsection\section
+\let\origsubsection\subsection
+\let\origparagraph\paragraph
+
+\renewcommand\section{\@ifstar{\starsection}{\nostarsection}}
+\renewcommand\subsection{\@ifstar{\starsubsection}{\nostarsubsection}}
+
+%% Change these to control spacing for section headers/paras
+
+\newcommand\sectionprelude{\vspace{0ex}}
+\newcommand\sectionpostlude{\vspace{0ex}}
+\newcommand\subsectionprelude{\vspace{0ex}}
+\newcommand\subsectionpostlude{\vspace{0ex}}
+
+\newcommand\nostarsection[1]{\sectionprelude\origsection{#1}\sectionpostlude}
+\newcommand\starsection[1]{\sectionprelude\origsection*{#1}\sectionpostlude}
+
+\newcommand\nostarsubsection[1]{\subsectionprelude\origsubsection{#1}\subsectionpostlude}
+\newcommand\starsubsection[1]{\subsectionprelude\origsubsection*{#1}\subsectionpostlude}
+
+\makeatother
+
+\newcommand\paraspace{\vspace*{0.5ex}}
+\providecommand\parab[1]{\paraspace\noindent\textbf{#1}}
+\providecommand\parae[1]{\paraspace\textbf{\textit{#1}}}
+\providecommand\pbullet{\paraspace\noindent$\blacktriangleright$}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Change these to control figure/float spacing
+\setlength{\textfloatsep}{2pt}
+\setlength{\abovecaptionskip}{2pt plus 1pt minus 1pt}
+\setlength{\belowcaptionskip}{2pt plus 1pt minus 1pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Change these to control equation spacing
+\apptocmd\normalsize{%
+\abovedisplayskip=5pt
+\abovedisplayshortskip=5pt
+\belowdisplayskip=5pt
+\belowdisplayshortskip=5pt
+}{}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Spacing between footnote and text
+\setlength{\skip\footins}{6pt}
+
+\everypar{\looseness=-1}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

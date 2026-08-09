@@ -1,0 +1,1042 @@
+@inproceedings{groot,
+  author    = {Lee, Kyungjin and Yi, Juheon and Lee, Youngki and Choi, Sunghyun and Kim, Young Min},
+  title     = {GROOT: A Real-Time Streaming System of High-Fidelity Volumetric Videos},
+  year      = {2020},
+  isbn      = {9781450370851},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3372224.3419214},
+  doi       = {10.1145/3372224.3419214},
+  booktitle = {Proceedings of the 26th Annual International Conference on Mobile Computing and Networking},
+  articleno = {57},
+  numpages  = {14},
+  keywords  = {volumetric video, point cloud, mobile augmented reality, video streaming, virtual reality},
+  location  = {London, United Kingdom},
+  series    = {MobiCom '20}
+}
+
+@misc{draco,
+    key = draco,
+    title = {{Draco 3D Compression}},
+    howpublished = {\url{https://github.com/google/draco}},
+}
+
+@inproceedings{converge-sigcomm-2023,
+author = {Dhawaskar Sathyanarayana, Sandesh and Lee, Kyunghan and Grunwald, Dirk and Ha, Sangtae},
+title = {Converge: QoE-driven Multipath Video Conferencing over WebRTC},
+year = {2023},
+isbn = {9798400702365},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3603269.3604822},
+doi = {10.1145/3603269.3604822},
+abstract = {Video conferencing has become a daily necessity, but protocols to support video conferencing have yet to keep pace despite the innovation in next-generation networks. As video resolutions increase and mobile applications using multiple cameras for photos and videos become popular, the need to meet the Quality of Experience (QoE) requirements is growing. Multipath protocols could be a possible solution.In this paper, we show that a straightforward extension of WebRTC for supporting multipath can perform worse than legacy WebRTC and propose Converge, a WebRTC-compliant multipath video conferencing platform. Converge improves QoE through three main components: a video-aware scheduler, video QoE feedback, and video-aware and path-specific packet protection. The video-aware scheduler uses the real-time video structure to schedule packets, and the video QoE feedback from the receiver helps the scheduler adjust the number of packets on each path. Additionally, the video-aware and path-specific packet protection mechanism improves on the existing FEC mechanism in WebRTC by considering the trade-off between FEC and QoE. Converge is built as part of the Chromium browser, making it compatible with any device or network path. Converge improves overall media throughput by 1.2\texttimes{}, reduces end-to-end latency by 20\%, and enhances image quality by 55\% compared to WebRTC.},
+booktitle = {Proceedings of the ACM SIGCOMM 2023 Conference},
+pages = {637–653},
+numpages = {17},
+keywords = {multipath, video conferencing, QoE, WebRTC},
+location = {New York, NY, USA},
+series = {ACM SIGCOMM '23}
+}
+
+@inproceedings{sigcomm-ems,
+author = {Zhong, Junquan and Zhang, Haodan and Jia, Quanlu and Wu, Jiangkai and Wang, Peiheng and Wang, Haoyang and Liu, Liming and Zhang, Xinggong and Guo, Zongming},
+title = {Low-bitrate Volumetric Video Streaming with Depth Image},
+year = {2024},
+isbn = {9798400707117},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3672196.3673397},
+doi = {10.1145/3672196.3673397},
+abstract = {Volumetric video, which is six-degrees-of-freedom (6D0F), serves an immersive viewing experience. However, the high bandwidth required for streaming volumetric video over networks presents challenges for its flourishing. To address this issue, we propose a novel streaming system that leverages depth image to convert 3D volumetric videos into 2D videos with low bitrate and high fps. Our system addresses two technical challenges when using depth image. Specifically, we use nonlinear regression to solve the virtual camera placement problem and the problem of how to allocate bitrate between color image and depth map when encoding. Evaluations show that our system outperforms existing volumetric video streaming methods and saves 50\%-99\% bandwidth under the same level of quality.},
+booktitle = {Proceedings of the 2024 SIGCOMM Workshop on Emerging Multimedia Systems},
+pages = {39–44},
+numpages = {6},
+keywords = {datasets, point cloud, video streaming, volumetric video},
+location = {Sydney, NSW, Australia},
+series = {EMS '24}
+}
+
+@inproceedings{rfec-acm-mm2022,
+author = {Lee, Insoo and Kim, Seyeon and Sathyanarayana, Sandesh and Bin, Kyungmin and Chong, Song and Lee, Kyunghan and Grunwald, Dirk and Ha, Sangtae},
+title = {R-FEC: RL-based FEC Adjustment for Better QoE in WebRTC},
+year = {2022},
+isbn = {9781450392037},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3503161.3548370},
+doi = {10.1145/3503161.3548370},
+abstract = {The demand for video conferencing applications has seen explosive growth while users still often face unsatisfactory quality of experience (QoE). Video conferencing applications adopt Forward Error Correction (FEC) as a recovery mechanism to meet tight latency requirements and overcome packet losses prevalent in the network. However, many studies mainly focused on video rate control by neglecting the complex interactions of this video recovery mechanism on the rate control and its impact on the user QoE. Deciding the right amount of FEC for the current video rate under a dynamically changing network environment is not straightforward. For instance, the higher FEC may enhance the tolerance to packet losses, but it may increase latency due to FEC processing overhead and hurt the video quality due to the additional bandwidth used for FEC. To address this issue, we propose R-FEC which is a reinforcement learning (RL) based framework for video and FEC bitrate decisions in video conferencing. R-FEC aims to improve overall QoE by automatically learning through the results of past decisions and adjusting video and FEC bitrates to maximize the user QoE while minimizing the congestion in the network. Our experiments show that R-FEC outperforms the state-of-the-art solutions in video conferencing, with up to 27\% improvement in its video rate and 6dB PSNR improvement in video quality over the default WebRTC.},
+booktitle = {Proceedings of the 30th ACM International Conference on Multimedia},
+pages = {2948–2956},
+numpages = {9},
+keywords = {qoe, rate control, video conferencing},
+location = {Lisboa, Portugal},
+series = {MM '22}
+}
+
+@inproceedings{vivo,
+  author    = {Han, Bo and Liu, Yu and Qian, Feng},
+  title     = {ViVo: Visibility-Aware Mobile Volumetric Video Streaming},
+  year      = {2020},
+  isbn      = {9781450370851},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3372224.3380888},
+  doi       = {10.1145/3372224.3380888},
+  booktitle = {Proceedings of the 26th Annual International Conference on Mobile Computing and Networking},
+  articleno = {11},
+  numpages  = {13},
+  location  = {London, United Kingdom},
+  series    = {MobiCom '20}
+}
+
+@article{starline,
+  author     = {Lawrence, Jason and Goldman, Danb and Achar, Supreeth and Blascovich, Gregory Major and Desloge, Joseph G. and Fortes, Tommy and Gomez, Eric M. and H\"{a}berling, Sascha and Hoppe, Hugues and Huibers, Andy and Knaus, Claude and Kuschak, Brian and Martin-Brualla, Ricardo and Nover, Harris and Russell, Andrew Ian and Seitz, Steven M. and Tong, Kevin},
+  title      = {Project Starline: A High-Fidelity Telepresence System},
+  year       = {2021},
+  issue_date = {December 2021},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {40},
+  number     = {6},
+  issn       = {0730-0301},
+  url        = {https://doi.org/10.1145/3478513.3480490},
+  doi        = {10.1145/3478513.3480490},
+  journal    = {ACM Trans. Graph.},
+  month      = {dec},
+  articleno  = {242},
+  numpages   = {16},
+  keywords   = {3D capture, stereopsis, spatialized audio, parallax, videoconferencing, eye contact, telecopresence}
+}
+
+@inproceedings{metastream,
+author = {Guan, Yongjie and Hou, Xueyu and Wu, Nan and Han, Bo and Han, Tao},
+title = {MetaStream: Live Volumetric Content Capture, Creation, Delivery, and Rendering in Real Time},
+year = {2023},
+isbn = {9781450399906},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3570361.3592530},
+abstract = {While recent work explored streaming volumetric content on-demand, there is little effort on live volumetric video streaming that bears the potential of bringing more exciting applications than its on-demand counterpart. To fill this critical gap, in this paper, we propose MetaStream, which is, to the best of our knowledge, the first practical live volumetric content capture, creation, delivery, and rendering system for immersive applications such as virtual, augmented, and mixed reality. To address the key challenge of the stringent latency requirement for processing and streaming a huge amount of 3D data, MetaStream integrates several innovations into a holistic system, including dynamic camera calibration, edge-assisted object segmentation, cross-camera redundant point removal, and foveated volumetric content rendering. We implement a prototype of MetaStream using commodity devices and extensively evaluate its performance. Our results demonstrate that MetaStream achieves low-latency live volumetric video streaming at close to 30 frames per second on WiFi networks. Compared to state-of-the-art systems, MetaStream reduces end-to-end latency by up to 31.7\% while improving visual quality by up to 12.5\%.},
+booktitle = {Proceedings of the 29th Annual International Conference on Mobile Computing and Networking},
+articleno = {29},
+numpages = {15}
+}
+
+@misc{realsense,
+  title        = {Intel RealSense Depth Camera D455},
+  howpublished = {\url{https://www.intelrealsense.com/}},
+  year         = {2024}
+}
+
+@misc{kinect,
+  title        = {Azure Kinect DK},
+  howpublished = {\url{https://www.microsoft.com/en-us/d/azure-kinect-dk/8pp5vxmd9nhq}},
+  year         = {2024}
+}
+
+@inproceedings{farfetchfusion,
+author = {Lee, Kyungjin and Yi, Juheon and Lee, Youngki},
+title = {FarfetchFusion: Towards Fully Mobile Live 3D Telepresence Platform},
+year = {2023},
+isbn = {9781450399906},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3570361.3592525},
+abstract = {We present FarfetchFusion, a fully mobile live 3D telepresence system. Enabling mobile live telepresence is a challenging problem as it requires i) realistic reconstruction of the user and ii) high responsiveness for immersive experience. We first thoroughly analyze the live 3D telepresence pipeline and identify three critical challenges: i) 3D data streaming latency and compression complexity, ii) computational complexity of volumetric fusion-based 3D reconstruction, and iii) inconsistent reconstruction quality due to sparsity of mobile 3D sensors. To tackle the challenges, we propose a disentangled fusion approach, which separates invariant regions and dynamically changing regions with our low-complexity spatio-temporal alignment technique, topology anchoring. We then design and implement an end-to-end system, which achieves realistic reconstruction quality comparable to existing server-based solutions while meeting the real-time performance requirements (<100 ms end-to-end latency, 30 fps throughput, <16 ms motion-to-photon latency) solely relying on mobile computation capability.},
+booktitle = {Proceedings of the 29th Annual International Conference on Mobile Computing and Networking},
+articleno = {20},
+numpages = {15}
+}
+
+@misc{cisco_whitepaper,
+  title        = {Cisco Annual Internet Report (2018–2023) White Paper},
+  howpublished = {\url{https://www.cisco.com/c/en/us/solutions/collateral/executive-perspectives/annual-internet-report/white-paper-c11-741490.html}},
+  journal      = {Cisco},
+  publisher    = {Cisco},
+  year         = {2022},
+  month        = {Jan}
+}
+
+@inproceedings {salsify,
+author = {Sadjad Fouladi and John Emmons and Emre Orbay and Catherine Wu and Riad S. Wahby and Keith Winstein},
+title = {Salsify: {Low-Latency} Network Video through Tighter Integration between a Video Codec and a Transport Protocol},
+booktitle = {15th USENIX Symposium on Networked Systems Design and Implementation (NSDI 18)},
+year = {2018},
+isbn = {978-1-939133-01-4},
+address = {Renton, WA},
+pages = {267--282},
+url = {https://www.usenix.org/conference/nsdi18/presentation/fouladi},
+publisher = {USENIX Association},
+month = apr
+}
+
+@inproceedings{depth-kautz,
+author = {Pece, Fabrizio and Kautz, Jan and Weyrich, Tim},
+title = {Adapting standard video codecs for depth streaming},
+year = {2011},
+isbn = {9783905674330},
+publisher = {Eurographics Association},
+address = {Goslar, DEU},
+abstract = {Cameras that can acquire a continuous stream of depth images are now commonly available, for instance the Microsoft Kinect. It may seem that one should be able to stream these depth videos using standard video codecs, such as VP8 or H.264. However, the quality degrades considerably as the compression algorithms are geared towards standard three-channel (8-bit) colour video, whereas depth videos are single-channel but have a higher bit depth.We present a novel encoding scheme that efficiently converts the single-channel depth images to standard 8-bit three-channel images, which can then be streamed using standard codecs. Our encoding scheme ensures that the compression affects the depth values as little as possible. We show results obtained using two common video encoders (VP8 and H.264) as well as the results obtained when using JPEG compression. The results indicate that our encoding scheme performs much better than simpler methods.},
+booktitle = {Proceedings of the 17th Eurographics Conference on Virtual Environments \& Third Joint Virtual Reality},
+pages = {59–66},
+numpages = {8},
+location = {Nottingham, UK},
+series = {EGVE - JVRC'11}
+}
+
+@ARTICLE{depth-antonio,
+  author={Kim, Woo-Shik and Ortega, Antonio and Lai, PoLin and Tian, Dong},
+  journal={IEEE Transactions on Image Processing}, 
+  title={Depth Map Coding Optimization Using Rendered View Distortion for 3D Video Coding}, 
+  year={2015},
+  volume={24},
+  number={11},
+  pages={3534-3545},
+  keywords={Image coding;Nonlinear distortion;Video coding;Optimization;Quantization (signal);Estimation;distortion measurement;image quality;three dimensional TV;video coding;Distortion measurement;image quality;three dimensional TV;video coding},
+  doi={10.1109/TIP.2015.2447737}}
+
+@inproceedings{depth-wilson,
+author = {Wilson, Andrew D.},
+title = {Fast Lossless Depth Image Compression},
+year = {2017},
+isbn = {9781450346917},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3132272.3134144},
+doi = {10.1145/3132272.3134144},
+abstract = {A lossless image compression technique for 16-bit single channel images typical of depth cameras such as Microsoft Kinect is presented. The proposed "RVL" algorithm achieves similar or better compression rates as existing lossless techniques, yet is much faster. Furthermore, the algorithm's implementation can be very simple; a prototype implementation of less than one hundred lines of C is provided. The algorithm's balance of speed and compression make it especially useful in interactive applications of multiple depth cameras on local area networks. RVL is compared to a variety of existing lossless techniques, and demonstrated in a network of eight Kinect v2 cameras.},
+booktitle = {Proceedings of the 2017 ACM International Conference on Interactive Surfaces and Spaces},
+pages = {100–105},
+numpages = {6},
+keywords = {interactive spaces, Depth image compression},
+location = {Brighton, United Kingdom},
+series = {ISS '17}
+}
+
+@inproceedings{vrcomm,
+author = {Gunkel, Simon N. B. and Hindriks, Rick and Assal, Karim M. El and Stokking, Hans M. and Dijkstra-Soudarissanane, Sylvie and Haar, Frank ter and Niamut, Omar},
+title = {VRComm: an end-to-end web system for real-time photorealistic social VR communication},
+year = {2021},
+isbn = {9781450384346},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3458305.3459595},
+doi = {10.1145/3458305.3459595},
+abstract = {Tools and platforms that enable remote communication and collaboration provide a strong contribution to societal challenges. Virtual meetings and conferencing, in particular, can help to reduce commutes and lower our ecological footprint, and can alleviate physical distancing measures in case of global pandemics. In this paper, we outline how to bridge the gap between common video conferencing systems and emerging social VR platforms to allow immersive communication in Virtual Reality (VR). We present a novel VR communication framework that enables remote communication in virtual environments with real-time photorealistic user representation based on colour-and-depth (RGBD) cameras and web browser clients, deployed on common off-the-shelf hardware devices. The paper's main contribution is threefold: (a) a new VR communication framework, (b) a novel approach for real-time depth data transmitting as a 2D grayscale for 3D user representation, including a central MCU-based approach for this new format and (c) a technical evaluation of the system with respect to processing delay, CPU and GPU usage.},
+booktitle = {Proceedings of the 12th ACM Multimedia Systems Conference},
+pages = {65–79},
+numpages = {15},
+keywords = {virtual reality, social VR, immersive media, conferencing, communication, WebXR, WebVR, WebRTC, VR},
+location = {Istanbul, Turkey},
+series = {MMSys '21}
+}
+
+@inproceedings{holoportation,
+  author    = {Orts-Escolano, Sergio and Rhemann, Christoph and Fanello, Sean and Chang, Wayne and Kowdle, Adarsh and Degtyarev, Yury and Kim, David and Davidson, Philip L. and Khamis, Sameh and Dou, Mingsong and Tankovich, Vladimir and Loop, Charles and Cai, Qin and Chou, Philip A. and Mennicken, Sarah and Valentin, Julien and Pradeep, Vivek and Wang, Shenlong and Kang, Sing Bing and Kohli, Pushmeet and Lutchyn, Yuliya and Keskin, Cem and Izadi, Shahram},
+  title     = {Holoportation: Virtual 3D Teleportation in Real-Time},
+  year      = {2016},
+  isbn      = {9781450341899},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/2984511.2984517},
+  doi       = {10.1145/2984511.2984517},
+  booktitle = {Proceedings of the 29th Annual Symposium on User Interface Software and Technology},
+  pages     = {741–754},
+  numpages  = {14},
+  keywords  = {non-rigid reconstruction, mixed reality, telepresence, depth cameras, real-time, 3d capture, gpu},
+  location  = {Tokyo, Japan},
+  series    = {UIST '16}
+}
+
+@article{panoptic,
+  title={Panoptic Studio: A Massively Multiview System for Social Interaction Capture},
+  author={Joo, Hanbyul and Simon, Tomas and Li, Xulong and Liu, Hao and Tan, Lei and Gui, Lin and Banerjee, Sean and Godisart, Timothy Scott and Nabbe, Bart and Matthews, Iain and Kanade, Takeo and Nobuhara, Shohei and Sheikh, Yaser},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  year={2017}
+}
+
+@INPROCEEDINGS{livescan3d,
+  author={Kowalski, Marek and Naruniec, Jacek and Daniluk, Michal},
+  booktitle={2015 International Conference on 3D Vision}, 
+  title={Livescan3D: A Fast and Inexpensive 3D Data Acquisition System for Multiple Kinect v2 Sensors}, 
+  year={2015},
+  volume={},
+  number={},
+  pages={318-325},
+  keywords={Three-dimensional displays;Sensors;Cameras;Calibration;Servers;Transforms;Computers;Kinect;3D reconstruction;LiveScan3D;open source},
+  doi={10.1109/3DV.2015.43}}
+
+@misc{depthkit,
+  title        = {Depthkit Holoportation via Webcam},
+  howpublished = {\url{https://www.depthkit.tv/tutorials/depthkit-holoportation-via-webcam}},
+  year         = 2022
+}
+
+@inproceedings{videoconf-benchmark,
+author = {Lee, Insoo and Lee, Jinsung and Lee, Kyunghan and Grunwald, Dirk and Ha, Sangtae},
+title = {Demystifying Commercial Video Conferencing Applications},
+year = {2021},
+isbn = {9781450386517},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3474085.3475523},
+doi = {10.1145/3474085.3475523},
+abstract = {Video conferencing applications have seen explosive growth both in the number of available applications and their use. However, there have been few studies on the detailed analysis of video conferencing applications with respect to network dynamics, yet understanding these dynamics is essential for network design and improving these applications. In this paper, we carry out an in-depth measurement and modeling study on the rate control algorithms used in six popular commercial video conferencing applications. Based on macroscopic behaviors commonly observed across these applications in our extensive measurements, we construct a unified architecture to model the rate control mechanisms of individual applications. We then reconstruct each application's rate control by inferring key parameters that closely follow its rate control and quality adaptation behaviors. To our knowledge, this is the first work that reverse-engineers rate control algorithms of popular video conferencing applications, which are often unknown or hidden as they are proprietary software. We confirm our analysis and models using an end-to-end testbed that can capture the dynamics of each application under a variety of network conditions. We also show how we can use these models to gain insights into the particular behaviors of an application in two practical scenarios.},
+booktitle = {Proceedings of the 29th ACM International Conference on Multimedia},
+pages = {3583–3591},
+numpages = {9},
+keywords = {video conferencing, rate control, qoe, measurement, live video},
+location = {Virtual Event, China},
+series = {MM '21}
+}
+
+@ARTICLE{fumos,
+  author={Liang, Zhicheng and Liu, Junhua and Dasari, Mallesham and Wang, Fangxin},
+  journal={IEEE Transactions on Visualization and Computer Graphics}, 
+  title={Fumos: Neural Compression and Progressive Refinement for Continuous Point Cloud Video Streaming}, 
+  year={2024},
+  volume={30},
+  number={5},
+  pages={2849-2859},
+  keywords={Streaming media;Point cloud compression;Bandwidth;Three-dimensional displays;Redundancy;Quality of experience;Optimization;Streaming media;Point cloud compression;Deep learning;Virtual Reality (VR);User Experience},
+  doi={10.1109/TVCG.2024.3372096}}
+
+@inproceedings{vues,
+author = {Liu, Yu and Han, Bo and Qian, Feng and Narayanan, Arvind and Zhang, Zhi-Li},
+title = {Vues: practical mobile volumetric video streaming through multiview transcoding},
+year = {2022},
+isbn = {9781450391818},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3495243.3517027},
+doi = {10.1145/3495243.3517027},
+abstract = {The emerging volumetric videos offer a fully immersive, six degrees of freedom (6DoF) viewing experience, at the cost of extremely high bandwidth demand. In this paper, we design, implement, and evaluate Vues, an edge-assisted transcoding system that delivers high-quality volumetric videos with low bandwidth requirement, low decoding overhead, and high quality of experience (QoE) on mobile devices. Through an IRB-approved user study, we build a first-of-its-kind QoE model to quantify the impact of various factors introduced by transcoding volumetric content into 2D videos. Motivated by the key observations from this user study, Vues employs a novel multiview approach with the overarching goal of boosting QoE. The Vues edge server adaptively transcodes a volumetric video frame into multiple 2D views with the help of a few lightweight machine learning models and strategically balances the extra bandwidth consumption of additional views and the improved QoE, indicated by our QoE model. The client selects the view that optimizes the QoE among the delivered candidates for display. Comprehensive evaluations using a prototype implementation indicate that Vues dramatically outperforms existing approaches. On average, it improves the QoE by 35\% (up to 85\%), compared to single-view transcoding schemes, and reduces the bandwidth consumption by 95\%, compared to the state-of-the-art that directly streams volumetric videos.},
+booktitle = {Proceedings of the 28th Annual International Conference on Mobile Computing And Networking},
+pages = {514–527},
+numpages = {14},
+keywords = {edge computing, mobile mixed reality, multiview transcoding, quality-of-experience (QoE), volumetric video streaming},
+location = {Sydney, NSW, Australia},
+series = {MobiCom '22}
+}
+
+@INPROCEEDINGS{meshreduce,
+  author={Jin, Tao and Dasa, Mallesham and Smith, Connor and Apicharttrisorn, Kittipat and Seshan, Srinivasan and Rowe, Anthony},
+  booktitle={2024 IEEE Conference Virtual Reality and 3D User Interfaces (VR)}, 
+  title={MeshReduce: Scalable and Bandwidth Efficient 3D Scene Capture}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={20-30},
+  keywords={Three-dimensional displays;Spectral efficiency;Pipelines;Bandwidth;Virtual reality;Streaming media;User interfaces;Computing methodologies;Computer graphics;Graphics systems and interfaces;Mixed / augmented reality;Information systems;Information systems applications;Multimedia information systems;Multimedia content creation},
+  doi={10.1109/VR58804.2024.00026}}
+
+@article{webrtc,
+author = {Blum, Niklas and Lachapelle, Serge and Alvestrand, Harald},
+title = {WebRTC - Realtime Communication for the Open Web Platform: What was once a way to bring audio and video to the web has expanded into more use cases we could ever imagine.},
+year = {2021},
+issue_date = {January-February 2021},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {19},
+number = {1},
+issn = {1542-7730},
+url = {https://doi.org/10.1145/3454122.3457587},
+doi = {10.1145/3454122.3457587},
+abstract = {In this time of pandemic, the world has turned to Internet-based, RTC (realtime communication) as never before. The number of RTC products has, over the past decade, exploded in large part because of cheaper high-speed network access and more powerful devices, but also because of an open, royalty-free platform called WebRTC. WebRTC is growing from enabling useful experiences to being essential in allowing billions to continue their work and education, and keep vital human contact during a pandemic. The opportunities and impact that lie ahead for WebRTC are intriguing indeed.},
+journal = {Queue},
+month = {mar},
+pages = {77–93},
+numpages = {17}
+}
+
+@ARTICLE{vpcc,
+  author={Schwarz, Sebastian and Preda, Marius and Baroncini, Vittorio and Budagavi, Madhukar and Cesar, Pablo and Chou, Philip A. and Cohen, Robert A. and Krivokuća, Maja and Lasserre, Sébastien and Li, Zhu and Llach, Joan and Mammou, Khaled and Mekuria, Rufael and Nakagami, Ohji and Siahaan, Ernestasia and Tabatabai, Ali and Tourapis, Alexis M. and Zakharchenko, Vladyslav},
+  journal={IEEE Journal on Emerging and Selected Topics in Circuits and Systems}, 
+  title={Emerging MPEG Standards for Point Cloud Compression}, 
+  year={2019},
+  volume={9},
+  number={1},
+  pages={133-148},
+  keywords={Three-dimensional displays;Sensors;Image color analysis;Streaming media;Encoding;Real-time systems;Cameras;Point cloud coding;3D data coding;immersive video coding},
+  doi={10.1109/JETCAS.2018.2885981}}
+
+@article{gpcc, 
+title={An overview of ongoing point cloud compression standardization activities: video-based (V-PCC) and geometry-based (G-PCC)}, 
+volume={9}, 
+DOI={10.1017/ATSIP.2020.12}, 
+journal={APSIPA Transactions on Signal and Information Processing}, 
+author={Graziosi, D. and Nakagami, O. and Kuma, S. and Zaghetto, A. and Suzuki, T. and Tabatabai, A.}, 
+year={2020}, 
+pages={e13}}
+
+@misc{gstreamer,
+  title        = {GStreamer},
+  howpublished = {\url{https://gstreamer.freedesktop.org/}}
+}
+
+@misc{ffmpeg,
+  title        = {FFmpeg},
+  howpublished = {\url{https://ffmpeg.org/}}
+}
+
+@ARTICLE{pcc-future,
+  author={Yang, Mengyu and Luo, Zhenxiao and Hu, Miao and Chen, Min and Wu, Di},
+  journal={IEEE Transactions on Broadcasting}, 
+  title={A Comparative Measurement Study of Point Cloud-Based Volumetric Video Codecs}, 
+  year={2023},
+  volume={69},
+  number={3},
+  pages={715-726},
+  keywords={Streaming media;Point cloud compression;Codecs;Measurement;Volume measurement;Video codecs;Three-dimensional displays;Volumetric video;point cloud compression;super-resolution},
+  doi={10.1109/TBC.2023.3243407}}
+
+@inproceedings{gcc,
+author = {Carlucci, Gaetano and De Cicco, Luca and Holmer, Stefan and Mascolo, Saverio},
+title = {Analysis and design of the google congestion control for web real-time communication (WebRTC)},
+year = {2016},
+isbn = {9781450342971},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi-org.libproxy1.usc.edu/10.1145/2910017.2910605},
+doi = {10.1145/2910017.2910605},
+abstract = {Video conferencing applications require low latency and high bandwidth. Standard TCP is not suitable for video conferencing since its reliability and in order delivery mechanisms induce large latency. Recently the idea of using the delay gradient to infer congestion is appearing again and is gaining momentum. In this paper we present an algorithm that is based on estimating through a Kalman filter the end-to-end one way delay variation which is experienced by packets traveling from a sender to a destination. This estimate is compared to an adaptive threshold to dynamically throttle the sending rate. The control algorithm has been implemented over the RTP/RTCP protocol and is currently used in Google Hangouts and in the Chrome WebRTC stack. Experiments have been carried out to evaluate the algorithm performance in the case of variable link capacity, presence of heterogeneous or homogeneous concurrent traffic, and backward path traffic.},
+booktitle = {Proceedings of the 7th International Conference on Multimedia Systems},
+articleno = {13},
+numpages = {12},
+keywords = {WebRTC, congestion control, real-time communication},
+location = {Klagenfurt, Austria},
+series = {MMSys '16}
+}
+
+@inproceedings{flare,
+author = {Qian, Feng and Han, Bo and Xiao, Qingyang and Gopalakrishnan, Vijay},
+title = {Flare: Practical Viewport-Adaptive 360-Degree Video Streaming for Mobile Devices},
+year = {2018},
+isbn = {9781450359030},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3241539.3241565},
+doi = {10.1145/3241539.3241565},
+abstract = {Flare is a practical system for streaming 360-degree videos on commodity mobile devices. It takes a viewport-adaptive approach, which fetches only portions of a panoramic scene that cover what a viewer is about to perceive. We conduct an IRB-approved user study where we collect head movement traces from 130 diverse users to gain insights on how to design the viewport prediction mechanism for Flare. We then develop novel online algorithms that determine which spatial portions to fetch and their corresponding qualities. We also innovate other components in the streaming pipeline such as decoding and server-side transmission. Through extensive evaluations (~400 hours' playback on WiFi and ~100 hours over LTE), we show that Flare significantly improves the QoE in real-world settings. Compared to non-viewport-adaptive approaches, Flare yields up to 18x quality level improvement on WiFi, and achieves high bandwidth reduction (up to 35\%) and video quality enhancement (up to 4.9x) on LTE.},
+booktitle = {Proceedings of the 24th Annual International Conference on Mobile Computing and Networking},
+pages = {99–114},
+numpages = {16},
+keywords = {360-degree videos, panoramic videos, smartphones, tiles, video decoding, viewport-adaptation, virtual reality},
+location = {New Delhi, India},
+series = {MobiCom '18}
+}
+
+@inproceedings{dragonfly,
+author = {Ghabashneh, Ehab and Bothra, Chandan and Govindan, Ramesh and Ortega, Antonio and Rao, Sanjay},
+title = {Dragonfly: Higher Perceptual Quality For Continuous 360° Video Playback},
+year = {2023},
+isbn = {9798400702365},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3603269.3604876},
+doi = {10.1145/3603269.3604876},
+abstract = {When streaming 360° video, it is possible to reduce bandwidth by 5\texttimes{} with approaches that spatially segment video into tiles and only stream the user's viewport. Unfortunately, it is difficult to accurately predict a user's viewport even 2--3 seconds before playback. This results in rebuffering events owing to misprediction of a user's viewport or network bandwidth dips, which hurts interactive experience. However, avoiding rebuffering by naively skipping tiles that do not arrive by the playback deadline may lead to incomplete viewports and degraded experience.In this paper, we describe Dragonfly, a new 360° system that preserves interactive experience by avoiding playback stalls while maintaining high perceptual quality. Dragonfly prudently skips tiles using a model that defines an overall utility function to decide which tiles to fetch, and at which qualities they should be fetched, with the goal of optimizing user experience. To minimize incomplete viewports, it also fetches a low quality masking stream. Using a user study with 26 users and emulation-based experiments we show that Dragonfly has higher quality, and lower overheads, than state-of-the-art 360° streaming approaches. For instance, in our study, 65\% of sessions have a rating of 4 or higher (Good/Excellent) with Dragonfly, while only 16\% of sessions with Pano, and 13\% of sessions with Flare achieve this rating.},
+booktitle = {Proceedings of the ACM SIGCOMM 2023 Conference},
+pages = {516–532},
+numpages = {17},
+keywords = {360° videos, video streaming, adaptive bit-rate (ABR) algorithms},
+location = {New York, NY, USA},
+series = {ACM SIGCOMM '23}
+}
+
+@ARTICLE{zhang-calib,
+  author={Zhang, Z.},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+  title={A flexible new technique for camera calibration}, 
+  year={2000},
+  volume={22},
+  number={11},
+  pages={1330-1334},
+  keywords={Cameras;Calibration;Computer vision;Layout;Lenses;Nonlinear distortion;Closed-form solution;Maximum likelihood estimation;Computer simulation;Testing},
+  doi={10.1109/34.888718}}
+
+@misc{realsense-doc,
+  title        = {Depth image compression by colorization for Intel® RealSense™ Depth Cameras},
+  howpublished = {\url{https://dev.intelrealsense.com/docs/depth-image-compression-by-colorization-for-intel-realsense-depth-cameras}},
+    author={Sonoda, Tetsuri and Grunnet-Jepsen, Anders}
+}
+
+@misc{yuv,
+  title        = {YUV},
+  howpublished = {\url{https://en.wikipedia.org/wiki/YUV}}
+}
+
+@misc{kinect-spec,
+  title        = {Azure Kinect DK hardware specifications},
+  howpublished = {\url{https://learn.microsoft.com/en-us/azure/kinect-dk/hardware-specification}},
+  year         = 2022
+}
+
+@misc{realsense-spec,
+  title        = {Intel® RealSense™ Depth Camera D455},
+  howpublished = {\url{https://www.intelrealsense.com/depth-camera-d455/}},
+  year         = 2020
+}
+
+@misc{gstreamer-nvenc,
+  title        = {nvh265enc},
+  howpublished = {\url{https://gstreamer.freedesktop.org/documentation/nvcodec/nvh265enc.html}}
+}
+
+@misc{nvenc-sdk,
+  title        = {NVIDIA Video Codec SDK},
+  howpublished = {\url{https://developer.nvidia.com/video-codec-sdk}}
+}
+
+
+@article{linesearch-hauser,
+  title={Line search methods for unconstrained optimisation},
+  author={Hauser, Raphael},
+  journal={Lecture 8, Numerical Linear Algebra and Optimisation Oxford University Computing Laboratory},
+  year={2007}
+}
+
+@Inbook{linesearch-bookchapter,
+editor="Nocedal, Jorge
+and Wright, Stephen J.",
+title="Line Search Methods",
+bookTitle="Numerical Optimization",
+year="1999",
+publisher="Springer New York",
+address="New York, NY",
+pages="34--63",
+isbn="978-0-387-22742-9",
+doi="10.1007/0-387-22742-3_3",
+url="https://doi.org/10.1007/0-387-22742-3_3"
+}
+
+@misc{deformstream,
+      title={DeformStream: Deformation-based Adaptive Volumetric Video Streaming}, 
+      author={Boyan Li and Yongting Chen and Dayou Zhang and Fangxin Wang},
+      year={2024},
+      eprint={2409.16615},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2409.16615}, 
+}
+
+@inproceedings{tele-aloha,
+author = {Tu, Hanzhang and Shao, Ruizhi and Dong, Xue and Zheng, Shunyuan and Zhang, Hao and Chen, Lili and Wang, Meili and Li, Wenyu and Ma, Siyan and Zhang, Shengping and Zhou, Boyao and Liu, Yebin},
+title = {Tele-Aloha: A Telepresence System with Low-budget and High-authenticity Using Sparse RGB Cameras},
+year = {2024},
+isbn = {9798400705250},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3641519.3657491},
+doi = {10.1145/3641519.3657491},
+abstract = {In this paper, we present a low-budget and high-authenticity bidirectional telepresence system, Tele-Aloha, targeting peer-to-peer communication scenarios. Compared to previous systems, Tele-Aloha utilizes only four sparse RGB cameras, one consumer-grade GPU, and one autostereoscopic screen to achieve high-resolution (2048x2048), real-time (30 fps), low-latency (less than 150ms) and robust distant communication. As the core of Tele-Aloha, we propose an efficient novel view synthesis algorithm for upper-body. Firstly, we design a cascaded disparity estimator for obtaining a robust geometry cue. Additionally a neural rasterizer via Gaussian Splatting is introduced to project latent features onto target view and to decode them into a reduced resolution. Further, given the high-quality captured data, we leverage weighted blending mechanism to refine the decoded image into the final resolution of 2K. Exploiting world-leading autostereoscopic display and low-latency iris tracking, users are able to experience a strong three-dimensional sense even without any wearable head-mounted display device. Altogether, our telepresence system demonstrates the sense of co-presence in real-life experiments, inspiring the next generation of communication.},
+booktitle = {ACM SIGGRAPH 2024 Conference Papers},
+articleno = {116},
+numpages = {12},
+keywords = {human performance rendering, real-time free-view synthesis, telecommunication, telepresence, videoconferencing},
+location = {Denver, CO, USA},
+series = {SIGGRAPH '24}
+}
+
+@InProceedings{3dgstream,
+      author    = {Sun, Jiakai and Jiao, Han and Li, Guangyuan and Zhang, Zhanjie and Zhao, Lei and Xing, Wei},
+      title     = {3DGStream: On-the-Fly Training of 3D Gaussians for Efficient Streaming of Photo-Realistic Free-Viewpoint Videos},
+      booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+      month     = {June},
+      year      = {2024},
+      pages     = {20675-20685}
+  }
+
+@inproceedings{queen,
+title={{QUEEN}: {QU}antized Efficient {EN}coding for Streaming Free-viewpoint Videos},
+author={Sharath Girish and Tianye Li and Amrita Mazumdar and Abhinav Shrivastava and david luebke and Shalini De Mello},
+booktitle={The Thirty-eighth Annual Conference on Neural Information Processing Systems},
+year={2024},
+url={https://openreview.net/forum?id=7xhwE7VH4S}
+}
+
+@article{streamrf,
+  title={Streaming radiance fields for 3d video synthesis},
+  author={Li, Lingzhi and Shen, Zhen and Wang, Zhongshu and Shen, Li and Tan, Ping},
+  journal={Advances in Neural Information Processing Systems},
+  volume={35},
+  pages={13485--13498},
+  year={2022}
+}
+
+@inproceedings{nerf,
+ title={NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis},
+ author={Ben Mildenhall and Pratul P. Srinivasan and Matthew Tancik and Jonathan T. Barron and Ravi Ramamoorthi and Ren Ng},
+ year={2020},
+ booktitle={ECCV},
+}
+
+@Article{gsplat,
+      author       = {Kerbl, Bernhard and Kopanas, Georgios and Leimk{\"u}hler, Thomas and Drettakis, George},
+      title        = {3D Gaussian Splatting for Real-Time Radiance Field Rendering},
+      journal      = {ACM Transactions on Graphics},
+      number       = {4},
+      volume       = {42},
+      month        = {July},
+      year         = {2023},
+      url          = {https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/}
+}
+
+@inproceedings{nerf-nossdav,
+author = {Shi, Jianxin and Zhang, Miao and Shen, Linfeng and Liu, Jiangchuan and Zhang, Yuan and Pu, Lingjun and Xu, Jingdong},
+title = {Towards Full-scene Volumetric Video Streaming via Spatially Layered Representation and NeRF Generation},
+year = {2024},
+isbn = {9798400706134},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3651863.3651879},
+doi = {10.1145/3651863.3651879},
+abstract = {Immersive full-scene volumetric video (VV) showcases the richness and detail of the 3D world, yet poses significant streaming challenges given its massive data volume. Existing 3D tile-based viewport approaches struggle to effectively adapt to full-scene VV owing to their small video buffer limitation, high tile segmentation overhead, and lack of full-scene consideration.In response, by exploiting spatially independent attributes of elements in VV, we present V2NeRF, a novel full-scene VV streaming system featured by layered representation. It harmonizes the implicit neural radiance field (NeRF) with explicit point clouds to represent the static background and dynamic foreground, thereby avoiding large data transfer. Moreover, we propose a lightweight non-visible background removal method and a two-stage decoupled architecture to address the issues of intensive computation requirements and multiscale adaptation scheduling. An efficient buffer-aware simulated annealing algorithm is developed, alongside the utilization of a perceptually-learned metric, to enhance user experience. Extensive prototype evaluations demonstrate V2NeRF's superior streaming and viewing performance.},
+booktitle = {Proceedings of the 34th Edition of the Workshop on Network and Operating System Support for Digital Audio and Video},
+pages = {22–28},
+numpages = {7},
+keywords = {full-scene volumetric video, spatially layered representation, NeRF generation, explicit point cloud},
+location = {Bari, Italy},
+series = {NOSSDAV '24}
+}
+
+@misc{swings,
+      title={SwinGS: Sliding Window Gaussian Splatting for Volumetric Video Streaming with Arbitrary Length}, 
+      author={Bangya Liu and Suman Banerjee},
+      year={2024},
+      eprint={2409.07759},
+      archivePrefix={arXiv},
+      primaryClass={cs.MM},
+      url={https://arxiv.org/abs/2409.07759}, 
+}
+
+@ARTICLE{telepresence-tvcg,
+  author={Wang, Shengze and Wang, Ziheng and Schmelzle, Ryan and Zheng, Liujie and Kwon, YoungJoong and Sengupta, Roni and Fuchs, Henry},
+  journal={IEEE Transactions on Visualization and Computer Graphics}, 
+  title={Learning View Synthesis for Desktop Telepresence with Few RGBD Cameras}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={1-13},
+  keywords={Cameras;Telepresence;Videoconferences;Three-dimensional displays;Rendering (computer graphics);Streaming media;Sensors;Telepresence;Neural Rendering;Computer Vision;Computer Graphics},
+  doi={10.1109/TVCG.2024.3411626}}
+
+@inproceedings{nerf-ems1,
+author = {Wang, Zhe and Zhu, Yifei},
+title = {Towards Real-Time Neural Volumetric Rendering on Mobile Devices: A Measurement Study},
+year = {2024},
+isbn = {9798400707117},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3672196.3673399},
+doi = {10.1145/3672196.3673399},
+abstract = {Neural Radiance Fields (NeRF) is an emerging technique to synthesize 3D objects from 2D images with a wide range of potential applications. However, rendering existing NeRF models is extremely computation intensive, making it challenging to support real-time interaction on mobile devices. In this paper, we take the first initiative to examine the state-of-the-art real-time NeRF rendering technique from a system perspective. We first define the entire working pipeline of the NeRF serving system. We then identify possible control knobs that are critical to the system from the communication, computation, and visual performance perspective. Furthermore, an extensive measurement study is conducted to reveal the effects of these control knobs on system performance. Our measurement results reveal that different control knobs contribute differently towards improving the system performance, with the mesh granularity being the most effective knob and the quantization being the least effective knob. In addition, diverse hardware device settings and network conditions have to be considered to fully unleash the benefit of operating under the appropriate knobs.},
+booktitle = {Proceedings of the 2024 SIGCOMM Workshop on Emerging Multimedia Systems},
+pages = {8–13},
+numpages = {6},
+keywords = {NeRF, mobile computing, performance measurement, real-time rendering},
+location = {Sydney, NSW, Australia},
+series = {EMS '24}
+}
+
+@inproceedings{nerf-ems2,
+author = {Sun, Yuan-Chun and Shi, Yuang and Ooi, Wei Tsang and Huang, Chun-Ying and Hsu, Cheng-Hsin},
+title = {Multi-frame Bitrate Allocation of Dynamic 3D Gaussian Splatting Streaming Over Dynamic Networks},
+year = {2024},
+isbn = {9798400707117},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3672196.3673394},
+doi = {10.1145/3672196.3673394},
+abstract = {Dynamic 3D Gaussian splats have emerged as an exciting new data type for modeling interactive photo-realistic 3D scenes. This work considers the problem of bitrate allocation for streaming dynamic 3D Gaussian splats under dynamic network conditions. We model four parameters that influence the rate-distortion trade-offs for different attribute categories and propose an efficient Model-driven Gradient Ascent (MGA) algorithm to search for the optimal parameters that achieve high visual quality while keeping the bitrate below a given threshold across multiple frames. In our experiments, MGA achieves up to 5.46 dB in PSNR improvement over the baseline. We further proposed an adaptive MGA that reduces close to 3x computational time with negligible visual quality loss.},
+booktitle = {Proceedings of the 2024 SIGCOMM Workshop on Emerging Multimedia Systems},
+pages = {1–7},
+numpages = {7},
+keywords = {3D Gaussian Splatting, Adaptive streaming, Bitrate allocation, Computer graphics, System design},
+location = {Sydney, NSW, Australia},
+series = {EMS '24}
+}
+
+@INPROCEEDINGS{pointssim,
+  author={Alexiou, Evangelos and Ebrahimi, Touradj},
+  booktitle={2020 IEEE International Conference on Multimedia \& Expo Workshops (ICMEW)}, 
+  title={Towards a Point Cloud Structural Similarity Metric}, 
+  year={2020},
+  volume={},
+  number={},
+  pages={1-6},
+  keywords={Point cloud compression;Geometry;Visualization;Three-dimensional displays;Image color analysis;Predictive models;Feature extraction;Point cloud;objective quality metric;visual quality assessment},
+  doi={10.1109/ICMEW46912.2020.9106005}}
+
+@misc{boost,
+  title        = {Boost C++ Libraries},
+  howpublished = {\url{https://www.boost.org/}}
+}
+
+@article{open3d,
+   author  = {Qian-Yi Zhou and Jaesik Park and Vladlen Koltun},
+   title   = {{Open3D}: {A} Modern Library for {3D} Data Processing},
+   journal = {arXiv:1801.09847},
+   year    = {2018},
+}
+
+@misc{openmp,
+  title        = {OpenMP},
+  howpublished = {\url{https://www.openmp.org/}}
+}
+
+@misc{eigen,
+  title        = {Eigen},
+  howpublished = {\url{https://eigen.tuxfamily.org/}}
+}
+
+@misc{kinect-sdk,
+  title        = {Azure-Kinect-Sensor-SDK},
+  howpublished = {\url{https://github.com/microsoft/Azure-Kinect-Sensor-SDK}}
+}
+
+@misc{panoptic-toolbox,
+  title        = {PanopticStudio Toolbox},
+  howpublished = {\url{https://github.com/CMU-Perceptual-Computing-Lab/panoptic-toolbox}}
+}
+
+@misc{kinect-sync,
+  title        = {Synchronize multiple Azure Kinect DK devices},
+  howpublished = {\url{https://learn.microsoft.com/en-us/azure/kinect-dk/multi-camera-sync}},
+    year = {2022}
+}
+
+@inproceedings{jitterbuffer-imc2023,
+	author = {Sharma, Taveesh and Mangla, Tarun and Gupta, Arpit and Jiang, Junchen and Feamster, Nick},
+	title = {Estimating WebRTC Video QoE Metrics Without Using Application Headers},
+	year = {2023},
+	isbn = {9798400703829},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3618257.3624828},
+	doi = {10.1145/3618257.3624828},
+	abstract = {The increased use of video conferencing applications (VCAs) has made it critical to understand and support end-user quality of experience (QoE) by all stakeholders in the VCA ecosystem, especially network operators, who typically do not have direct access to client software. Existing VCA QoE estimation methods use passive measurements of application-level Real-time Transport Protocol (RTP) headers. However, a network operator does not always have access to RTP headers in all cases, particularly when VCAs use custom RTP protocols (e.g., Zoom) or due to system constraints (e.g., legacy measurement systems). Given this challenge, this paper considers the use of more standard features in the network traffic, namely, IP and UDP headers, to provide per-second estimates of key VCA QoE metrics such as frames rate and video resolution. We develop a method that uses machine learning with a combination of flow statistics (e.g., throughput) and features derived based on the mechanisms used by the VCAs to fragment video frames into packets. We evaluate our method for three prevalent VCAs running over WebRTC: Google Meet, Microsoft Teams, and Cisco Webex. Our evaluation consists of 54,696 seconds of VCA data collected from both (1), controlled in-lab network conditions, and (2) real-world networks from 15 households. We show that the ML-based approach yields similar accuracy compared to the RTP-based methods, despite using only IP/UDP data. For instance, we can estimate FPS within 2 FPS for up to 83.05\% of one-second intervals in the real-world data, which is only 1.76\% lower than using the application-level RTP headers.},
+	booktitle = {Proceedings of the 2023 ACM on Internet Measurement Conference},
+	pages = {485–500},
+	numpages = {16},
+	keywords = {access networks, machine learning, quality of experience, video conferencing},
+	location = {Montreal QC, Canada},
+	series = {IMC '23}
+}
+
+@article{kalman-original,
+    author = {Kalman, R. E.},
+    title = {A New Approach to Linear Filtering and Prediction Problems},
+    journal = {Journal of Basic Engineering},
+    volume = {82},
+    number = {1},
+    pages = {35-45},
+    year = {1960},
+    month = {03},
+    abstract = {The classical filtering and prediction problem is re-examined using the Bode-Shannon representation of random processes and the “state-transition” method of analysis of dynamic systems. New results are: (1) The formulation and methods of solution of the problem apply without modification to stationary and nonstationary statistics and to growing-memory and infinite-memory filters. (2) A nonlinear difference (or differential) equation is derived for the covariance matrix of the optimal estimation error. From the solution of this equation the co-efficients of the difference (or differential) equation of the optimal linear filter are obtained without further calculations. (3) The filtering problem is shown to be the dual of the noise-free regulator problem. The new method developed here is applied to two well-known problems, confirming and extending earlier results. The discussion is largely self-contained and proceeds from first principles; basic concepts of the theory of random processes are reviewed in the Appendix.},
+    issn = {0021-9223},
+    doi = {10.1115/1.3662552},
+    url = {https://doi.org/10.1115/1.3662552},
+    eprint = {https://asmedigitalcollection.asme.org/fluidsengineering/article-pdf/82/1/35/5518977/35\_1.pdf},
+}
+
+@inproceedings{kalman-filter-mm,
+author = {G\"{u}l, Serhan and Bosse, Sebastian and Podborski, Dimitri and Schierl, Thomas and Hellge, Cornelius},
+title = {Kalman Filter-based Head Motion Prediction for Cloud-based Mixed Reality},
+year = {2020},
+isbn = {9781450379885},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3394171.3413699},
+doi = {10.1145/3394171.3413699},
+abstract = {Volumetric video allows viewers to experience highly-realistic 3D content with six degrees of freedom in mixed reality (MR) environments. Rendering complex volumetric videos can require a prohibitively high amount of computational power for mobile devices. A promising technique to reduce the computational burden on mobile devices is to perform the rendering at a cloud server. However, cloud-based rendering systems suffer from an increased interaction (motion-to-photon) latency that may cause registration errors in MR environments. One way of reducing the effective latency is to predict the viewer's head pose and render the corresponding view from the volumetric video in advance.In this paper, we design a Kalman filter for head motion prediction in our cloud-based volumetric video streaming system. We analyze the performance of our approach using recorded head motion traces and compare its performance to an autoregression model for different prediction intervals (look-ahead times). Our results show that the Kalman filter can predict head orientations 0.5 degrees more accurately than the autoregression model for a look-ahead time of 60 ms.},
+booktitle = {Proceedings of the 28th ACM International Conference on Multimedia},
+pages = {3632–3641},
+numpages = {10},
+keywords = {volumetric video, time series analysis, mixed reality, kalman filter, head motion prediction, cloud-based rendering, augmented reality},
+location = {Seattle, WA, USA},
+series = {MM '20}
+}
+
+@inproceedings {laia,
+author = {Zhuqi Li and Yaxiong Xie and Longfei Shangguan and Rotman Ivan Zelaya and Jeremy Gummeson and Wenjun Hu and Kyle Jamieson},
+title = {Towards Programming the Radio Environment with Large Arrays of Inexpensive Antennas},
+booktitle = {16th USENIX Symposium on Networked Systems Design and Implementation (NSDI 19)},
+year = {2019},
+isbn = {978-1-931971-49-2},
+address = {Boston, MA},
+pages = {285--300},
+url = {https://www.usenix.org/conference/nsdi19/presentation/lizhuqi},
+publisher = {USENIX Association},
+month = feb
+}
+
+@inproceedings {dashlet,
+author = {Zhuqi Li and Yaxiong Xie and Ravi Netravali and Kyle Jamieson},
+title = {Dashlet: Taming Swipe Uncertainty for Robust Short Video Streaming},
+booktitle = {20th USENIX Symposium on Networked Systems Design and Implementation (NSDI 23)},
+year = {2023},
+isbn = {978-1-939133-33-5},
+address = {Boston, MA},
+pages = {1583--1599},
+url = {https://www.usenix.org/conference/nsdi23/presentation/li-zhuqi},
+publisher = {USENIX Association},
+month = apr
+}
+
+@misc{pcl,
+  title        = {Point Cloud Library},
+  howpublished = {\url{https://pointclouds.org/}}
+}
+
+@inproceedings{yuzu,
+  title={$\{$YuZu$\}$:$\{$Neural-Enhanced$\}$ volumetric video streaming},
+  author={Zhang, Anlan and Wang, Chendong and Han, Bo and Qian, Feng},
+  booktitle={19th USENIX Symposium on Networked Systems Design and Implementation (NSDI 22)},
+  pages={137--154},
+  year={2022}
+}
+
+@inproceedings{hermes,
+  title={Hermes: Leveraging Implicit Inter-Frame Correlation for Bandwidth-Efficient Mobile Volumetric Video Streaming},
+  author={Wang, Yizong and Zhao, Dong and Zhang, Huanhuan and Huang, Chenghao and Gao, Teng and Guo, Zixuan and Pang, Liming and Ma, Huadong},
+  booktitle={Proceedings of the 31st ACM International Conference on Multimedia},
+  pages={9185--9193},
+  year={2023}
+}
+
+@inproceedings{patchvvc,
+  title={patchVVC: A Real-time Compression Framework for Streaming Volumetric Videos},
+  author={Chen, Ruopeng and Xiao, Mengbai and Yu, Dongxiao and Zhang, Guanghui and Liu, Yao},
+  booktitle={Proceedings of the 14th Conference on ACM Multimedia Systems},
+  pages={119--129},
+  year={2023}
+}
+
+@inproceedings {mahimahi,
+author = {Ravi Netravali and Anirudh Sivaraman and Somak Das and Ameesh Goyal and Keith Winstein and James Mickens and Hari Balakrishnan},
+title = {Mahimahi: Accurate {Record-and-Replay} for {HTTP}},
+booktitle = {2015 USENIX Annual Technical Conference (USENIX ATC 15)},
+year = {2015},
+isbn = {978-1-931971-225},
+address = {Santa Clara, CA},
+pages = {417--429},
+url = {https://www.usenix.org/conference/atc15/technical-session/presentation/netravali},
+publisher = {USENIX Association},
+month = jul
+}
+
+@INPROCEEDINGS{dong-tian,
+  author={Tian, Dong and Ochimizu, Hideaki and Feng, Chen and Cohen, Robert and Vetro, Anthony},
+  booktitle={2017 IEEE International Conference on Image Processing (ICIP)}, 
+  title={Geometric distortion metrics for point cloud compression}, 
+  year={2017},
+  volume={},
+  number={},
+  pages={3460-3464},
+  keywords={Three-dimensional displays;Distortion;Rocks;Distortion measurement;Measurement uncertainty;Cloud computing;3D point cloud;quality measurements;point-to-point distortion;point-to-plane distortion},
+  doi={10.1109/ICIP.2017.8296925}}
+
+@ARTICLE{graphsim,
+  author={Yang, Qi and Ma, Zhan and Xu, Yiling and Li, Zhu and Sun, Jun},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+  title={Inferring Point Cloud Quality via Graph Similarity}, 
+  year={2022},
+  volume={44},
+  number={6},
+  pages={3015-3029},
+  keywords={Three-dimensional displays;Color;Measurement;Geometry;Image color analysis;Visualization;Two dimensional displays;Objective quality assessment;human perception;graph signal processing;point cloud},
+  doi={10.1109/TPAMI.2020.3047083}}
+
+@INPROCEEDINGS{pcqm,
+  author={Meynet, Gabriel and Nehmé, Yana and Digne, Julie and Lavoué, Guillaume},
+  booktitle={2020 Twelfth International Conference on Quality of Multimedia Experience (QoMEX)}, 
+  title={PCQM: A Full-Reference Quality Metric for Colored 3D Point Clouds}, 
+  year={2020},
+  volume={},
+  number={},
+  pages={1-6},
+  keywords={Measurement;Point cloud compression;Geometry;Degradation;Visualization;Three-dimensional displays;Correlation;Visual Quality Assessment;Point Cloud;Objective Metric},
+  doi={10.1109/QoMEX48832.2020.9123147}}
+
+@article{fusion4d,
+  title={Fusion4d: Real-time performance capture of challenging scenes},
+  author={Dou, Mingsong and Khamis, Sameh and Degtyarev, Yury and Davidson, Philip and Fanello, Sean Ryan and Kowdle, Adarsh and Escolano, Sergio Orts and Rhemann, Christoph and Kim, David and Taylor, Jonathan and others},
+  journal={ACM Transactions on Graphics (ToG)},
+  volume={35},
+  number={4},
+  pages={1--13},
+  year={2016},
+  publisher={ACM New York, NY, USA}
+}
+
+@INPROCEEDINGS{psnr,
+  author={Horé, Alain and Ziou, Djemel},
+  booktitle={2010 20th International Conference on Pattern Recognition}, 
+  title={Image Quality Metrics: PSNR vs. SSIM}, 
+  year={2010},
+  volume={},
+  number={},
+  pages={2366-2369},
+  keywords={PSNR;Degradation;Image quality;Additives;Transform coding;Sensitivity;Image coding;PSNR;SSIM;image quality metrics},
+  doi={10.1109/ICPR.2010.579}}
+
+@ARTICLE{ssim,
+  author={Zhou Wang and Bovik, A.C. and Sheikh, H.R. and Simoncelli, E.P.},
+  journal={IEEE Transactions on Image Processing}, 
+  title={Image quality assessment: from error visibility to structural similarity}, 
+  year={2004},
+  volume={13},
+  number={4},
+  pages={600-612},
+  keywords={Image quality;Humans;Transform coding;Visual system;Visual perception;Data mining;Layout;Quality assessment;Degradation;Indexes},
+  doi={10.1109/TIP.2003.819861}}
+
+@inproceedings{kinectfusion,
+  title={Kinectfusion: Real-time dense surface mapping and tracking},
+  author={Newcombe, Richard A and Izadi, Shahram and Hilliges, Otmar and Molyneaux, David and Kim, David and Davison, Andrew J and Kohi, Pushmeet and Shotton, Jamie and Hodges, Steve and Fitzgibbon, Andrew},
+  booktitle={2011 10th IEEE international symposium on mixed and augmented reality},
+  pages={127--136},
+  year={2011},
+  organization={Ieee}
+}
+
+@article{fvv,
+  title={High-quality streamable free-viewpoint video},
+  author={Collet, Alvaro and Chuang, Ming and Sweeney, Pat and Gillett, Don and Evseev, Dennis and Calabrese, David and Hoppe, Hugues and Kirk, Adam and Sullivan, Steve},
+  journal={ACM Transactions on Graphics (ToG)},
+  volume={34},
+  number={4},
+  pages={1--13},
+  year={2015},
+  publisher={ACM New York, NY, USA}
+}
+
+@INPROCEEDINGS{dynamic-fusion,
+  author={Newcombe, Richard A. and Fox, Dieter and Seitz, Steven M.},
+  booktitle={2015 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, 
+  title={DynamicFusion: Reconstruction and tracking of non-rigid scenes in real-time}, 
+  year={2015},
+  volume={},
+  number={},
+  pages={343-352},
+  keywords={Real-time systems;Transforms;Geometry;Surface reconstruction;Cameras;Tracking;Shape},
+  doi={10.1109/CVPR.2015.7298631}}
+
+@InProceedings{oboe,
+  title		= {Oboe: Auto-tuning Video ABR Algorithms to Network
+		  Conditions},
+  author	= {Zahaib Akhtar and Yun Seong Nam and Ramesh Govindan and
+		  Sanjay Rao and Jessica Chen and Ethan Katz-Bassett and
+		  Bruno Ribeiro and Jibin Zhan and Hui Zhang},
+  url		= {http://doi.acm.org/10.1145/3230543.3230558},
+  doi		= {10.1145/3230543.3230558},
+  isbn		= {978-1-4503-5567-4},
+  year		= {2018},
+  date		= {2018-01-01},
+  booktitle	= {Proceedings of the 2018 Conference of the ACM Special
+		  Interest Group on Data Communication (SIGCOMM)},
+  pages		= {44--58},
+  publisher	= {ACM},
+  address	= {Budapest, Hungary},
+  series	= {SIGCOMM '18},
+  abbr		= {SIGCOMM},
+  keywords	= {adaptive bitrate algorithms, video delivery},
+  pubstate	= {published},
+  topics	= {video},
+  tppubtype	= {inproceedings}
+}
+
+@InProceedings{bola,
+  author = 	 {Spiteri, Kevin and Urgaonkar, Rahul and Sitaraman, Ramesh K},
+  title = 	 {BOLA: Near-optimal bitrate adaptation for online videos},
+  booktitle = 	 {IEEE INFOCOM 2016-The 35th Annual IEEE International Conference on Computer Communications},
+  year = 	 2016,
+  pages = 	 {1--9},
+  organization = {IEEE}}
+
+@InProceedings{bb,
+  author = 	 {Huang, Te-Yuan and Johari, Ramesh and McKeown, Nick and Trunnell, Matthew and Watson, Mark},
+  title = 	 {A Buffer-based Approach to Rate Adaptation: Evidence from a Large Video Streaming Service},
+  booktitle = 	 {Proceedings of the 2014 ACM Conference on SIGCOMM},
+  year = 	 2014,
+  series = 	 {SIGCOMM '14},
+  pages = 	 {187--198},
+  address = 	 {New York, NY, USA},
+  publisher = 	 {ACM},
+  isbn = 	 {978-1-4503-2836-4},
+  location = 	 {Chicago, Illinois, USA},
+  numpages = 	 12,
+  url = 	 {http://doi.acm.org/10.1145/2619239.2626296},
+  doi = 	 {10.1145/2619239.2626296},
+  acmid = 	 2626296,
+  keywords = 	 {http-based video streaming, video rate adaptation algorithm},
+} 
+
+@InProceedings{festive,
+  author = 	 {Jiang, Junchen and Sekar, Vyas and Zhang, Hui},
+  title = 	 {Improving Fairness, Efficiency, and Stability in HTTP-based Adaptive Video Streaming with FESTIVE},
+  booktitle = 	 {Proceedings of the 8th International Conference on Emerging Networking Experiments and Technologies},
+  year = 	 2012,
+  series = 	 {CoNEXT '12},
+  pages = 	 {97--108},
+  address = 	 {New York, NY, USA},
+  publisher = 	 {ACM},
+  isbn = 	 {978-1-4503-1775-7},
+  location = 	 {Nice, France},
+  numpages = 	 12,
+  url = 	 {http://doi.acm.org/10.1145/2413176.2413189},
+  doi = 	 {10.1145/2413176.2413189},
+  acmid = 	 2413189,
+  keywords = 	 {DASH, HTTP, adaptation, video},
+} 
+
+@InProceedings{tian,
+  author = 	 {Tian, Guibin and Liu, Yong},
+  title = 	 {Towards Agile and Smooth Video Adaptation in Dynamic HTTP Streaming},
+  booktitle = 	 {Proceedings of the 8th International Conference on Emerging Networking Experiments and Technologies, {CoNEXT '12}},
+  year = 	 2012,
+  location = 	 {Nice, France},
+  pdfurl = 	 {http://doi.acm.org/10.1145/2413176.2413190},
+}
+
+@Misc{apple_spatial,
+  author = 	 {Apple Inc.},
+  title = 	 {{Apple Introduces Spatial Video Capture on Iphone 15 Pro}},
+  howpublished = {\url{https://www.apple.com/newsroom/2023/12/apple-introduces-spatial-video-capture-on-iphone-15-pro/}},
+  year = 	 2023}
+
+@Misc{nba_vol,
+  author = 	 {The Verge},
+  title = 	 {Volumetric video technology enables video game-like broadcasts},
+  howpublished = {\url{https://www.theverge.com/2022/3/16/22982243/nets-mavericks-espn-nba-volumetric-video-canon}},
+  year = 	 2022}
+
+@Misc{sxsw_panel,
+  author = 	 {Austin Chronicle},
+  title = 	 {{SXSW Panel Recap: The Biz of Being Human: Volumetric Humans at Scale}},
+  howpublished = {\url{https://www.austinchronicle.com/daily/sxsw/2023-03-14/sxsw-panel-recap-the-biz-of-being-human-volumetric-humans-at-scale/}},
+  year = 	 2023}
+
+@inproceedings{hong2022motion,
+  title={Motion estimation and filtered prediction for dynamic point
+cloud attribute compression},
+  author={Hong, Haoran and Pavez, Eduardo and Ortega, Antonio and
+Watanabe, Ryosuke and Nonaka, Keisuke},
+  booktitle={2022 Picture Coding Symposium (PCS)},
+  pages={139--143},
+  year={2022}
+}
+
+
+@inproceedings{hong2022fractional,
+  title={Fractional motion estimation for point cloud compression},
+  author={Hong, Haoran and Pavez, Eduardo and Ortega, Antonio and
+Watanabe, Ryosuke and Nonaka, Keisuke},
+  booktitle={2022 Data Compression Conference (DCC)},
+  pages={369--378},
+  year={2022}
+}

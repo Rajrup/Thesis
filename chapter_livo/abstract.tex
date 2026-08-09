@@ -1,0 +1,48 @@
+%\begin{abstract}
+%\noindent
+{\bf Abstract:} 
+%
+Volumetric video allows users 6 degrees of freedom (6-DoF) in viewing continuously evolving scenes in 3D.
+%
+Given broadband speeds today, volumetric video conferencing will soon be feasible.
+%
+Even so, these scenes will need to be compressed, and compression will need to adapt to variations in bandwidth availability.
+%
+Existing 3D compression techniques, cannot adapt to bandwidth availability, are slow and utilize bandwidth inefficiently, so they don't scale well to large scene descriptions.
+%
+\sysname achieves low-latency and large-scene two-way conferencing by maximally leveraging existing 2D video infrastructure, including compression standards, rate-adaptive codecs, and real-time transport protocols.
+%
+To achieve high quality, \sysname{} must carefully compose scenes from multiple cameras into multiple streams, encode scene geometry in a novel way, adapt to and apportion available bandwidth dynamically between streams to ensure high reconstruction quality, and cull content outside the receiver's field of view to reduce information sent into the network.
+%
+These novel contributions enable \sysname{} to outperform the state-of-the-art by over 20\% in objective quality.
+%
+In a user study, \sysname{} achieves a mean opinion score of 4.1, while other approaches achieve significantly lower values.
+
+% As such, live volumetric video streaming over the Internet can revolutionize telepresence, remote surgery, interactive education and so on, especially if it can achieve low end-to-end latency comparable to 2D conferencing.
+% %
+% However, volumetric video is voluminous and compute-intensive, which makes it hard to achieve low end-to-end latency.
+% %
+% Volumetric video is also bandwidth-intensive, and existing compression techniques for 3-D representations are inefficient and lack the ability to  compress to specified bandwidth targets (bandwidth-adaptivity).
+% %
+% \sysname is an end-to-end (from capture to rendering) bandwidth-adaptive system for streaming live volumetric video over the Internet.
+% %
+% By leveraging 2D video compression instead of compressed 3D representations, it can exploit the large installed base of bandwidth-adaptive video compression techniques to increase the likelihood of deployability.
+% %
+% \sysname achieves high quality live volumetric video delivery by \textit{culling} frame content to that relevant to the receiver, then dynamically adapting compression levels to the available bandwidth.
+% %
+% It can improve perceptual quality in 3D, measured in p2p-PSNR and PointSSIM metrics by over 20\%, while maintaining 30~fps across 9 volumetric videos streamed over real network traces.
+% %
+% In a user study, \sysname achieved a mean opinion score $19 - 170\%$ higher than other methods.
+% %
+% Recent efforts in this direction have proposed live streaming solutions by compressing and streaming in 3D formats such as point cloud and mesh, or streaming as color and depth videos and reconstructing 3D content downstream, but these methods consider stable network bandwidth to be available.
+% %
+% We present \sysname, an end-to-end (from capture to rendering) bandwidth adaptive system for streaming live volumetric video over the internet by sending color and depth frames separately over WebRTC and reconstructing in 3D on the receiver.
+% %
+% We perform 2 types of bandwidth adaptation: 1) Dynamically change the output bitrates for 2D color and depth encoders based on bandwidth estimate.
+% %
+% 2) Dynamically cull color and depth frames to allow the encoders to compress further.
+% %
+% \sysname can achieve $20\%$ improved perception quality in 3D, measured in p2p-PSNR and PointSSIM metrics, while maintaining 30~fps across 9 volumetric videos streamed over real network traces.
+% %
+% In qualitative evaluations, users prefer the quality-of-experience (QoE) offered by \sysname with a mean opinion score $19 - 170\%$ higher than other methods.
+%\end{abstract}

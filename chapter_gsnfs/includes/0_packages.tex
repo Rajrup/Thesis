@@ -1,0 +1,70 @@
+%%%%% Set letter paper size for sig-alternate
+% \setlength{\paperheight}{11in}
+% \setlength{\paperwidth}{8.5in}
+% \usepackage[
+%   pass,% keep layout unchanged 
+%   % showframe,% show the layout
+% ]{geometry}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% use upquote if available, for straight quotes in verbatim environments
+\usepackage{upquote}
+
+% use microtype if available
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+
+\usepackage{environ}
+\usepackage{graphicx,grffile}
+\usepackage{multirow}
+\usepackage{xspace}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{booktabs}
+\usepackage{paralist}
+\usepackage[american]{babel}
+\usepackage[shortlabels]{enumitem}
+\setlist{nosep,leftmargin=*}
+\usepackage{courier,color,wrapfig}
+\usepackage{balance}
+\usepackage{epstopdf}
+\usepackage{url}
+\usepackage{pifont}
+\usepackage{subcaption}
+
+\usepackage{mathtools}
+\usepackage[normalem]{ulem}
+
+% \usepackage[linesnumbered]{algorithm2e}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{etoolbox}
+\usepackage[textsize=small]{todonotes}
+
+%% Commented due to clash with acmart -> Class acmart (v2.16): An attempt to redefine \section detected. Please do not do this for ACM submissions!.
+\usepackage[compact,small]{titlesec}
+
+\usepackage{caption}
+\captionsetup{
+  margin=1pt,
+  format = plain,
+  font = small,
+  labelfont = {bf,sc},
+  textfont = {rm}
+}
+% Add horizontal lines below tables/figures
+%% \DeclareCaptionFormat{myformat}{#1#2#3\hrulefill}
+%% \captionsetup{format=myformat}
+\usepackage[export]{adjustbox}
+
+\usepackage[capitalize]{cleveref}
+\crefformat{section}{§#2#1#3}
+\crefformat{appendix}{§#2#1#3}
+
+\usepackage{tikz}
+\usetikzlibrary[shapes.misc, shapes.geometric, shapes.arrows, positioning, decorations.pathmorphing, matrix, graphs, fit, calc, arrows, arrows.meta, backgrounds]
+
+\usepackage{tcolorbox}
+\usepackage{csvsimple}
+\usepackage{adjustbox}

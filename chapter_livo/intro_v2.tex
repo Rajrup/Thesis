@@ -1,0 +1,164 @@
+% !TeX root = main.tex
+\section{Introduction}
+\label{s:introduction}
+
+%% \agr{One very high-level criticism that we often receive when working on these types of systems is that they are still too early to worry about optimizing.  We could point to examples with spatial video and NBA CourtView (Netaverse) as examples that the technology is getting close and there is a demand.  There are likely other examples, some films from SXSW are volumetric (not interactive, but at least similar).}
+
+\parab{Volumetric Video.}
+%
+Exploiting visual sensors that capture depth information, research has recently started exploring the capture, transmission, and display of \textit{volumetric} videos.
+%
+This technology is starting to be used in live streaming sports events and in advertising~\cite{apple_spatial,nba_vol,sxsw_panel}.
+%
+Each frame of a volumetric video captures a scene or an object in three dimensions, and
+is often represented as a point cloud -- a collection of points on surfaces of a person or an object -- together with each point's position (also known as \textit{geometry}) and color.
+%
+Volumetric video differs from 2D video and spatial video~\cite{apple_spatial} in two ways.
+%
+It is significantly more bandwidth-intensive (\cref{s:background}).
+%
+In addition, it permits users to \textit{interact} with the video along 6 degrees of freedom (6-DoF), by viewing a frame from any angle, at any location in the frame.
+%
+%% \agr{We often notice that this community can be easily confused by volumetric free viewport video and things like Apple's Spatial Video (stereo 180).  Not sure if it makes sense to quickly distinguish here or in related work, but worth mentioning.   Could even say "2D video (and even VR 180/spatial video)"}
+%
+Users can shift perspective by moving in a designated space while wearing a headset that tracks their movement and renders each frame using the current perspective.
+%
+As such, volumetric video promises a degree of immersion comparable to physical presence.
+%
+Recent work has explored on-demand and live streaming of volumetric videos (\cref{s:related}, \cref{tab:comparison}). 
+
+\parab{Volumetric Video Conferencing.}
+%
+Relatively less attention has been paid to \textit{conferencing} using volumetric videos.
+%
+Imagine a two-way conference that streams entire physical spaces 
+(\textit{e.g.}, areas with multiple participants and objects in the environment) between two locations.
+%
+%% \raj{\textbf{Addressing Reviewer 5} - Should we add use cases for full scene streaming such as hybrid classroom like USC DEN, remote theatre/drama/play/musical collab, etc? Maybe motivate it as a Post-COVID world with demand for such technology but curretly work only in 2D.}
+%
+% Users can virtually navigate each other's physical spaces live, with these movements being near-instantly visible at the remote end.
+%
+This is a capability that can enable immersive collaboration, for example for musical or theatrical productions, remote assistance, and distance education.
+%
+This \textit{full-scene} volumetric video conferencing requires significant bandwidth: captures of complete scenes are large (upwards of 10~MB per video frame; \cref{s:background}, ~\cref{tab:dataset-summary}).
+%
+Fortunately, average broadband bandwidths worldwide are now about 100~Mbps~\cite{cisco_whitepaper}, so full-scene volumetric video transmission is on the horizon.
+%
+But, to enable volumetric video conferencing, it helps to understand why 2D conferencing has been so successful.
+%
+% Before discussing how to realize volumetric video conferencing, we explain the factors that have contributed to the success of 2D video conferencing.
+
+%% \tao{I feel the word choice of "scene descriptions" is ambiguous. What precisely does it mean? In addition, the mentioning of the average worldwide network bandwidth of 100Mbps makes 3D video streaming within the realm of feasibility lacks explanation. Consider adding citations or cross-referencing some 3D video datarate benchamrk within the paper to justify.}
+
+\parab{Lessons from 2D Video Conferencing.}
+%
+2D video conferencing is also bandwidth-intensive, but owes its success to three factors.
+%
+First, 2D video codecs are extremely \textit{bandwidth-efficient}, leveraging inter-frame compression and other coding tools to reduce the amount of data sent (this also contributes to the success of on-demand or live streaming).
+%
+%% \antonio{We specifically mentioned inter-coding later, but there are many coding tools that provide those gains (e.g., improved intra prediction).}
+%% \raj{I believe the general ``streaming'' term has been used here for on-demand and near real-time/low-latency streaming, while video conferencing falls under ultra-low latency streaming.}
+%
+Second, these codec implementations are \textit{rate-adaptive}: they can \textit{directly} compress a video frame to a given available rate~\cite{salsify, videoconf-benchmark}.
+%
+This enables conferencing applications to be \textit{bandwidth-adaptive}.
+%
+In contrast, on-demand and live streaming systems adapt to bandwidth changes \textit{indirectly}: they pre-encode video chunks (a set of consecutive groups of pictures) into different \textit{qualities}, then send the encoded chunks that best fit available bandwidth~\cite{bb,bola,festive,oboe}.
+%
+%% \raj{Do we need to cite papers for the streaming properties?}\ramesh{Yes, please add.}
+%
+Streaming systems can tolerate more end-to-end delay, so they can afford to pre-encode videos for bandwidth adaptation. 
+%
+Conferencing systems must, however, process and transmit frames at full frame rate and incur no more than 200-300 millisecond latency end-to-end~\cite{videoconf-benchmark,salsify,converge-sigcomm-2023,rfec-acm-mm2022}.
+%
+Third, mature \textit{compute-efficient}, sometimes hardware-accelerated, implementations of codecs have enabled these high levels of performance.
+
+%% \tao{The organization of the paragraph is hard to follow. Specifically, you mentioned three aspects of how 2D video codecs are efficient, and this makes me feel lost in connecting to the challenges of 3D video coding. Primarily, I feel you are talking about how well 2D codecs work rather than highlighting the challenges in 3D codec design.}
+
+\parab{Shortcomings in Prior Work.}
+%
+Recent research on volumetric video conferencing either does not support full-scene conferencing or lacks one of these above three properties (\cref{tab:comparison}, \cref{s:related}).
+%
+Metastream~\cite{metastream}, Starline~\cite{starline}, and others~\cite{tele-aloha, vrcomm, farfetchfusion, holoportation} transmit constrained views (of a single participant, or of their face or torso).
+%
+They are, moreover, not bandwidth-adaptive.
+%
+MeshReduce~\cite{meshreduce} permits full-scene conferencing, but suffers from two shortcomings.
+%
+It uses a different volumetric representation (a \textit{mesh}), for which compression methods cannot yet exploit inter-frame redundancies, so it sacrifices bandwidth-efficiency.
+%
+Moreover, for meshes, no direct rate-adaptive codecs exist, so MeshReduce \textit{indirectly} adapts to bandwidth.
+%
+It profiles videos to obtain an empirical mapping between quality and bitrate.
+%
+Then, given a bandwidth estimate, a sender can compress at a quality obtained from the mapping to (approximately) achieve a target bandwidth.
+%
+These shortcomings lead to poor perceptual quality (\cref{s:evaluation}).
+
+\parab{Goals.}
+%
+In this paper, we describe the design and implementation of \livo{}, a full-scene volumetric video conferencing system.
+%
+\livo{} uses an array of RGB-D cameras, as does prior work in conferencing discussed above, but unlike these, it aims to: (a) support frame rate processing of full-scenes with end-to-end latencies of 200-300~ms and (b) be simultaneously bandwidth-adaptive, bandwidth-efficient, and compute-efficient (in the sense described above).
+
+\parab{Approach.}
+%
+\livo re-uses infrastructure developed for 2D video conferencing: efficient compression algorithms, rate-adaptive codecs that can encode and decode at full frame rate, and protocols like WebRTC for transmission of video (\cref{s:design}).
+%
+In this, it is inspired by Starline~\cite{starline}, which also encodes RGB and depth images from each RGB-D camera into separate video streams.
+%
+As described above, however, Starline does not transmit full-scenes, and is not bandwidth-adaptive.
+
+\parab{Contributions.}
+%
+In achieving its goals, \livo{} makes three distinct contributions (\cref{s:design}).
+
+%\tao{What are the goals? I kind of understand the challenges you mention in early - mid part of Intro section but the current paper do not present the goals in an organized way.}
+
+%
+First, it exploits technology trends to multiplex several RGB-D camera outputs into just two video streams: a color stream and a depth stream.
+%
+This requires less receiver-side synchronization when reconstructing point clouds.
+%
+Unlike systems that transmit constrained views (\textit{e.g.}, only the face or the torso)~\cite{starline,metastream}, full-scene conferencing requires encoding larger physical depth ranges.
+%
+\livo{} develops a novel depth encoding and a video transmission mode that reduces distortion due to depth.
+
+%% \raj{We should establish that full-scene rquires more physical depth ranges in a bit more detail; most works don't consider this. Very few works in~\tabref{tab:comparison} such as LiveScan3D and MeshReduce does that. Both suffer from bandwidth adaptivity due to encoding choice. Also, \livo{}'s design allows encoding color and depth for any scenes considered by the works in~\tabref{tab:comparison}. We have a detailed discussion in \cref{s:immersive-two-way}, but a brief here might be good.}\ramesh{I rewrote, please review. If we need to add more, please draft and I can review.}
+
+Even though bandwidth-adaptivity comes for free when using 2D video, \livo{} needs to carefully split available bandwidth between color and depth streams.
+%
+%\agr{cool, maybe lift this to the abstract even?  Seems more important than culling which shows up there}
+%
+Humans are sensitive to distortion in depth, so \livo{} must allocate more of the available bandwidth to depth than to color.
+%
+%in part because incorrect geometry can also distort color~\cite{graphsim,sigcomm-ems-paper,haoron-vpcc-split-paper}.
+%
+A static split is sub-optimal because bandwidth needed to ensure high quality delivery can depend on scene complexity (\textit{e.g.}, number of participants or objects in the scene).
+%
+\livo{}'s second contribution is a novel \textit{bandwidth-splitting} strategy that continuously \textit{adapts} to both bandwidth availability and scene complexity changes.
+
+Finally, \livo{} employs \textit{view-culling} to increase bandwidth-efficiency.
+%
+Sender only sends 3D information within the receiver's current field of view.
+%
+Prior work in on-demand streaming has explored view-culling, but \livo{} exploits the tighter end-to-end latency of conferencing to enable cheap, accurate prediction of receiver views and also develops a fast culling technique.
+
+%% \antonio{Are any of the competing systems we mention here encoding point cloud data directly (i.e., no access to the video from which point clouds are generated)? If so, the comparison is somewhat unfair since our system is limited to systems where we have access to the 2D video + depth. Should we address this here or in related work? }
+%% \ramesh{Update para below to include new results.}
+%\rn{I wonder if there is a way to sell this a bit more as challenges we had to overcome beyond the key insight? Also, is it obvious that volumetric video point clouds are generated by fusing RGBD feeds?}
+
+Using a complete implementation of \livo, which we plan to release publicly, we have conducted a user study and measured objective 3D quality metrics.
+%
+Both in our user study and by objective quality metrics, \livo{} consistently outperforms three baselines: a bandwidth-adaptive \textit{oracle} of Draco~\cite{draco}, a popular point cloud compression technique; an approach that mimics a bandwidth-adaptive version of Project Starline~\cite{starline}; and MeshReduce~\cite{meshreduce}.
+%
+Experiments also demonstrate that \livo can achieve around 250~ms end-to-end latency at 30 frames per second, comparable to the performance of existing 2D conferencing platforms~\cite{videoconf-benchmark,converge-sigcomm-2023}. %We will release \livo{} and our datasets post publication.
+%
+%\raj{Now, less than 300~ms end-to-end latency.}
+
+\parab{Statement of Ethics.} We obtained Institutional Review Board (IRB) approval for collecting user interactivity traces with 3D videos, and for our user study. As required by the IRB, to protect user privacy, we removed all identifiable information and present analyses using only aggregated statistics.
+
+%\sanjay{Move para below earlier, maybe above Contributions, and move the "to our knowledge line as first line in Contributions?"}
+%\ramesh{Sanjay, hope it is OK to keep it here, since introducing on-demand earlier will break the flow.}
+%\rn{can we add `meeting the targets of existing 2D conferencing platforms'?}
+

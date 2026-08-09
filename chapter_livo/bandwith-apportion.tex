@@ -1,0 +1,193 @@
+\documentclass[sigconf]{acmart}
+
+% \usepackage[english]{babel}
+\usepackage{blindtext}
+
+% Copyright
+\renewcommand\footnotetextcopyrightpermission[1]{} % removes footnote with conference info
+\settopmatter{printacmref=false, printccs=false, printfolios=false}
+
+%%% Add packages, configurations, macros to the files listed below
+\input{include/0_packages}
+\input{include/0_config}
+\input{include/0_macros}
+
+\begin{document}
+\title{Bandwidth Apportioning}
+\maketitle
+
+\parab{Background: WebRTC and Rate-adaptive codecs.}
+%
+Unlike on-demand HTTP-based video streaming, video conferencing systems dynamically encode video frames to meet the current estimated bandwidth.
+%
+Many of these systems use a real-time transport protocol (\textit{e.g.}, WebRTC) with rate-based congestion control (\textit{e.g.}, GCC~\cite{gcc}).
+%
+The sender feeds the rate estimate from congestion control to a rate-adaptive video encoder, which compresses the frame to fit within the rate estimate.
+
+\parab{The problem.}
+%
+\sysname transmits depth and color videos as two separate WebRTC streams.
+%
+Suppose, for simplicity, a given instance has an available bandwidth (estimated from rate control methods) of $B$.
+%
+Should \sysname assign $B/2$ to each stream, or apportion the total $B$ bandwidth differently between depth and color?
+
+The problem is to find a split that apportions the target bandwidth $B$ between color bitrate $B_c$ and depth bitrate $B_d$, which are fed to the respective video encoders (color and depth encoder), separately.
+%
+We define the split as the ratio between the allocation for depth bitrate to color bitrate, \ie $B_d/B_c$, such that $B_c + B_d = B$.
+%
+For a given frame, the optimal split can be obtained by measuring the quality metric, PointSSIM in this case, between the ground truth and the distorted point cloud. 
+%
+Since PointSSIM computes the color and depth quality separately, the optimal split is the one that maximizes both PointSSIM color and depth. 
+%
+But, finding the optimal split is infeasible in live streaming, since the ground truth is not available on the receiver to compute PointSSIM.
+%
+An alternate approach is to compute it on sender-side, but this will incur computational cost of generating both the ground truth point cloud and reconstructing point cloud after decoding.
+%
+Moreover, PointSSIM takes more than a second and is computationally heavier compared to 2D image metrics, thus unsuitable for our use-case.
+
+\parab{Naive approach.}
+While the general problem is hard, \sysname can apportion bandwidth unequally based on two intuitive observations.
+%
+First, humans are much more sensitive to depth than to color errors~\cite{graphsim}.
+%
+Thus, allocating more bandwidth to the depth stream rather than the color stream makes sense.
+%
+But how much more?
+
+To determine this, we can conduct a study where we can fix color (resp. depth) and vary the rate allocated to depth (resp. color), the \textit{reconstruction quality} of the stream will saturate beyond a certain point.
+%
+This makes intuitive sense: quality will reach a point of diminishing returns with increasing bandwidth allocation.
+%
+We can empirically find the saturation point for both depth and color and call our split to the be ratio of the saturation points.
+%
+This scheme suffers from 2 problems.
+%
+First, the split is fixed based on a study of videos, which might be sub-optimal for any scene.
+%
+Second, scene complexity in the depth and color isn't captured, such as new objects entering/leaving, dynamism in the scene objects.
+%
+\parab{Novel approach.} 
+%
+We chose the approach of finding the optimal split by comparing the distorted frame with the ground truth. 
+%
+Our approach is guided by 2 observations. 
+%
+First, ground truth video frames are available on the sender to compare against the decoded video frames (tiled color and depth frames).
+%
+Second, due to availability of hardware video acceleration, it is possible to decode video frames by running color and depth encoder on the encoded video frames on the sender-side at line rate.
+%
+The question is what metric to use to compare 2D decoded color and depth frame to ground truth?
+
+Since PointSSIM requires high computational cost of generating point cloud and computing it, we use root mean square error (rmse) as a proxy metric.
+%
+Rmse is the square root of the mean of the squared error in pixel values between the distorted image compared to the ground truth image. % We can also write is a L2 norm of distorted vs gt image.
+%
+For color image, it is the mean deviation of the intensity values in each channel (rgb), while it captures change in depth in z-axis for depth image.
+%
+\raj{Do we need to include the math to show how $\delta z$ propagates to 3D geometry error in 3 coordinates x, y, z?}
+%
+The goal of our approach is to find the optimal split that minimizes both color and depth rmse.
+%
+If the split is greater than $0.5$, we allocate more bitrate to depth than color and vis-a-vis.
+%
+\figref{plot:depth_vs_color_rmse} shows the variation of rmse in depth and color at different splits at target bandwidth of 80~mbps.
+%
+We observe that the optimal split allocates more bitrate to depth than color at around $0.9$.
+%
+Humans are much more sensitive to depth than to color errors~\cite{graphsim}, thus allocating more bitrate to depth makes sense~\cite{hoaran-referred, sigcomm-workshop}.
+%
+Moreover, color is sensitive to distortion in depth. PointSSIM~\cite{pointssim} and many other point cloud metrics match distorted points to ground truth points in the 2 point clouds. 
+%
+Attributes like color are compared between these matched points.
+%
+If mismatches occur due to high distortion in depth, the color matching fails as well~\cite{sigcomm-workshop}.
+%
+This calls for reducing depth distortion as much as possible with minimal distortion in color.
+ 
+\begin{figure}[t]
+  \centering \includegraphics[width=1.0\columnwidth]{figures/depth_vs_color_rmse_80mbps.png}
+  \caption{Comparison between color and depth rmse for different splits at target bandwidth of 80~mbps. Video sequence: \textit{band2}}
+  \label{plot:depth_vs_color_rmse}
+\end{figure}
+
+Our approach to find the optimal split is as follows:
+\squishlist
+\item 2 video decoders, one for color and another for depth, that take the compressed tiled frames and decode to generate distorted tiled color and depth frame.
+\item For each decoded color frame (resp. depth), the color rmse $RMSE_c$ (resp. depth rmse $RMSE_d$) is calculated by comparing the distorted tiled frame ($F'$) to the ground truth ($F$) tiled frame (we generate the ground truth with tiling, even with culling).
+\item The optimal split is defined by the point where $|dRMSE - cRMSE| <= atol$, where $atol$ is the absolute tolerance.
+\item We run a a multi-dimensional line search algorithm \cite{wiki-line-search} to find this optimal split. Essentially, the algorithm follows one of the two routes.
+\squishlist
+    \item If $dRMSE - cRMSE > atol$, then $csplit$ increases, \ie we allocate more bitrate to depth than to color.
+    \item If $dRMSE - cRMSE < atol$, then $csplit$ decreases, \ie we allocate more bitrate to color than to depth.
+\squishend
+\squishend
+
+At the start of live streaming, the split $csplit$ is set to initial split, we call $isplit$. The initial split is the the ratio of saturation bitrate for quality in depth to saturation bitrate for quality in color. This can be obtained from empirical study on a set of video sequences as mentioned above. In each frame, the bitrate is assigned based on $csplit$;~\algoref{algo:bitrate-split}. A separate thread updates the $csplit$ based on the algorithm in~\algoref{algo:bitrate-split-adapt}. Since rmse can be easily calculated, we observe that the split can be updated as fast as half the frame rate.
+
+Multi-dimensional line search algorithm is sensitive to $STEP_SIZE$. A smaller $STEP_SIZE$ takes longer time to converge when the scene complexity changes, vice-versa can result in bouncing effect around the optima. Based on our observation that depth is important to preserve than color, we want $csplit$ to be greater than 0.5. But, there can be cases when $RMSE_d - RMSE_c$ is always greater than $atol$ for all values of split. This happens when the available bandwidth $B$ is too low, resulting in all apportioning to violate the optimal condition. Thus, the split tends to allocate so much bitrate to depth that color degrades too much. We prevent this case by clamping the upper limit for the split to 0.9. Moreover, we prevent too much fluctuation in $csplit$ by rounding it at steps of $0.005$. 
+
+\begin{algorithm}[h]
+% \footnotesize
+  \caption{Bitrate Splitting}
+  \label{algo:bitrate-split}
+\SetAlgoLined
+\DontPrintSemicolon    % Remove semicolons at end of lines (optional)
+
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+\Input{Target Bandwidth $B$, Initial split $isplit$}
+\Output{Color Bitrate $B_c$, Depth Bitrate $B_d$}
+\BlankLine
+
+\textbf{Initialize:} $csplit \gets isplit$\;
+% Allocate target bitrate $B$ to depth and color according to $csplit$\;
+$B_d \gets csplit \times B$ \tcp*{Depth bitrate}
+$B_c \gets B - B_d$   \tcp*{Color bitrate}
+\Return $B_c, B_d$\;
+
+\end{algorithm}
+
+\begin{algorithm}[h]
+% \footnotesize
+  \caption{Bitrate Split Adaptation}
+  \label{algo:bitrate-split-adapt}
+\SetAlgoLined
+\DontPrintSemicolon
+
+\SetKwFunction{TimeSynchronization}{TimeSynchronization}
+\SetKwFunction{ColorDecode}{ColorDecode}
+\SetKwFunction{DepthDecode}{DepthDecode}
+\SetKwFunction{ColorRMSE}{ColorRMSE}
+\SetKwFunction{DepthRMSE}{DepthRMSE}
+\SetKwFunction{Clamp}{Clamp}
+
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+\Input{GT Color $F_c$, GT Depth $F_d$}
+\Output{Current Split $csplit$}
+\BlankLine
+
+% Pair of decoders (color and depth) decode tiled frames on the sender.\;
+% Occasionally, estimate 2D color RMSE ($cRMSE$) and depth RMSE ($dRMSE$)
+% between the decoded tiled frames and the ground truth.\;
+
+$F_c' \gets $ \ColorDecode { }\;
+$F_d' \gets $ \DepthDecode { }\;
+
+$RMSE_c \gets $ \ColorRMSE {$F_c$, $F_c'$}\;
+$RMSE_d \gets $ \DepthRMSE {$F_d$, $F_d'$}\;
+
+$\delta \gets RMSE_d - RMSE_c$\;
+\If{$|\delta| \le atol$}{
+   \Return $csplit$\;
+}
+$csplit \gets csplit + (\text{STEP\_SIZE}) \times \delta$\;
+$csplit \gets $ \Clamp {$csplit$, $0.5$, $0.9$}\;
+\Return $csplit$\;
+
+\end{algorithm}
+
+\end{document}

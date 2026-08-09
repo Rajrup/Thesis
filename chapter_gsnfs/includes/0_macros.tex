@@ -1,0 +1,78 @@
+%%%%%%%%%%%%%%%%% Add paper-specific macros here
+\newcommand{\sysname}{GS-NFS\xspace}
+\newcommand{\dgs}{4DGS\xspace}
+\newcommand{\gs}{3DGS\xspace}
+\newcommand{\vthree}{V\textsuperscript{3}\xspace}
+\newcommand{\dpsnr}{$\Delta$PSNR\xspace}
+\newcommand{\rcr}{RCR\xspace}
+
+%%% Latin abbrevs
+\newcommand{\etc}{\emph{etc.}\xspace}
+\newcommand{\ie}{\emph{i.e.,}\xspace}
+\newcommand{\eg}{\emph{e.g.,}\xspace}
+\newcommand{\etal}{\emph{et al.}\xspace}
+
+%%% Sections, figures etc. Please use these for uniformity
+\newcommand{\secref}[1]{\S\ref{#1}}
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\tabref}[1]{Tbl.~\ref{#1}}
+\newcommand{\algoref}[1]{Algorithm~\ref{#1}}
+\newcommand{\eqnref}[1]{Equation~\ref{#1}}
+\newcommand{\lineref}[1]{Line~\ref{#1}}
+\newcommand{\algolineref}[2]{Alg.~\ref{#1}, Line~\ref{#2}}
+\newcommand{\algolinesref}[3]{Alg.~\ref{#1}, Lines~\ref{#2}--\ref{#3}}
+\newcommand{\custombullet}{\paraspace\noindent$\blacktriangleright$}
+
+\newcommand\checkmarkk[1][]{%
+  \tikz[scale=0.4,#1]{\fill(0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}%
+}
+\newcommand\crossmark[1][]{%
+  \tikz[scale=0.4,#1]{
+    \fill(0,0)--(0.1,0) .. controls (0.5,0.4) .. (1,0.7)--(0.9,0.7) ..  controls (0.5,0.5) ..(0,0.1) --cycle;
+    \fill(1,0.1)--(0.9,0.1) .. controls (0.5,0.3) .. (0,0.7)--(0.1,0.7) .. controls (0.5,0.4) ..(1,0.2) --cycle;
+  }%
+}
+
+\newcommand\ckmark[1]{\ding{52}}
+
+% Outline
+\tcbuselibrary{skins, breakable}
+\newtcolorbox{outline}[1][]
+{
+  enhanced,
+  breakable,
+  skin first=enhanced,
+  skin middle=enhanced,
+  skin last=enhanced,
+  colback=blue!5!white, % Light blue background
+  colframe=blue!50!black, % Dark blue frame
+  fonttitle=\bfseries, % Bold font for title
+  boxrule=0.5pt,
+  arc=4mm, % Rounded corners
+  left=5pt,
+  right=5pt,
+  title={Outline},
+  #1
+}
+\tcbset{before upper=\setlength{\parskip}{1ex}}
+
+%%% Commenting macros: change as necessary
+\newcommand{\raj}[1]{\todo[author=Raj,color=cyan!25,inline]{#1}}
+\newcommand{\ramesh}[1]{\todo[author=Ramesh,color=blue!25,inline]{#1}}
+\newcommand{\weiwu}[1]{\todo[author=Weiwu,color=yellow,inline]{#1}}
+\newcommand{\harsha}[1]{\todo[author=Harsha,color=pink,inline]{#1}}
+\newcommand{\ao}[1]{\todo[author=Antonio,color=green!25,inline]{#1}}
+\newcommand{\eduardo}[1]{\todo[author=Eduardo,color=green!25,inline]{#1}}
+\newcommand{\haodong}[1]{\todo[author=Haodong, color=orange,inline]{#1}}
+\newcommand{\haoran}[1]{\todo[author=Haoran,color=orange,inline]{#1}}
+
+%%% Camera-ready macros
+\newcommand{\cradd}[1]{\textcolor{blue}{#1}}
+\newcommand{\crdel}[1]{\sout{\textcolor{red}{#1}}}
+
+%%% For argmin
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+%%% Other macros
+\newcommand{\note}[1]{\textcolor{red}{#1}}
+\newcommand{\status}[1]{\textcolor{blue}{#1}}
