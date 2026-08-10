@@ -178,7 +178,38 @@ Then, we compute, for each sequence: (a) the average per-frame encode latency, (
 %
 We do this because, within a dataset (\textit{e.g.}, HiFi4G), there is little variability in encode and decode times across sequences, since all sequences are person-centric.
 %
-\cref{app:coding-latency} contains a more detailed breakdown.
+In \cref{tab:latency_per_sequence}, we report the actual encoding and decoding latencies for all sequences in the HiFi4G and N3DV datasets.
+
+\begin{table*}[t]
+  \centering
+  % \footnotesize
+  \scalebox{0.94}
+  {
+    \begin{tabular}{l|rr|rr|rr|rr|rr}
+    \toprule
+    \textbf{Sequence} & \multicolumn{2}{c|}{\textbf{\vthree{}-2D}} & \multicolumn{2}{c|}{\textbf{MesonGS}} & \multicolumn{2}{c|}{\textbf{LTS-Draco}} & \multicolumn{2}{c|}{\textbf{G-PCC}} & \multicolumn{2}{c}{\textbf{\gsnfs{} (Ours)}} \\
+            & \textbf{Enc} & \textbf{Dec} & \textbf{Enc} & \textbf{Dec} & \textbf{Enc} & \textbf{Dec} & \textbf{Enc} & \textbf{Dec} & \textbf{Enc} & \textbf{Dec} \\
+    \hline
+    Actor1    & 443.1  & 312.5 & 144950.2 & 487.4 & 136.8  & 84.4  & 5063.9  & 2986.5  & 17.4 & 12.8 \\
+    Actor2    & 480.9  & 362.8 & 144363.5 & 368.8 & 103.5  & 60.8  & 3679.6  & 2205.4  & 15.6 & 12.0 \\
+    Actor3    & 542.5  & 331.9 & 145057.5 & 529.3 & 156.3  & 95.1  & 6027.0  & 3474.0  & 17.6 & 13.2 \\
+    Actor4    & 554.1  & 358.9 & 145351.6 & 622.6 & 182.8  & 104.6 & 8070.4  & 4858.2  & 19.1 & 15.0 \\
+    Actor5    & 435.7  & 330.0 & 145003.4 & 559.3 & 158.2  & 91.9  & 5992.8  & 3693.7  & 17.8 & 13.4 \\
+    Actor6    & 483.5  & 367.4 & 145344.3 & 674.9 & 201.9  & 113.1 & 8579.4  & 5163.9  & 19.6 & 15.7 \\
+    Actor7    & 421.3  & 323.4 & 144602.4 & 504.7 & 151.8  & 88.2  & 5294.2  & 3174.0  & 17.7 & 13.2 \\
+    \midrule
+    Coffee Martini   & 473.6 & 352.0 & 30228.0 & 1415.6 & 1059.4 & 215.8 & 12540.2 & 10090.6 & 24.9 & 23.9 \\
+    Cook Spinach     & 316.8 & 262.8 & 28719.5 & 1012.1 & 229.7  & 127.2 & 7467.1  & 5866.7  & 21.7 & 20.1 \\
+    Cut Roasted Beef & 313.3 & 261.0 & 28781.4 & 978.2  & 229.4  & 128.5 & 8162.4  & 6438.3  & 21.5 & 19.6 \\
+    Flame Salmon     & 488.0 & 340.3 & 29692.5 & 1335.9 & 413.8  & 214.0 & 11327.0 & 9236.8  & 27.7 & 23.4 \\
+    Flame Steak      & 316.9 & 262.3 & 28877.8 & 1080.6 & 222.4  & 129.3 & 6364.7  & 4548.4  & 22.2 & 20.3 \\
+    Sear Steak       & 312.8 & 263.2 & 28826.4 & 1061.6 & 247.9  & 133.3 & 6966.3  & 5391.3  & 22.2 & 20.5 \\
+    \bottomrule
+    \end{tabular}
+  }
+  \caption{Encode and decode latency (ms) for video sequences.}
+  \label{tab:latency_per_sequence}
+\end{table*}
 
 % \ao{below sections do not need to repeat the data that is already in the table (e.g., 23ms, 18ms, etc.) This can be left in the table and the text can focus on a qualitative discussion or give the 9-17X decoding speed results.}
 \gsnfs{} achieves ${\sim}23$~ms encode and ${\sim}21$~ms decode on N3DV, and ${\sim}18$~ms encode and ${\sim}14$~ms decode on HiFi4G---well under the 33~ms budget for 30 frames-per-second (fps).
@@ -220,14 +251,14 @@ Overall, \gsnfs{} can encode and decode \textit{one or two orders of magnitude} 
 %% \gsnfs{}'s low GPU footprint leaves ample headroom for concurrent encode/decode, rendering, or other GPU workloads.
 %% \end{comment}
 
-\begin{table}
+\begin{table}[t]
     \centering
-    \scalebox{0.95}
+    \scalebox{0.90}
     {
-        \begin{tabular}{llccccccc}
+        \begin{tabular}{l|cc|cc|cc|cc}
         \toprule
-        Sequence & \multicolumn{2}{c}{\vthree{}-2D} & \multicolumn{2}{c}{MesonGS} & \multicolumn{2}{c}{LTS-Draco} & \multicolumn{2}{c}{G-PCC} \\
-                 & \dpsnr{} (dB) & \rcr{} & \dpsnr{} (dB) & \rcr{} & \dpsnr{} (dB) & \rcr{} & \dpsnr{} (dB) & \rcr{} \\
+        \textbf{Sequence} & \multicolumn{2}{c|}{\textbf{\vthree{}-2D}} & \multicolumn{2}{c|}{\textbf{MesonGS}} & \multicolumn{2}{c|}{\textbf{LTS-Draco}} & \multicolumn{2}{c}{\textbf{G-PCC}} \\
+                 & \textbf{\dpsnr{}} (dB) & \textbf{\rcr{}} & \textbf{\dpsnr{}} (dB) & \textbf{\rcr{}} & \textbf{\dpsnr{}} (dB) & \textbf{\rcr{}} & \textbf{\dpsnr{}} (dB) & \textbf{\rcr{}} \\
         \midrule
         Actor1 & 0.02 & 0.52 & -0.02 & 2.00 & -0.04 & 3.01 & -0.03 & 4.91 \\
         Actor2 & 0.03 & 0.31 & -0.03 & 2.11 & -0.04 & 3.05 & -0.01 & 5.08 \\
@@ -307,7 +338,7 @@ On the HiFi4G, data set, MesonGS's frame size is nearly 2$\times$ that of \gsnfs
 %
 MesonGS uses similar algorithms as ours, but with two important differences.
 %
-They use vector quantization for SH coefficients\footnote{MesonGS~\cite{mesongs} was designed to encode static scenes and we have used it to encode \dgs{}. Most video codecs would only retrain the vector quantization codebook every few frames, so our approach slightly over-estimates MesonGS frame sizes}, but we apply KLT (\cref{sec:klt}) and then quantize RAHT coefficients.
+They use vector quantization for SH coefficients\footnote{MesonGS~\cite{mesongs} was designed to encode static scenes and we have used it to encode \dgs{}. Most video codecs would only retrain the vector quantization codebook every few frames, so our approach slightly over-estimates MesonGS frame sizes.}, but we apply KLT (\cref{sec:klt}) and then quantize RAHT coefficients.
 %
 They also use LZ77 for encoding attributes and positions, we use ANS and RLGR entropy encoders.
 %
@@ -392,11 +423,65 @@ We computed R-D curves for the first frame of \textit{all} sequences, for all ou
 %
 To do this, we sweep the space of parameters of each baseline and \gsnfs{}, plot rate and distortion and compute the convex hull as discussed above.
 %
-\cref{app:generating-r-d} discusses the parameters we used for each baseline and for \gsnfs{}.
+Here, we discuss the parameters we used for each baseline and for \gsnfs{} in generating the R-D curves.
+%
+We perform an exhaustive parameter sweep for each baseline codec, per frame.
+%
+For each parameter configuration, we compress and decompress the 3DGS representation of a single frame, render the decompressed Gaussians, and compute PSNR against the ground-truth renders (rendered from the uncompressed model).
+%
+All renders use a resolution-downscale factor of ~2.
+%
+For \vthree{}-2D, which operates on groups of frames, we compress a group of 20 consecutive frames starting from the target frame and report the per-frame average compressed size; PSNR and SSIM are measured only on the target frame. 
+%
+All other baselines compress and evaluate a single frame independently.
 %
 For some approaches like MesonGS and G-PCC, we could not explore all parameter combinations because of their high encoding latency, and exploring the entire space would have taken hours or days.
 %
 In contrast, for \gsnfs{}, we were able to evaluate 1000 combinations in about 12 minutes.
+
+The resulting (compressed size, quality) operating points are reduced to their upper convex hull to produce the final R-D curve.
+%
+\cref{tab:rd-params} lists the swept parameters and their ranges for each baseline. Dataset-specific settings are noted where applicable.
+%
+\begin{table}[t]
+\centering
+\setlength{\tabcolsep}{3pt}
+\small
+\begin{tabular}{@{}llp{2.8cm}r@{}}
+\toprule
+\textbf{Method} & \textbf{Parameter} & \textbf{Values} & \textbf{\# Parameters} \\
+\midrule
+\multirow{2}{*}{V$^3$\!-2D}
+  & QP         & $\{0, 1, \ldots, 40\}$           & \multirow{2}{*}{41} \\
+  & Group size & 20                               & \\
+\midrule
+\multirow{4}{*}{MesonGS}
+  & Octree depth & $\{8,10,12\}$/$\{12,14,16\}^\ast$ & \multirow{4}{*}{24} \\
+  & Num.\ bits   & $\{8, 16\}$                       & \\
+  & Blocks       & $\{57, 66\}$                      & \\
+  & Codebook     & $\{2048, 4096\}$                  & \\
+\midrule
+\multirow{5}{*}{\shortstack[l]{LTS-\\Draco}}
+  & \texttt{eg} (geom.)    & $\{0,8,12,16\}$        & \multirow{5}{*}{256} \\
+  & \texttt{eo} (opacity)  & $\{0,8,12,16\}$        & \\
+  & \texttt{et} (SH)       & $\{0,8,12,16\}$        & \\
+  & \texttt{es} (scale)    & $\{0,8,12,16\}$        & \\
+  & Comp.\ level           & 10                     & \\
+\midrule
+\multirow{2}{*}{G-PCC}
+  & Octree depth & $\{8\text{--}12\}$/$\{12\text{--}17\}^\ast$ & \multirow{2}{*}{\shortstack[r]{225/\\270$^\ast$}} \\
+  & $(q_r,q_d,q_o)^\dagger$ & 45 selected triples           & \\
+\bottomrule
+\end{tabular}
+\par
+\vspace{2pt}
+{\centering\scriptsize
+$^\ast$\,HiFi4G\,/\,N3DV. G-PCC total = octree depths $\times$ 45 QP triples.\par
+$^\dagger$\, $q_r$: QP for remaining attributes, $q_d$: QP for DC coefficients,
+$q_o$: QP for opacity.\par}
+\caption{Parameter sweep configurations for R-D curve generation.}
+\label{tab:rd-params}
+\end{table}
 
 %% %
 %% \gsnfs's codec has the following parameter knobs: octree depth $J$ for position, quantization step size for attributes--rotation $\Delta_\mathrm{rot}$, scale $\Delta_\mathrm{sc}$, opacity $\Delta_\mathrm{opa}$, DC $\Delta_\mathrm{DC}$, and AC $\Delta_\mathrm{AC}$; position isn't quantized.
@@ -461,6 +546,108 @@ As a sequence, because the location of the same 3D attributes may change from on
 We conjecture that, for this reason, \vthree{}-2D does not perform well in some N3DV sequences, where inter-frame coding becomes inefficient.
 %
 On the other hand, \gsnfs{} does not exhibit this degradation because it uses a 3D codec.
+
+\begin{figure}[tbp]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_4K_Actor1_Greeting_frame0.pdf}
+      \caption{Actor1\_Greeting}
+      \label{fig:rd-actor1-greeting}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_4K_Actor2_Dancing_frame0.pdf}
+      \caption{Actor2\_Dancing}
+      \label{fig:rd-actor2-dancing}
+  \end{subfigure}
+  \vspace{0.5em}
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_4K_Actor3_Violin_frame0.pdf}
+      \caption{Actor3\_Violin}
+      \label{fig:rd-actor3-violin}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_4K_Actor4_Dancing_frame0.pdf}
+      \caption{Actor4\_Dancing}
+      \label{fig:rd-actor4-dancing}
+  \end{subfigure}
+  \vspace{0.5em}
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_4K_Actor5_Oil-paper_Umbrella_frame0.pdf}
+      \caption{Actor5\_Oil-paper\_Umbrella}
+      \label{fig:rd-actor5-umbrella}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_4K_Actor6_Changing_Clothes_frame0.pdf}
+      \caption{Actor6\_Changing\_Clothes}
+      \label{fig:rd-actor6-clothes}
+  \end{subfigure}
+  \vspace{0.5em}
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_4K_Actor7_Nunchaku_frame0.pdf}
+      \caption{Actor7\_Nunchaku}
+      \label{fig:rd-actor7-nunchaku}
+  \end{subfigure}
+  \caption{Rate-distortion curves for HiFi4G 4K sequences (frame 0).}
+  \label{fig:rd-baselines-hifi4g}
+\end{figure}
+
+\begin{figure}[tbp]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_cook_spinach_frame1.pdf}
+      \caption{cook\_spinach}
+      \label{fig:rd-cook-spinach}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_coffee_martini_frame1.pdf}
+      \caption{coffee\_martini}
+      \label{fig:rd-coffee-martini}
+  \end{subfigure}
+  \vspace{0.5em}
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_cut_roasted_beef_frame1.pdf}
+      \caption{cut\_roasted\_beef}
+      \label{fig:rd-cut-roasted-beef}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_flame_salmon_1_frame1.pdf}
+      \caption{flame\_salmon\_1}
+      \label{fig:rd-flame-salmon}
+  \end{subfigure}
+  \vspace{0.5em}
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_flame_steak_frame1.pdf}
+      \caption{flame\_steak}
+      \label{fig:rd-flame-steak}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/rd_baselines/rd_baselines_curve_sear_steak_frame1.pdf}
+      \caption{sear\_steak}
+      \label{fig:rd-sear-steak}
+  \end{subfigure}
+  \caption{Rate-distortion curves for N3DV sequences (frame 1).}
+  \label{fig:rd-baselines-n3dv}
+\end{figure}
+
 %
 % \ramesh{Antonio, please wordsmith as necessary.} 
 % \ao{I edited the text above and commented the old version. I explained why I think there is some inefficiency; feel free to shorten. }
@@ -552,8 +739,51 @@ In this section, we demonstrate that \gsnfs{} can \textbf{compress, on-the-fly, 
 % % \ao{compress at frame-rate is unclear. Compress at high frame rates? Compress at the input frame rate? Compress in real time? Also, the sentence above discusses point clouds, but the sentence below mentions post-training, which is not applicable to point clouds; it applies only to 3DGS.}
 % %
 % To our knowledge, no other point-cloud compression technique can match this performance.
+
+\parab{Static \gs{} scene compression.}
 %
-\cref{app:compr-stat-scen} also demonstrates \gsnfs{}'s ability  to quickly compress large static \gs{} scenes.
+\begin{table}[t]
+  \centering
+  %\footnotesize
+  %\scalebox{0.9}
+  {
+  \begin{tabular}{l|l|rr|rrr}
+    \hline
+    \textbf{Scene} & \textbf{Method} & \textbf{Enc.} (ms) & \textbf{Dec.} (ms) & \textbf{PSNR} (dB) & \textbf{Size} (MB) \\
+    \hline\hline
+    \multirow{4}{*}{\textit{drjohnson}}
+      & LTS-Draco            & 5,084    & 2,610   & 35.5 & 312.8 \\
+%      & Compact3D            & 423,988  & 826     & 34.7 & 0.95 & 45.6 \\
+      & MesonGS              & 220,066  & 22,421  & 32.6 & 40.6 \\
+%      & MesonGS (w/ prune)   & 194,248  & 14,154  & 32.2 & 0.93 & 25.2 \\
+      & \textbf{\gsnfs{}}  & \textbf{165} & \textbf{183} & 34.4 & 37.8 \\
+    \hline
+    \multirow{4}{*}{\textit{truck}}
+      & LTS-Draco            & 3,385    & 1,792   & 23.1 & 204.0 \\
+%      & Compact3D            & 263,896  & 403     & 23.0 & 0.89 & 30.5 \\
+      & MesonGS              & 319,395  & 14,357  & 22.7 & 27.8 \\
+%      & MesonGS (w/ prune)   & 307,964  & 7,179   & 22.4 & 0.87 & 17.8 \\
+      & \textbf{\gsnfs{}}  & \textbf{91} & \textbf{108} & 22.4 & 19.0 \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Static \gs{} scene compression. PSNR, SSIM, and LPIPS computed on rendered test views.}
+  \label{tab:static-scenes}
+\end{table}
+%
+We evaluate \gsnfs{} on two large static outdoor scenes from the Deep Blending dataset (\textit{drjohnson}, ~3M Gaussians, 748~MB) and Tanks \& Temples (\textit{truck}, ~2M Gaussians, 485~MB).
+%
+%% We compare against LTS-Draco, MesonGS (with and without pruning), and Compact3D~\cite{morgenstern2024compact3d} (which maps sorted Gaussians to PNG images using PLAS~\cite{morgenstern2024compact3d}).
+%
+\cref{tab:static-scenes} shows the results.
+%
+\gsnfs{} achieves encode times of $91$--$165$~ms, which is \textbf{$\boldsymbol{31\times}$ faster} than LTS-Draco and \textbf{$\boldsymbol{1{,}200}$--$\boldsymbol{3{,}400\times}$ faster} than MesonGS.
+%
+At quality comparable to LTS-Draco ($<$1~dB PSNR difference), \gsnfs{} produces compressed files that are $5$--$10\times$ smaller.
+%
+%% MesonGS achieves the highest compression ratio through aggressive pruning and VQ, but at severe quality ($-3$~dB PSNR) and latency penalties.
+%% %
+%% Compact3D achieves worse compression than \gsnfs{}, achieves comparable quality but requires minutes for the PLAS sorting and K-means clustering steps.
 
 \parab{Live \dgs{} Compression.}
 %
@@ -578,10 +808,45 @@ We use six sequences from two datasets: four single person sequences from 8i~\ci
 Point clouds are voxelized at octree depth $J\!=\!10$ and \gsnfs{}'s codec uses a quantization step $0.1$ for color attributes.
 % \ao{best quality with least size is confusing: you cannot optimize both simultaneously.}
 %
-\gsnfs{} can encode each frame in $12$--$14$~ms and decode in $9$--$12$~ms while achieving \textbf{lossless geometry} and color Y-PSNR of $31$--$37$~dB. 
+\gsnfs{} can encode each frame in $12$--$14$~ms (avg. $3.3$~ms for geometry) and decode in $9$--$12$~ms (avg. $2.6$~ms for geometry) while achieving \textbf{lossless geometry} and color Y-PSNR of $31$--$37$~dB; refer \cref{tab:ptcl-octree} for octree encoding/decoding. 
 %
 It can compress 8i sequences to $270$--$370$~KB and CMU Panoptic sequences to $660$--$780$~KB, \textbf{26--64$\times$} smaller than the original size.
 %\raj{Ramesh: Do we need to compare against Draco and G-PCC?}
+
+\begin{table}[t]
+  \centering
+  %\footnotesize
+  %\scalebox{0.9}
+  {
+  \begin{tabular}{l|l|rr|r}
+    \hline
+    \textbf{Sequence} & \textbf{Method} & \textbf{Enc. (ms)} & \textbf{Dec. (ms)} & \textbf{Size (KB)} \\
+    \hline\hline
+    \multirow{3}{*}{longdress}
+      & Draco (CPU)       & 126  & 57  & 395 \\
+      & G-PCC (CPU)        & 195  & 97  & 195 \\
+      & \gsnfs{} octree & \textbf{2.9}  & \textbf{1.9} & 238 \\
+    \hline
+    \multirow{3}{*}{soldier}
+      & Draco (CPU)       & 170  & 79  & 533 \\
+      & G-PCC (CPU)        & 268  & 136 & 273 \\
+      & \gsnfs{} octree & \textbf{3.4}  & \textbf{2.4} & 332 \\
+    \hline
+    \multirow{3}{*}{band2}
+      & Draco (CPU)       & 123  & 54  & 561 \\
+      & G-PCC (CPU)        & 325  & 213 & 526 \\
+      & \gsnfs{} octree & \textbf{3.3}  & \textbf{2.6} & 565 \\
+    \hline
+    \multirow{3}{*}{pizza1}
+      & Draco (CPU)       & 137  & 59  & 617 \\
+      & G-PCC (CPU)        & 343  & 222 & 572 \\
+      & \gsnfs{} octree & \textbf{3.3}  & \textbf{2.6} & 616 \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Position-only octree encoding on point-cloud sequences. Encode/decode in ms, size in KB, averaged per frame.}
+  \label{tab:ptcl-octree}
+\end{table}
 
 \subsection{Ablations}\label{sec:ablations}
 
@@ -593,6 +858,23 @@ It can compress 8i sequences to $270$--$370$~KB and CMU Panoptic sequences to $6
 \gsnfs{} decorrelates SH coefficients using a YUV transform followed by a per-channel KLT (\cref{sec:klt}).
 %
 %\ao{Broken reference above}
+%
+\begin{table}[t]
+  \centering
+  %\footnotesize
+  \begin{tabular}{l|rrr|rr}
+    \hline
+    & \multicolumn{3}{c|}{\textbf{Compressed Size (MB)}} & \multicolumn{2}{c}{\textbf{Relative Ratio}} \\
+    \textbf{Sequence} & RGB & YUV & KLT & RGB/KLT & YUV/KLT \\
+    \hline\hline
+    flame\_salmon  & 11.94 & 11.37  & 8.35  & 1.43  & 1.36  \\
+    sear\_steak    & 9.29 & 8.99  & 6.78    & 1.37  & 1.33  \\
+    Actor1         & 10.97 & 10.43  & 9.90  & 1.11  & 1.05  \\
+    \hline
+  \end{tabular}
+  \caption{Impact of color decorrelation on compressed size (megabytes).}
+  \label{tab:ablation-klt}
+\end{table}
 %
 \cref{tab:ablation-klt} shows the impact on compressed size.
 %
@@ -612,49 +894,95 @@ An efficient implementation of RAHT is crucial for mobile decode.
 %
 \gsnfs{}'s custom CUDA RAHT kernels achieve $2.0$--$3.9\times$ speedup over a PyTorch baseline on Jetson, with larger gains for lower SH degrees (\cref{tab:jetson-raht-decode}).
 %
+\begin{table}[t]
+  \centering
+  %\footnotesize
+  %\scalebox{0.8}
+  {
+  \begin{tabular}{l|l|r|rr|r}
+    \hline
+    \textbf{Sequence} & \textbf{SH degree} & \textbf{Tot. ch} & \textbf{PyTorch (ms)} & \textbf{CUDA (ms)} & \textbf{Speedup} \\
+    \hline\hline
+    Actor1         & 0 & 11 & 77  & 20 & 3.9$\times$ \\
+    Actor1         & 3 & 56 & 100 & 28 & 3.6$\times$ \\
+    flame\_salmon  & 0 & 11 & 101 & 31 & 3.3$\times$ \\
+    flame\_salmon  & 2 & 35 & 125 & 57 & 2.2$\times$ \\
+    sear\_steak    & 0 & 11 & 79  & 25 & 3.2$\times$ \\
+    sear\_steak    & 2 & 35 & 96  & 47 & 2.0$\times$ \\
+    \hline
+    \end{tabular}
+  }
+  \caption{RAHT decode latency on Jetson Orin (ms). CUDA vs.\ PyTorch implementation. Averaged across sampled frames.}
+  \label{tab:jetson-raht-decode}
+\end{table}
+%
 We see a reduction of about $4$--$5\times$ for SH0 and $2$--$4\times$ for higher SH degrees for RAHT decode, which is the main bottleneck for mobile decode; prelude has ${\sim}2\times$ of speedup, since it doesn't depend on the number of channels.
 %
 These gains also reduce encode latency, since both forward and inverse RAHT perform the same work.
 
-\parab{Other Ablations.}
-\cref{app:other-ablations} describes the cost of CPU octree coding (\cref{sec:gpu-octree}), and explores RLGR parameter sensitivity of (\cref{sec:quant-entr-coding}).
-
-%% \begin{comment}
-%% LiVoGS J=15  qs=0.0001  color_space=rgb  nvcomp=ANS
-%% Pipeline throughput: 22.0 FPS (45.49 ms/frame)
-%%   Per-stage summary (skipping first 5):
-%%   Stage             Mean ms    Std ms       FPS
-%%   ---------------------------------------------
-%%   generation          42.88      0.22      23.3
-%%   upload               2.08      0.21     481.9
-%%   encode              14.79      0.38      67.6
-%%   decode              14.82      0.70      67.5
-%%   e2e (sum)           74.56      1.08      13.4
-%%   e2e (wall)          84.01      1.51      11.9
-%% \end{comment}
-
-%% \parab{iOS rendering.}
-%% \note{TODO: Measure rendering speed on iOS device.}
-
-%% ====================================================================
+\parab{RLGR parallelization.}
 %
-%% \begin{outline}
-%%   Compression:
-%%   \begin{itemize}
-%%   \item CPU vs GPU implementation of Octree [R]
-%%   \item Impact of octree [H] 
-%%   \item Coarse parallelization of RLGR and CPU version of RLGR [R]
-%%   \item Importance of CUDA optimizations (CUDA vs Pytorch): For RAHT, important for decode [H]
-%%   \end{itemize}
-
-%%   Bandwidth Adaptivity/Decorrelation [H]
-%%   \begin{itemize}
-%%   \item With and without RGB->YUV
-%%   \item With and without KLT decorrelation
-%%   \end{itemize}
-%% \end{outline}
+\begin{table}[t]
+  \centering
+  %\footnotesize
+  \begin{tabular}{l|rr|r|r}
+    \hline
+    \textbf{Variant} & \textbf{Block size} & \textbf{Enc.\ (ms)} & \textbf{Dec.\ (ms)} & \textbf{$\Delta$Size} \\
+    \hline\hline
+    CPU &  --   & 143.8  & 207.1 & 0.0\% \\
+    GPU &  --   & 494.2  & 447.4 & 0.0\% \\
+    GPU & 8192  & 15.7  & 15.0   & 0.1\% \\
+    GPU & 4096  & 8.0   & 7.6    & 0.2\% \\
+    GPU & 2048  & 4.1   & 4.0    & 0.4\% \\
+    GPU & 1024  & 2.9   & 2.4    & 0.8\% \\
+    GPU & 512   & 2.5   & 1.9    & 1.5\% \\
+    GPU & 256   & 2.5   & 2.1    & 2.5\% \\
+    \hline
+  \end{tabular}
+  \caption{RLGR entropy coding latency: CPU vs.\ GPU with varying block sizes for flame\_salmon.}
+  \label{tab:ablation-rlgr}
+\end{table}
 %
+\gsnfs{} parallelizes RLGR entropy coding by partitioning each attribute channel into fixed-size blocks and encoding them independently on GPU threads (\cref{sec:quant-entr-coding}).
+%
+\cref{tab:ablation-rlgr} compares the CPU baseline (sequential per-channel RLGR) against GPU variants with different block sizes.
+%
+Parallel RLGR a block size of $512$ achieves a \textbf{$\boldsymbol{58\times}$ encode} and \textbf{$\boldsymbol{109\times}$ decode speedup} on a desktop GPU over CPU, with only ${\sim}1.5$\% increase in compressed size.
+%
+On Jetson Orin, a block size of $512$ achieves ${\sim}6$~ms decode time per frame, compared to ${\sim}180$~ms for the CPU implementation--a $30\times$ speedup.
+%
+Smaller block sizes below 512 starts having diminishing returns.
+%
+Block size 2048--8192 provides a balanced tradeoff: $18$--$51\times$ speedup in encode/decode latency with negligible size overhead.
 
-
-
-%% ====================================================================
+\begin{table}[t]
+  \centering
+  %\footnotesize
+  %\scalebox{0.9}
+  {
+  \begin{tabular}{l|l|rr|r}
+    \hline
+    \textbf{Sequence} & \textbf{Method} & \textbf{Enc.\ (ms)} & \textbf{Dec.\ (ms)} & \textbf{Comp Ratio} \\
+    \hline\hline
+    \multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}flame\_salmon\\ (400K Gauss)\end{tabular}}
+      & Draco (CPU)                 & 98.0          & 37.5            & 10.9$\times$ \\
+      & G-PCC (CPU)                  & 228.6         & 127.5           & 11.3$\times$ \\
+      & Octree (w/o ANS) & 2.9           & 2.4           & 6.6$\times$ \\
+      & Octree (w/ ANS)  & \textbf{3.2}  & \textbf{2.7}  & 11.2$\times$ \\
+    \hline
+    \multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}sear\_steak\\ (250K Gauss)\end{tabular}}
+      & Draco (CPU)                 & 64.9          & 28.1          & 5.1$\times$ \\
+      & G-PCC (CPU)                  & 294.8         & 204.3         & 5.2$\times$ \\
+      & Octree (w/o ANS) & 2.9           & 3.0           & 2.5$\times$ \\
+      & Octree (w/ ANS)  & \textbf{3.2}  & \textbf{3.1}  & 4.8$\times$ \\
+    \hline
+    \multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}Actor1\\ (130K Gauss)\end{tabular}}
+      & Draco (CPU)                     & 30.7          & 13.0          & 6.7$\times$ \\
+      & G-PCC (CPU)                      & 127.8         & 91.2          & 6.8$\times$ \\
+      & Octree (w/o ANS)     & 1.8           & 1.4           & 3.4$\times$ \\
+      & Octree (w/ ANS)      & \textbf{1.9}  & \textbf{1.6}  & 6.1$\times$ \\
+    \hline
+  \end{tabular}}
+  \caption{Octree compression: CPU-based methods vs \gsnfs{}'s octree codec.}
+  \label{tab:ablation-octree}
+\end{table}

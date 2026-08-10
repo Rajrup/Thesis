@@ -460,8 +460,6 @@ Then, the thread for $p_m$ performs the following steps:.
 (iv) set bit for every child code $c_m$ found.
 %
 The thread then writes its occupancy byte to a known location in the GPU buffer.
-%
-We present the detailed algorithm in \cref{algo:octree-encode-gpu}.
 
 % \ramesh{Add a figure that uses the running example from \cref{fig:octree} and \cref{fig:morton} to show how, for the top-level, the above steps work.}
 
@@ -469,6 +467,91 @@ We present the detailed algorithm in \cref{algo:octree-encode-gpu}.
 At the end, all the occupancy bytes are written in order, similar to \cref{fig:octree}.
 %
 To improve compression efficiency, \gsnfs{} then runs a GPU-based entropy encoder (\cref{fig:architecture}), ANS~\cite{nvidia_nvcomp}.
+
+\parab{Detailed Algorithm.} 
+%
+\begin{algorithm}[t!]
+  \caption{GPU Octree{}'s Encoding from Voxelized Positions}
+  \label{algo:octree-encode-gpu}
+\SetAlgoLined
+\DontPrintSemicolon
+
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+\SetKwFunction{Morton}{Morton}
+\SetKwFunction{RadixSort}{RadixSort}
+\SetKwFunction{Unique}{Unique}
+\SetKwFunction{Parent}{Parent}
+\SetKwFunction{OccKernel}{OccKernel}
+\SetKwFunction{Concat}{Concat}
+\SetKwFunction{Append}{Append}
+\SetKwFunction{BinarySearch}{BinarySearch}
+
+\Input{Voxelized integer positions $\hat{V}=\{(\hat{x}_i,\hat{y}_i,\hat{z}_i)\}_{i=1}^{\hat{N}_v}$ on GPU; octree depth $J$}
+\Output{Serialized octree bitstream $B_{occ}$}
+
+\BlankLine
+\tcp*[l]{Step 1: Morton codes for leaf voxels}
+\ForPar{$i \gets 1$ \KwTo $\hat{N}_v$}{
+  $m_i \gets \Morton(\hat{x}_i,\hat{y}_i,\hat{z}_i, J)$
+}
+$L_J \gets \Unique(\RadixSort(\{m_i\}))$ \tcp*{leaf nodes}
+
+\BlankLine
+\tcp*[l]{Step 2: Level-synchronous octree construction}
+\For(\tcp*[f]{bottom-up parents}){$d \gets J-1$ \KwTo $0$}{
+  $L_d \gets \Unique(\{\, \Parent(c_m)\;|\;c_m\in L_{d+1}\,\})$ \tcp*{$\Parent(c_m)=c_m\gg 3$}
+}
+
+\BlankLine
+\tcp*[l]{Step 3: Bitstream header}
+$num\_levels \gets J+1$\;
+$level\_sizes \gets (|L_0|,\ldots,|L_J|)$\;
+$B_{occ} \gets \Append(B_{occ}, num\_levels, level\_sizes)$\;
+
+\BlankLine
+\tcp*[l]{Step 4: Breadth-first occupancy bitstream.}
+\ForPar{$d \gets 0$ \KwTo $J-1$}{
+  $B_d \gets \OccKernel(L_d, L_{d+1})$
+  $B_{occ} \gets \Append(B_{occ}, B_d)$ \tcp*{contiguous bytes for level $d$}
+}
+
+\Return $B_{occ}$\;
+
+\BlankLine
+\textbf{Kernel \OccKernel($L_d,L_{d+1}$):}\;
+\ForPar{$p \in L_d$}{
+  $c_m^b \gets p \ll 3$ \tcp*{base child code}
+  $occ \gets 0$ \tcp*{occupancy byte}
+  $c_m \gets \BinarySearch(L_{d+1}, c_m^b)$
+  \For{$k \gets 0$ \KwTo $7$}{
+      \If{$L_{d+1}[c_m+k] \leq c_m^b+7$}{
+        $occ \gets occ \;|\; \big(1 \ll (L_{d+1}[c_m+k]-c_m^b)\big)$\;
+      }
+      
+  }
+  Write $occ$ into $B_d$ at parent's index\;
+}
+\end{algorithm}
+%
+\cref{algo:octree-encode-gpu} summarizes our GPU octree encoder. 
+%
+Starting from voxelized integer coordinates, we first compute Morton codes for all occupied leaf voxels, then radix-sort and deduplicate them to obtain the leaf set $L_J$. 
+%
+The upper octree levels are constructed bottom-up by repeatedly mapping child codes to their parents and removing duplicates, yielding level-wise node sets $\{L_d\}_{d=0}^J$.
+
+After the hierarchy is built, we serialize a compact occupancy bitstream. 
+%
+The header stores the number of levels and the node count of each level. 
+%
+The payload is then generated in breadth-first order: for each parent in level $L_d$, we produce one occupancy byte indicating which of its eight children are present in $L_{d+1}$. 
+%
+As shown in \cref{algo:octree-encode-gpu}, this is done by locating the base child Morton code and setting the corresponding bits for all valid children in the next level.
+
+This construction avoids explicit pointer-based octree data structures and operates directly on sorted Morton codes, which is well suited to parallel primitives such as radix sort, deduplication, and batched searches. 
+%
+The resulting bitstream is a level-synchronous octree representation that can be decoded with the same breadth-first traversal order.
 
 %% \parab{Parallelization template.}
 %% Our parallelization strategy for octree construction is a simple level-synchronous approach. 
@@ -546,8 +629,108 @@ Then, the decoder launches one thread for each occupied thread at level $d+1$, a
 After processing all levels, the decoder's output is a list of Morton codes for the leaf nodes, which correspond to the occupied voxels.
 %
 The decoder launches a final CUDA kernel to decode the Morton codes back into integer voxel coordinates by reversing the bit interleaving.
+
+\parab{Detailed Algorithm.}
 %
-\cref{app:sysn-octr-decod} contains a detailed listing of this algorithm.
+\begin{algorithm}[t!]
+  \caption{GPU Octree Decoding}
+  \label{algo:octree-decode-gpu}
+\SetAlgoLined
+\DontPrintSemicolon
+
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+\SetKwFunction{ReadHeader}{ReadHeader}
+\SetKwFunction{ReadOcc}{ReadOccBytes}
+\SetKwFunction{Popcount}{Popcount}
+\SetKwFunction{ExScan}{ExclusiveScan}
+\SetKwFunction{ExpandKernel}{ExpandChildrenKernel}
+\SetKwFunction{ReconKernel}{ReconstructPointsKernel}
+\SetKwFunction{MortonDec}{MortonDecode}
+\SetKwFunction{Interleave}{InterleaveXYZ}
+
+\Input{Compressed octree buffer $B$ on GPU; octree depth $J$}
+\Output{Voxelized positions $\hat{V}$ on GPU; leaf Morton codes $L_J$ on GPU}
+\BlankLine
+\tcp*[l]{Step 1: Parse header.}
+$(num\_levels,\ level\_sizes,\ ptr) \gets \ReadHeader(B)$\;
+
+\BlankLine
+\tcp*[l]{Step 2: Initialize root list (implicit root Morton code).}
+$L_0 \gets [\,0\,]$
+
+\BlankLine
+\tcp*[l]{Step 3: Level-synchronous decoding.}
+\For(\tcp*[f]{top-down levels}){$d \gets 0$ \KwTo $J-1$}{
+  $M_d \gets |L_d|$\;
+  $Occ_d \gets \ReadOcc(ptr, M_d)$ \tcp*{read $M_d$ bytes from $B$ into a GPU array}
+  $ptr \gets ptr + M_d$\;
+
+  \BlankLine
+  \tcp*[l]{Count children per parent.}
+  \ForPar{$p \gets 1$ \KwTo $M_d$}{
+    $cnt[p] \gets \Popcount(Occ_d[p])$\;
+  }
+
+  \BlankLine
+  \tcp*[l]{Find total children at $d+1$.}
+  $off \gets \ExScan(cnt)$
+  $T \gets off[M_d] + cnt[M_d]$\;
+  Allocate $L_{d+1}$ of length $T$\;
+
+  \BlankLine
+  \tcp*[l]{Expand children.}
+  \ExpandKernel$(L_d, Occ_d, off, L_{d+1})$ with $M_d$ threads\;
+}
+
+\BlankLine
+\tcp*[l]{Step 6: Get voxel coordinates at leaf.}
+$\hat{N}_v \gets |L_J|$\;
+$shift \gets J_v - J$\;
+Allocate $\hat{x}[1{:}\hat{N}_v],\hat{y}[1{:}\hat{N}_v],\hat{z}[1{:}\hat{N}_v]$\;
+Launch \ReconKernel$(L_J, shift, \hat{x},\hat{y},\hat{z})$ with $\hat{N}_v$ threads\;
+$\hat{V} \gets \Interleave(\hat{x},\hat{y},\hat{z})$ \tcp*{Reverse Morton Code.}
+
+\Return $(\hat{V}, L_J)$\;
+\end{algorithm}
+
+\begin{algorithm}[t!]
+  \caption{\texttt{expand\_children\_kernel}: Expand occupied children and generate Morton codes}
+  \label{algo:octree-expand-children-kernel}
+\SetAlgoLined
+\DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+\Input{Parent Morton codes $L_d[1{:}M_d]$; occupancy bytes $Occ_d[1{:}M_d]$; write offsets $off[1{:}M_d]$}
+\Output{Child Morton codes $L_{d+1}[1{:}T]$}
+
+\ForPar{$p \gets 1$ \KwTo $M_d$}{
+  $parent \gets L_d[p]$\;
+  $occ \gets Occ_d[p]$\;
+  $base \gets parent \ll 3$ \tcp*{base child Morton code}
+  $w \gets off[p]$ \tcp*{exclusive-scan start offset for this parent}
+  \For{$i \gets 0$ \KwTo $7$}{
+    \If{$occ \wedge (1 \ll i)$}{
+      $L_{d+1}[w] \gets base + i$\;
+      $w \gets w + 1$\;
+    }
+  }
+}
+\end{algorithm}
+%
+\cref{algo:octree-decode-gpu} summarizes our GPU octree decoder.
+%
+The GPU decoder reconstructs voxelized geometry by replaying the serialized occupancy stream in a level-synchronous manner, without building any explicit tree pointers.
+%
+Starting from the implicit root Morton code ($L_0=\{0\}$), for each depth $d$ it reads the $|L_d|$ occupancy bytes, counts the number of occupied children per parent (population count), and performs an exclusive prefix-sum to compute disjoint write offsets for the next-level array.
+%
+It then launches \texttt{expand\_children\_kernel} (Alg.~\ref{algo:octree-expand-children-kernel}), which generates each occupied child Morton code in $O(1)$ via $(parent \ll 3)+i$ and writes all children contiguously into $L_{d+1}$, avoiding atomics despite variable fan-out.
+%
+Repeating this from $d=0$ to $J{-}1$ yields the leaf Morton codes $L_J$, which are finally decoded into integer voxel coordinates (and optionally interleaved) in a parallel post-pass.
+%
+Overall, decoding preserves the same breadth-first structure as the encoder while turning the key sequential dependency (unknown next-level size) into a standard GPU pattern: count $\rightarrow$ prefix-sum $\rightarrow$ parallel scatter.
 
 % \ramesh{Add a small example, consistent with the encoding example.}
 

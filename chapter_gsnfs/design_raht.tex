@@ -221,8 +221,187 @@ It implements this efficiently using boolean shift and masked select of tensors 
 %
 The output of this is a compacted list containing exactly the set of nodes at $\ell+1$ that should run the RAHT coefficient computation at that level.
 
-Especially for accelerating RAHT on a mobile GPU, we have found it essential to implement some of these steps using CUDA (
-(\cref{sec:evaluation}),
+Especially for accelerating RAHT on a mobile GPU, we have found it essential to implement some of these steps using CUDA (\cref{sec:evaluation}).
+
+\parab{Detailed Algorithm.}
+%
+We implement RAHT as a two-stage GPU pipeline: a \emph{prelude} that builds the merge schedule from Morton-sorted occupied voxels, and a \emph{transform} stage that applies the weighted orthonormal rotations using that schedule. This separation isolates the octree-dependent control flow from the per-attribute transform, allowing the latter to be executed with simple parallel kernels.
+
+\begin{algorithm}[t!]
+  \caption{RAHT prelude (non-parallel)}
+  \label{algo:raht-prelude}
+\SetAlgoLined
+\DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+\Input{Morton codes $M[0{:}N_v{-}1]$, Num voxels $N_v$, octree depth $J$}
+\Output{$[(I_\ell, W_\ell, F_\ell)]_{\ell=1}^{3J}$}
+
+\For{$\ell \gets 1$ \KwTo $3J$}{
+  \uIf{$\ell = 1$}{
+    $I_1 \gets (0{:}N_v{-}1)^{T}$ \tcp*{active indices at level 1}
+  }\Else{
+    $I_\ell \gets I_{\ell-1}\big(\neg [0; F_{\ell-1}]\big)$ \tcp*{keep left siblings + singletons}
+  }
+  $M_\ell \gets M[I_\ell]$ \tcp*{Morton codes at level $\ell$}
+  $W_\ell \gets [I_\ell(2{:}\mathrm{end});\, N_v] - I_\ell$ \tcp*{run-length weights (sentinel $N_v$)}
+  $D \gets M_\ell(1{:}\mathrm{end}{-}1)\ \oplus\ M_\ell(2{:}\mathrm{end})$ \tcp*{path diffs}
+  $F_\ell \gets \big(D\ \wedge\ (2^{3J} - 2^{\ell})\big) = 0$ \tcp*{left-sibling flags}
+}
+\Return $[(I_\ell, W_\ell, F_\ell)]_{\ell=1}^{3J}$\;
+\end{algorithm}
+
+Algorithm~\ref{algo:raht-prelude} gives the reference non-parallel prelude. For each of the $3J$ binary merge steps induced by a depth-$J$ octree, it constructs the active index list $I_\ell$, the corresponding run-length weights $W_\ell$, and the sibling flags $F_\ell$. Here, $W_\ell$ records the number of original voxels represented by each active entry, and $F_\ell$ marks whether an entry is the left element of a valid sibling pair. The sibling relation is tested directly from Morton codes using XOR and a level-dependent mask, without explicitly materializing the octree.
+
+\begin{algorithm}[t!]
+  \caption{RAHT Prelude on GPU}
+  \label{algo:raht-prelude-gpu}
+\SetAlgoLined
+\DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\SetKwFunction{Shift}{torch.shift}
+\SetKwFunction{MaskedSelect}{torch.masked\_select}
+\SetKwFunction{FWKernel}{FWKernel}
+
+\Input{Morton codes $M[0{:}N_v{-}1]$, Num voxels $N_v$, octree depth $J$}
+\Output{$[(I_\ell, W_\ell, F_\ell)]_{\ell=1}^{3J}$}
+
+$I_1 \gets (0{:}N_v{-}1)^{T}$\;
+\For{$\ell \gets 1$ \KwTo $3J$}{
+  $\mu_\ell \gets (2^{3J} - 2^{\ell})$ \tcp*{mask for sibling test}
+  % $end \gets N_v$ \tcp*{sentinel for run-length weights}
+  \ForPar(\tcp*[f]{1 GPU thread per $k$}){$k \gets 1$ \KwTo $M_\ell$}{
+    $curr \gets I_\ell(k)$\;
+    $next \gets \begin{cases}
+      end & \text{if } k = M_\ell\\
+      I_\ell(k{+}1) & \text{otherwise}
+    \end{cases}$\;
+
+    $W_\ell(k) \gets next - curr$\;
+
+    \uIf{$k = M_\ell$}{
+      $F_\ell(k) \gets 0$\;
+    }\Else{
+      $F_\ell(k) \gets ((M(curr) \oplus M(next)) \wedge \mu_\ell ) = 0$\;
+    }
+  }
+
+  $P_\ell \gets \Shift(F_\ell)$ \tcp*{$[0; F_\ell(0{:}\mathrm{end}{-}1)]$ marks right siblings}
+  $I_{\ell+1} \gets \MaskedSelect(I_\ell, \neg P_\ell)$
+
+  \If{$|I_{\ell+1}| = 1$}{
+    % $L \gets \ell$\;
+    \textbf{break}\;
+  }
+}
+\Return $[(I_\ell, W_\ell, F_\ell)]_{\ell=1}^{3J}$\;
+\end{algorithm}
+
+Algorithm~\ref{algo:raht-prelude-gpu} shows the GPU version of this schedule construction. At each level, one thread computes the weight and sibling flag for one active entry. The next active list is then obtained by removing right siblings while keeping left siblings and singletons. This produces the schedule $[(I_\ell, W_\ell, F_\ell)]_{\ell=1}^{3J}$ used by the transform.
+
+Algorithm~\ref{algo:raht-forward} applies the forward or inverse RAHT on the GPU. In the forward pass, levels are processed bottom-up; in the inverse pass, they are processed in reverse order. For each sibling pair, the transform uses the standard RAHT weights
+$$
+a=\sqrt{\frac{w_0}{w_0+w_1}}, \qquad
+b=\sqrt{\frac{w_1}{w_0+w_1}},
+$$
+to perform the corresponding orthonormal rotation independently for each attribute channel. Since pairs within a level are disjoint, the computation can be parallelized across active entries.
+
+\clearpage
+\begin{algorithm}[p]
+  \caption{RAHT Transform (Forward / Inverse) on GPU}
+  \label{algo:raht-forward}
+  \SetAlgoLined
+  \DontPrintSemicolon
+  \SetKwInOut{Input}{Input}
+  \SetKwInOut{Output}{Output}
+  
+  \Input{Attributes $A\in\mathbb{R}^{N_v\times C}$ (GPU), prelude schedule $[(I_\ell,W_\ell,F_\ell)]_{\ell=1}^{3J}$, \texttt{inverse} flag}
+  \Output{Coefficients $Y\in\mathbb{R}^{N_v\times C}$ (GPU)}
+  
+  $Y \gets A$ \tcp*{clone for in-place updates}
+  \If{\texttt{inverse} = 0}{
+    \For(\tcp*[f]{bottom-up}){$\ell \gets 1$ \KwTo $3J-1$}{
+      $M_\ell \gets |I_\ell|$\;
+      Launch \texttt{raht\_forward\_level\_kernel} with $M_\ell$ threads\;
+      \Indp
+      \ForPar{$k \gets 0$ \KwTo $M_\ell-2$}{
+        \If{$F_\ell[k]$}{
+          $i_0 \gets I_\ell[k]$;\;
+          $i_1 \gets I_\ell[k+1]$;\;
+          $w_0 \gets W_\ell[k]$;\;
+          $w_1 \gets W_\ell[k+1]$;\;
+          $a \gets \sqrt{w_0/(w_0+w_1)}$;\;
+          $b \gets \sqrt{w_1/(w_0+w_1)}$;\;
+          \For{$c \gets 0$ \KwTo $C-1$}{
+            $y_0 \gets Y[i_0,c]$;\;
+            $y_1 \gets Y[i_1,c]$;\;
+            $Y[i_0,c] \gets a\cdot y_0 + b\cdot y_1$\;
+            $Y[i_1,c] \gets -b\cdot y_0 + a\cdot y_1$\;
+          }
+        }
+      }
+      \Indm
+    }
+  }{
+    \For(\tcp*[f]{top-down}){$\ell \gets 3J-1$ \KwTo $1$}{
+      $M_\ell \gets |I_\ell|$\;
+      Launch \texttt{raht\_inverse\_level\_kernel} with $M_\ell$ threads\;
+      \Indp
+      \ForPar{$k \gets 0$ \KwTo $M_\ell-2$}{
+        \If{$F_\ell[k]$}{
+          $i_0 \gets I_\ell[k]$;\;
+          $i_1 \gets I_\ell[k+1]$;\;
+          $w_0 \gets W_\ell[k]$;\;
+          $w_1 \gets W_\ell[k+1]$;\;
+          $a \gets \sqrt{w_0/(w_0+w_1)}$;\;
+          $b \gets \sqrt{w_1/(w_0+w_1)}$;\;
+          \For{$c \gets 0$ \KwTo $C-1$}{
+            $y_0 \gets Y[i_0,c]$;\;
+            $y_1 \gets Y[i_1,c]$;\;
+            $Y[i_0,c] \gets a\cdot y_0 - b\cdot y_1$\;
+            $Y[i_1,c] \gets b\cdot y_0 + a\cdot y_1$\;
+          }
+        }
+      }
+      \Indm
+    }
+  }
+  \Return $Y$\;
+\end{algorithm}
+\clearpage
+
+% \begin{algorithm}[t]
+%   \caption{\textsc{FWKernel}: Compute $(W_\ell,F_\ell)$ on GPU}
+%   \label{algo:raht-fwkernel}
+% \SetAlgoLined
+% \DontPrintSemicolon
+% \SetKwInOut{Input}{Input}
+% \SetKwInOut{Output}{Output}
+
+% \Input{Index list $I_\ell$ (len $M_\ell$), Morton codes $M$, mask $\mu_\ell$, end sentinel $end$}
+% \Output{Weights $W_\ell$ (len $M_\ell$), Flags $F_\ell$ (len $M_\ell$)}
+
+% \ForPar(\tcp*[f]{1 GPU thread per $k$}){$k \gets 1$ \KwTo $M_\ell$}{
+%   $curr \gets I_\ell(k)$\;
+%   $next \gets \begin{cases}
+%     end & \text{if } k = M_\ell\\
+%     I_\ell(k{+}1) & \text{otherwise}
+%   \end{cases}$\;
+
+%   $W_\ell(k) \gets next - curr$\;
+
+%   \uIf{$k = M_\ell$}{
+%     $F_\ell(k) \gets 0$\;
+%   }\Else{
+%     $F_\ell(k) \gets ((M(curr) \oplus M(next)) \wedge \mu_\ell ) = 0$\;
+%   }
+% }
+% \Return $(W_\ell,F_\ell)$\;
+% \end{algorithm}
+
+
 
 \subsection{Quantization and Entropy Coding}\label{sec:quant-entr-coding}
 
