@@ -1,5 +1,24 @@
-Three dimensional (3D) data have become a key modality for representing and interacting with the physical world. Modern vehicles and roadside infrastructure are equipped with 3D sensors that capture the geometry of traffic participants and surroundings. Meanwhile, the growing deployment of vehicular communication technologies enables these vehicles and infrastructure elements to exchange 3D data with one another and with cloud servers in real time. Together, advances in 3D sensing and vehicular connectivity are transforming how spatial information is captured, shared, and utilized in vehicular systems.
+Volumetric video represents dynamic scenes in three dimensions (3D) and allows viewers to move through the captured environment with six degrees of freedom (6DoF). 
+%
+This capability can enable immersive telepresence, remote collaboration, and free-viewpoint live streaming. 
+%
+However, volumetric frames are substantially larger and more computationally expensive than conventional video.
+%
+Practical systems must compress and transmit this content at interactive frame rates, adapt to time-varying network bandwidth, and preserve visual quality while meeting stringent latency constraints.
 
-This dissertation explores how 3D data can be elevated to a shared and networked resource that is collaboratively sensed, processed, and delivered across vehicles, infrastructure, and cloud systems. It presents three systems spanning the full networked 3D data pipeline. \recap addresses the \textit{reconstruction} phase by enabling vehicles to offload 3D sensor data to the cloud for high-fidelity multi-view fusion under dynamic and sparsely overlapping observations. \cip targets the \textit{interpretation} phase, demonstrating real-time cooperative infrastructure perception by fusing data from multiple roadside LiDARs to track and estimate the motion of traffic participants. \mars extends the pipeline to the \textit{delivery} phase by streaming immersive 3D video content from the cloud to in-vehicle augmented reality (AR) displays, adapting to vehicle motion and dynamic network conditions to provide spatially coherent AR experiences.
+This dissertation presents two complementary systems for enabling volumetric video conferencing and live streaming.
+%
+\livo supports bandwidth-adaptive, full-scene volumetric conferencing using arrays of RGB-D cameras. 
+%
+It reuses mature 2D video infrastructure to encode tiled color and depth streams, dynamically divides bandwidth between them, and predicts and culls content outside the receiver's view. 
+%
+\gsnfs is a GPU-resident post-training codec for dynamic 3D Gaussian Splatting (\dgs) representations and point clouds. 
+%
+It reformulates octree and attribute coding for parallel execution and improves compression through color decorrelation, enabling native 3D encoding and decoding at frame rate.
+%
 
-Together, these contributions demonstrate that networked 3D data can be effectively sensed, reconstructed, interpreted, and delivered in connected vehicular environments, enhancing perception, improving traffic safety and efficiency, and enabling next-generation in-vehicle experiences.
+Evaluations show that \livo sustains approximately 30~fps with around 250~ms of end-to-end latency while improving visual quality over the evaluated alternatives. 
+%
+\gsnfs meets a 30~fps encode and decode budget on desktop GPUs, decodes some sequences at up to approximately 25~fps on a mobile-class GPU, and also operates as a frame-rate point-cloud codec. 
+%
+Together, these systems demonstrate an immediately deployable path to immersive conferencing and a native 3D compression path for future volumetric streaming systems.

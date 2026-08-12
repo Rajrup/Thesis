@@ -1,34 +1,115 @@
 \chapter{Related Work} \label{ch:related}
 
-\section{Vehicular Connectivity}
-Network connectivity in vehicles has opened up large avenues for research. A large body of work~\cite{CVSurvey} has explored wireless technologies and standards (such as DSRC) for vehicle-to-vehicle and vehicle-to-infrastructure communication. Connected autonomous vehicles have also inspired proposals for cooperative perception~\cite{AVR, autocast, CarMap, EMP, vieye, shi2022vips, vimap}, and cooperative driving~\cite{dariani2019cooperative} in which autonomous vehicles share information with each other to improve safety and utilization. Unlike these approaches, \recap seeks to reconstruct driving scenes post-facto. Some have proposed approaches to offload route planning (but not trajectory planning) to the cloud~\cite{guanetti2018control}. Others explore  \textit{platooning}~\cite{schindler2018dynamic} in which vehicles collaboratively and dynamically form platoons to enable smooth traffic flows.
+\parab{On-demand Streaming.} A line of work has explored on-demand volumetric video streaming~\cite{vivo, groot, vues, yuzu, hermes, patchvvc}, and focused on reducing data rate and improving decoding efficiency. 
+%
+ViVo~\cite{vivo} culls occluded points or those outside the predicted frustum.
+% 
+Groot~\cite{groot} employs parallelism to improve Draco decoding efficiency and achieve 30~fps. 
+%
+Fumos~\cite{fumos} improves data rate by exploiting inter-frame redundancy using a neural codec and supports high frame rate decoding. 
+%
+In contrast, \livo avoids point cloud compression to achieve performant two-way live streaming.
+%On-demand streaming relies on heavy pre-processing such as constructing index structure like octree/kd-tree, encoding point cloud at different density levels, occlusion-aware indexing, inter-frame redundancy, \etc, that are computationally expensive to be applied to live streaming.
 
-Beyond inter-vehicle collaboration, several proposals have explored infrastructure support for connected autonomous vehicles, with infrastructure augmenting perception~\cite{ravipati19:_vision_based_local_infras_enabl_auton,gopalswamy18:_infras_enabl_auton}, or delivering traffic light status~\cite{schindler2018dynamic}. Other work focuses on infrastructure-assisted traffic management at intersections~\cite{AIMSurvey}. \cip goes beyond this body of work by demonstrating the feasibility of decoupling both perception and planning from vehicular control.
+\parab{Live Streaming and Conferencing.}
+%There are a few live volumetric streaming systems compared to on-demand streaming. 
+%
+\cref{tab:comparison} explains how \livo differs from related work. We discuss salient differences below.
+%
+LiveScan3D~\cite{livescan3d} uses a fast binary compression method, zstd, which achieves low compression ratios.
+%
+%One-way live streaming does not have as stringent end-to-end latency requirements as two-way live streaming.
+%
+%is one of the earliest works to capture a scene using multiple Kinect cameras and stream live to the receiver. It can only support 15~FPS streaming since it uses ZSTD, which is a fast binary compression method, but achieves very low compression ratio for point cloud. 
+%
+Holoportation~\cite{holoportation} achieves conferencing by compressing a 3D representation of a single person using LZ4 binary encoding, which doesn't scale to larger scenes.
+%
+Starline~\cite{starline}, a conferencing system, streams upper body views in 3D over fixed quality 2D video streams; \cref{s:evaluation} describes how it differs from \livo.
+%
+FarfetchFusion~\cite{farfetchfusion} streams only the face, and is optimized for mobile devices.
+%
+MeshReduce~\cite{meshreduce} supports full-scene conferencing using a mesh, but achieves a lower frame rate and lower quality (\cref{s:evaluation}).
+%
+MetaStream~\cite{metastream} uses Draco encoding to stream a single person at 30~fps by reducing the number of points in the capture point cloud. 
+%
+Unlike \livo, none of the live volumetric streaming systems support full-scene 2-way live streaming with bandwidth adaptation at 30~fps.
+%To the best of our knowlege, \livo is the first to achieve this.
 
-% Using V2X connectivity, autonomous vehicles with on-board sensors can share their sensor data with each other to improve traffic safety~\cite{CarMap,AVR,autocast,EMP}. Unlike these approaches, \recap seeks to reconstruct driving scenes post-facto.
+\parab{Other 3D Formats and Compression Standards.}
+%
+Besides point clouds, prior work attempts to capture 3D scenes as textured meshes~\cite{kinectfusion,fvv,holoportation,fusion4d,dynamic-fusion,meshreduce}.
+%
+%\agr{Maybe worth mentioning neural representations Nerf/Splats and just say they look amazing, but are currently too slow to train for interactive scenarios.  You could also hint that point cloud streaming could potentially be adapted to do splat streaming some day}
+%
+Meshes are generally higher quality representations that are much more bandwidth-intensive; future work can explore mesh-based two-way bandwidth-adaptive live streaming.
+%
+Besides Draco, prior work has proposed other point cloud compression techniques: G-PCC~\cite{gpcc}, V-PCC~\cite{vpcc}, and PCL~\cite{pcl}. 
+%
+Draco achieves faster compression with higher compression ratios than these, so we base our evaluations on it.
+%
+Recently, Hermes~\cite{hermes}, patchVVC~\cite{patchvvc}, and DeformStream~\cite{deformstream} have attempted to exploit inter-frame redundancy in volumetric videos, but these have high encoding latency so can only be used for on-demand streaming.
 
-\section{3D Alignment and Registration}
-Iterative Closest Point (ICP) pioneered point cloud registration~\cite{besl1992method,trucco1999robust}. However, accurate ICP requires a good initial guess and sufficient overlap between point clouds~\cite{raposo2017using}. To address these, prior work has proposed RANSAC-based algorithms~\cite{aiger20084,mellado2014super,papazov2012rigid,trucco1999robust,zhang1992local}. However, these are known to be computationally heavy and tend to be less accurate compared to ICP. \recap ensures faster, more accurate, registration using overlap-scoped registration. \cite{liu2021coarse} scopes RANSAC to features in the overlapped region, but this is too slow (4-6~seconds per frame) for \recap. Most prior work on ICP focuses on accuracy~\cite{segal2009generalized}, registers point clouds from a single vehicle/robot~\cite{segal2009generalized,yuan2022gnss}, and uses ICP to reconstruct static parts of the environment. Instead, \recap uses ICP as a building block for 3D traffic reconstruction from multiple vehicles. To our knowledge, \recap is the first end-to-end system towards this. Recent work has explored deep-learning based registration~\cite{choy2020deep,gojcic2020learning,yang2020teaser,huang2021predator,fu2021robust,bauer2021reagent}, but these do not generalize well to our settings (\secref{s:recap_ablation-study}).
+\parab{Learned 3D Representations.}
+Recent work uses learned 3D representation such as Neural Radiance Fields (NeRFs)~\cite{nerf} and Gaussian Splatting (\gs)~\cite{gsplat} for streaming and conferencing.
+%
+% Unlike point cloud and mesh, NeRF learns a neural network on a bunch of 2D images of a 3D scene and generates novel views in 2D from any perspective of the viewer's camera. 
+% %
+% Gsplat, an enhancement over NeRF, learns a bunch of 3D gaussians obtained from point clouds of the scene, and uses the gaussians' color and opacity to generate novel views. 
+%
+Research in this direction~\cite{nerf-nossdav, nerf-ems1, mga, swings, telepresence-tvcg, 3dgstream, queen, streamrf} have explored learned 3D representations for on-demand streaming. 
+%
+Tele-Aloha~\cite{tele-aloha} has used Gsplat for conferencing but constrains only to upper torso of a person like Starline~\cite{starline}.
+%
+Though these representations can generate high-quality rendering superior to point clouds or meshes, they suffer from high training and rendering overheads rendering them currently unsuitable for live or conferencing systems. 
+%
+% We see promise in using learned representations, particularly Gsplat which is tightly linked with underlying point cloud. 
+% %
+% Many of the techniques used in \livo such as fast culling, depth encoding, and bandwidth splitting could potentially be adapted for Gsplat-based streaming in future.
+%
+%% \dgs requires high storage/bandwidth to store/stream which have been coped with by either in-training compression of gaussians or post-training compression of pre-trained models.
 
-Recent work, VI-Eye~\cite{vieye} and VIPS~\cite{shi2022vips}, devises novel \textit{pairwise} registration between point clouds from a vehicle and a road-side LiDAR; in contrast, \recap performs \textit{multi-way} registration between point clouds from multiple vehicles. VI-Eye and VIPS extract and match features instead of raw 3D points which trades off accuracy for latency. For this reason, they require a large overlap without which registration would fail. \recap can register point clouds even if there is little or no overlap. Like \recap, VI-Eye and VIPS use registration accuracy and computation overhead as metrics. Unlike \recap, they do not consider coverage, an essential metric for our target application, reconstruction. More generally, because \recap is designed for offline reconstruction, it can operate in a different point in the trade-off space: it optimizes for accuracy by registering raw point clouds instead at the cost of higher latency.
+\parab{During-training \gs compression.}
+Recent research has focused on integrating compression directly into an optimization loop within training to enhance model sparsity.
+%
+Compact3DGS~\cite{compact3dgs} identifies prunes redundant Gaussians (as do~\cite{recongs2025, scaffoldgs}) and replaces spherical harmonics with hash-based grids.
+%
+CompGS~\cite{compgs} utilizes quantization-aware training and opacity regularization.
+%
+4D-GS~\cite{4dgs} trains an MLP to predict motion across frames, while QUEEN~\cite{queen} learns quantized attribute residuals and uses a gating module to sparsify positions. 
+%
+%Others~\cite{recongs2025, scaffoldgs} use anchor-based structures to prune redundant Gaussian primitives to train a more compact model.
+%
+LapisGS~\cite{shi2025lapisgs} trains \gs{} in a layered progressive representation.
+%
+Relative to \gsnfs{}, these methods incur significantly higher overhead for compression.
 
-\cip's alignment builds upon point cloud registration techniques~\cite{point_to_plane}. Prior work has matched features~\cite{persistent_feature_histograms}; these don't work well for \cip, where LiDARs capture the scene from very different perspectives.
+\parab{Post-training \gs compression.}
+% Post-training compression schemes aim to compress pre-trained models efficiently without the overhead of full retraining or finetuning of trained \gs. 
+%
+MesonGS~\cite{mesongs} prunes insignificant Gaussians and then applies octree and RAHT.
+%
+Some schemes~\cite{gauspcgc, entropygs} use learning based methods to find the compression parameters for position and attributes.
+%
+Others~\cite{LTS, gpcc-adaptive} use point cloud compression techniques to compress trained \gs{}.
+%
+% But most post-training methods that compress in 3D suffer from significantly high encoding and decoding latency.
+%
+To address this, \vthree{}~\cite{v3volumetric} encodes \dgs{} in multiple 2D videos.
+%
+\gsnfs{} encodes and decodes much faster than these techniques.
+%
+%Though faster than methods that compress \gs in 3D, this approach suffers from higher size or lower quality, particularly for moderate to large scenes.
 
-\section{Perception, Tracking, and Motion Understanding}
-\parab{Infrastructure LiDAR-based Perception.} Prior work has explored using infrastructure LiDAR to detect pedestrians~\cite{ped_veh_detection} and road features such as lanes and drivable surfaces~\cite{background_filtering,lanedetection}, and to warn vehicles of impending collisions~\cite{Aycard2011}. One work~\cite{lidar_point_registration_remote_sensing} proposes a genetic algorithm based LiDAR alignment, but unlike \cip, it has not explored the efficacy of an entire perception pipeline built on top of LiDAR fusion.
-
-\parab{Deep Neural Networks for 3D Detection and Tracking.}
-For vehicle-mounted LiDARs, prior work has developed expensive neural nets for point cloud based detection~\cite{VoxelNet,Yang_2019_ICCV} and tracking~\cite{Qi_2020_CVPR,fast_and_furious}.
-These are for vehicle-mounted LiDAR and are computationally expensive; 
-\cip exploits static LiDARs and can use more efficient algorithms, \secref{sec:cip_eval-microbenchmark}.
-
-\parab{Motion Estimation.} Heading and speed can be estimated using DNNs~\cite{fast_and_furious}, SLAM~\cite{ORB-SLAM2}, or visual odometry~\cite{rosinol2020kimera}. \cip uses a lightweight technique since it relies on static LiDARs.
-
-\section{Content Delivery and Immersive Media}
-\parab{Mesh Streaming.} Techniques for compressing and streaming 3D meshes have a long history in the field of computer graphics. Early works focused on a single static mesh~\cite{hoppe1996progressive,kim2004view,el1999skip,rusinkiewicz2000qsplat}. Subsequent studies considered dynamic meshes, wherein the set of vertices and faces are fixed; only their positions change across frames~\cite{viola2023volumetric}. \mars considers Time Varying Meshes (TVMs), in which the number of vertices and faces vary over frames. These are common for 3D models captured and reconstructed from real-world scenes.
-
-With the advancement of 3D sensors (\eg RGB-D cameras), numerous systems have been developed for streaming TVMs~\cite{jin2024meshreduce,orts2016holoportation,collet2015high,chang2019montage4d,stotko2019slamcast,zhou2023live4d}. In these systems, the viewers are typically indoor users (\eg humans using VR/AR headsets or mobile devices) in relatively stable network environments with limited movement. In contrast, \mars is designed for on-demand mesh videos streaming in outdoor environments, specifically for moving vehicles, where network conditions are more dynamic and prone to fluctuations.
-
-\parab{On-demand 2D Video Streaming.} On-demand streaming of 2D videos typically relies on adaptive bitrate streaming (ABR) which adjusts video quality in real-time based on the viewer's network conditions. \mars similarly adapts the LOD level of mesh frames in response to drop in network bandwidth. But, it further optimizes the balance between rendering quality and network efficiency in two ways: (1) its choice of LOD is also guided by the viewer's position relative to the POI where the video content is overlaid, and (2) it culls frames based on the viewer's pose relative to the POI.
-
-\parab{Augmented Reality in Vehicular Applications} has gained significant attention in recent years, driven by advancements in display technology, sensor fusion, and computational capabilities. Many works~\cite{kim2009simulated,abdi2015vehicle,rao2014ar,cao2018amateur,kim2013exploring} use the car's AR-HUD to enhance driver awareness by overlaying navigational hints, hazard warnings, and contextual information onto the real-world road view. Others~\cite{karanastasis2019novel,wiegand2019incarar} leverage AR for in-vehicle entertainment, but focus on rendering AR content based on 2D information and preloaded assets (\ie a simple texts or icons). \mars extends in-vehicle AR capabilities by delivering volumetric videos to AR-HUDs.
+\parab{Quality Metrics.} 
+%
+Other work has explored different 3D objective quality metrics, point2point-PSNR~\cite{dong-tian}, PCQM~\cite{pcqm}, GraphSIM~\cite{graphsim}.
+%
+These compare point positions, and attributes such as colors, normals and curvatures in 3D. 
+%
+We choose PointSSIM for measuring quality since it can measure both geometry and color distortions by directly extending the popular SSIM metric to 3D. 
+%
+Though 3D metrics are used to evaluate point cloud reconstruction quality, \gs is evaluated by 2D metrics such as PSNR~\cite{psnr} and SSIM~\cite{ssim}.
+%
+The views (ones not used for training) from reconstructed \gs are compared with the ground truth camera views.
+%
+Future work can evaluate \livo and \gsnfs using other metrics.

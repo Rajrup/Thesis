@@ -10,7 +10,7 @@
   \centering
   \includegraphics[width=\textwidth]{figures/Livo - Architecture New.pdf}
   \caption{\livo Architecture. The \textcolor{green}{green} blocks on the left run on the sender and \textcolor{blue}{blue} blocks on the right run on the receiver.}
-  \label{fig:architecture}
+  \label{fig:architecture_livo}
 \end{figure*}
 
 %\harsha{The first two paras here are a bit repetitive, given the context setup in previous section.}
@@ -20,7 +20,7 @@ Each site has an \textit{array} of off-the-shelf RGB-D cameras and a desktop-cla
 %
 Multi-way conferencing can be built using \livo, but presents opportunities for optimizations (\eg across receivers from a single sender) that we leave to future work.
 
-\cref{fig:architecture} pictorially depicts the design of \livo's sender-to-receiver pipeline; in the deployment model above, each site runs one instance of the pipeline in each direction.
+\cref{fig:architecture_livo} pictorially depicts the design of \livo's sender-to-receiver pipeline; in the deployment model above, each site runs one instance of the pipeline in each direction.
 %
 \livo captures a sequence of RGB-D frames from each camera in an array encircling a scene (\eg a conference table, a small stage or performance area, or a small room).
 %
@@ -41,7 +41,7 @@ and (c) real-time transport for video conferencing such as WebRTC~\cite{webrtc} 
 
 The second is to \textit{cull} each point cloud to only include points that fall into the receiver's \textit{frustum}.
 %
-The frustum represents the receiver's 3D field of view (\cref{fig:architecture}).
+The frustum represents the receiver's 3D field of view (\cref{fig:architecture_livo}).
 %
 %It is shaped like a truncated pyramid.
 %
@@ -49,7 +49,7 @@ The frustum represents the receiver's 3D field of view (\cref{fig:architecture})
 %
 When the receiver is viewing the entire scene, her frustum includes the entire point cloud.
 %
-But, for example, if she moves closer to objects or participants in the scene, her frustum will likely include a much smaller part of the point cloud (\cref{fig:architecture}). 
+But, for example, if she moves closer to objects or participants in the scene, her frustum will likely include a much smaller part of the point cloud (\cref{fig:architecture_livo}). 
 %\ramesh{might consider drawing a simple graph of the fraction of a point cloud from one of our traces? Can include it either here or in the view culling section?}
 
 Together, these address the two challenges described in \cref{s:background}.
@@ -78,7 +78,7 @@ We describe how \livo{} addresses these challenges in the rest of this section.
 %
 Each camera produces RGB color and depth frames at 30 frames per second.
 %
-Consider a static RGB-D camera array (\cref{fig:architecture}) with $N$ frame-synchronized cameras.\footnote{There exist techniques to synchronize Kinect cameras~\cite{kinect-sync}.}
+Consider a static RGB-D camera array (\cref{fig:architecture_livo}) with $N$ frame-synchronized cameras.\footnote{There exist techniques to synchronize Kinect cameras~\cite{kinect-sync}.}
 %
 Then, for every inter-frame interval (30th of a second), we can generate a point cloud from $N$ frames, one from each camera.
 %
@@ -368,7 +368,7 @@ This choice is far more compute-efficient.
 
 \parae{Adapting the split.}
 %
-\livo{} continuously adapts the split using the following steps (\cref{fig:architecture}):
+\livo{} continuously adapts the split using the following steps (\cref{fig:architecture_livo}):
 \begin{itemize}
 \item It uses two video decoders (running parallely) which decode the compressed tiled frames to generate the distorted tiled color and depth frames.
 \item For each decoded color (resp. depth) frame, it calculates the color RMSE $RMSE_c$ (resp. depth RMSE $RMSE_d$) by comparing the distorted tiled frame ($F'$) to the ground truth tiled frame ($F$).
@@ -873,7 +873,7 @@ Because 4K videos are large, the default Linux UDP socket buffer (213~KB) proved
 %% %
 %% The quality metric we use, PointSSIM~\cite{pointssim}, is the 3D equivalent of the well-known SSIM metric for 2D images.
 %% %
-%% We find (\cref{s:valid-design-choic}) that across different videos, quality saturates at about 150 bits per second per point for depth and at about a 1/7 of that for color.
+%% We find (\cref{s:just-design-choic}) that across different videos, quality saturates at about 150 bits per second per point for depth and at about a 1/7 of that for color.
 
 
 %% % \begin{figure}[t]
@@ -1027,9 +1027,9 @@ Because 4K videos are large, the default Linux UDP socket buffer (213~KB) proved
 
 %% We propose \livo, a live volumetric video system that leverages existing investment in live 2D video streaming and use them for 6DoF videos with carefully chosen optimizations to achieve goals - first, achieve line frame rate, preferably 30~fps; second, bandwidth adaptation with quality trade-offs; third, run within local broadband bandwidth; fourth, deployable with low software or hardware requirements. 
 
-%% An overview of the architecture of \livo is presented in~\figref{fig:architecture}. We propose an orthogonal approach compared to the strawman solution of generating and transmitting ptcl frames over the network. \livo captures RGB-D frames from multiple kinect cameras, processes the frames to reduce raw data size and compresses the frames using a pair of H.265 video encoders (2D video encoder) and transmits over the network to the receiver using WebRTC. The receiver decodes into RGB-D frames, reconstructs ptcls and renders them to the display based on the viewer's frustum. Our design decision of transmitting RGB-D frames instead of ptcl frames allow us to use 2D video encoding, which has matured for years compared to the rather nascent 3D encoders. 
+%% An overview of the architecture of \livo is presented in~\figref{fig:architecture_livo}. We propose an orthogonal approach compared to the strawman solution of generating and transmitting ptcl frames over the network. \livo captures RGB-D frames from multiple kinect cameras, processes the frames to reduce raw data size and compresses the frames using a pair of H.265 video encoders (2D video encoder) and transmits over the network to the receiver using WebRTC. The receiver decodes into RGB-D frames, reconstructs ptcls and renders them to the display based on the viewer's frustum. Our design decision of transmitting RGB-D frames instead of ptcl frames allow us to use 2D video encoding, which has matured for years compared to the rather nascent 3D encoders. 
 
-%% We start to describe our design from capture to rendering (sender on the left to reciever on the right); refer to~\figref{fig:architecture}. The scene is captured on the sender-side via multiple synchronized kinect cameras surrounding the scene. Each RGB-D frame captured by a camera is called a \textit{view} and all the synchronized views are assigned the same frame identifier (frame\_id). \livo can naively send all the synchronized captured RGB-D views for the same frame\_id to the receiver, but only part of the reconstructed ptcl can be viewed by the viewer which depends on the FoV. Based on this observation, the sender can send only portions the RGB-D views. The sender receives viewer's frustum for each frame rendered on the receiver. Based on the latest received frustum, the \livo predicts where the viewer might look using a \textit{Kalman Predictor}. For every pixel in both color and depth views, \livo only considers the pixels can generate a point after reconstruction that will lie inside the viewer's predicted frustum; we call this method as \textit{adaptive view culling}. This step generates new color and depth views, each corresponding to the original view (obtained from a camera) and having same resolution, which contains the original pixels that survive after culling in their original pixel locations while the culled pixels are replaced by black pixel (RGB $= (0, 0, 0$) for color and $0$ for depth. After culling, \livo stacks the culled views one after another in a grid to form one large view for color and depth separately;~\figref{fig:tiled-view}. We call each of this larger view, one for color and another for depth, as a \textit{tiled view}. For any frame, each view corresponding to a camera is always placed in the same pre-defined location in the \textit{tiled view}. This ensures 2 properties - first, all the synchronized culled views for same frame\_id are part of a single tiled view; second, the video encoder can perform motion compensation across subsequent frames, since the position of views are preserved in the \textit{tiled view}. Now, the sender uses 2 different H.265 video encoders, one each for color and depth, to compress the tiled views independently. It transmits the compressed color and depth bytestream independently through 2 WebRTC connections to the receiver.
+%% We start to describe our design from capture to rendering (sender on the left to reciever on the right); refer to~\figref{fig:architecture_livo}. The scene is captured on the sender-side via multiple synchronized kinect cameras surrounding the scene. Each RGB-D frame captured by a camera is called a \textit{view} and all the synchronized views are assigned the same frame identifier (frame\_id). \livo can naively send all the synchronized captured RGB-D views for the same frame\_id to the receiver, but only part of the reconstructed ptcl can be viewed by the viewer which depends on the FoV. Based on this observation, the sender can send only portions the RGB-D views. The sender receives viewer's frustum for each frame rendered on the receiver. Based on the latest received frustum, the \livo predicts where the viewer might look using a \textit{Kalman Predictor}. For every pixel in both color and depth views, \livo only considers the pixels can generate a point after reconstruction that will lie inside the viewer's predicted frustum; we call this method as \textit{adaptive view culling}. This step generates new color and depth views, each corresponding to the original view (obtained from a camera) and having same resolution, which contains the original pixels that survive after culling in their original pixel locations while the culled pixels are replaced by black pixel (RGB $= (0, 0, 0$) for color and $0$ for depth. After culling, \livo stacks the culled views one after another in a grid to form one large view for color and depth separately;~\figref{fig:tiled-view}. We call each of this larger view, one for color and another for depth, as a \textit{tiled view}. For any frame, each view corresponding to a camera is always placed in the same pre-defined location in the \textit{tiled view}. This ensures 2 properties - first, all the synchronized culled views for same frame\_id are part of a single tiled view; second, the video encoder can perform motion compensation across subsequent frames, since the position of views are preserved in the \textit{tiled view}. Now, the sender uses 2 different H.265 video encoders, one each for color and depth, to compress the tiled views independently. It transmits the compressed color and depth bytestream independently through 2 WebRTC connections to the receiver.
 
 %% The receiver decodes the bytestream separately using two H.265 decoder, one for color and another for depth respectively to their corresponding \textit{tiled view}. A \textit{tiled view} contains individual views (corresponding to each camera) synchronized, but 2 different WebRTC connections do not ensure synchronization between the color and depth tiles, \eg the receiver can receive a color tile for frame\_id $100$ and a depth tile for frame\_id $102$. The receiver needs to synchronize RGB-D tiles for downstream ptcl generation. It runs a frame synchronizer that emits a color and depth tile for the same frame\_id. The sender attaches a QR code that embeds the frame\_id to a pre-defined corner of every color and depth tiles; refer to~\figref{fig:tiled-view}. The receiver decodes the QR code to perform the tile synchronization. It decomposes a tile to it's individual views based on the pre-defined position of the views in the tile corresponding to each camera. This step is the reverse of tile generation process on the sender. Now, \livo has $N$ synchronized RGB-D views for same frame\_id. It uses the extrinsic camera calibration matrix to project each RGB-D pixel to a point in the global point cloud. The camera matrices, both instrinsic and extrinsic, are sent to the receiver. Finally, the generated ptcl is culled at the receiver based on the viewer's current frustum and rendered.
 

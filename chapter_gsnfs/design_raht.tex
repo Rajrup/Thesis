@@ -73,9 +73,9 @@ At the end of this computation, the octree root stores the low-frequency compone
 %
 Smoothly varying spatial signals (\textit{e.g.}, point clouds can have smoothly varying color, just like images) have near-zero high-frequency coefficients, especially close to the leaves, which can be quantized and entropy-coded, resulting in significant compression.
 %
-In \gsnfs{}, we use RAHT to encode all \gs{} attributes (\cref{sec:3d-gauss-splatt}) other than positions.
+In \gsnfs{}, we use RAHT to encode all \gs{} attributes (\cref{sec:3d-gauss-splat}) other than positions.
 %
-RAHT decoding inverts this operation; for brevity, we discuss only the RAHT encoder and leave the decoder (inverse-RAHT) to~\cref{app:sysn-raht-encod}.
+RAHT decoding inverts this operation; for brevity, we discuss only the RAHT encoder and briefly describe the decoder.
 
 \subsection{Background: A Re-formulated RAHT Algorithm}\label{sec:backgr-fast-raht}
 

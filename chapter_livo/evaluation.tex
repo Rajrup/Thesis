@@ -71,7 +71,7 @@ User study methodology: (about a para for each point below)
 
 \parab{Implementation.}
 %
-Our \livo implementation (\cref{fig:architecture}) contains 15K lines of C++ and few hundred lines of Unity.
+Our \livo implementation (\cref{fig:architecture_livo}) contains 15K lines of C++ and few hundred lines of Unity.
 %
 It implements pipelined capture, view generation and tiling using Boost~\cite{boost} and OpenMP~\cite{openmp}.
 %
@@ -83,7 +83,7 @@ It also uses: Eigen~\cite{eigen} for linear algebra operations for point cloud t
 
 \begin{comment}
 
-We implemented a prototype of \livo in C++ and Python with \note{XXX} lines of code on Ubuntu OS. As shown in~\cref{fig:architecture}, the \livo can be broadly divided into 2 major components -- Sender and Receiver. The key components of the Sender are:
+We implemented a prototype of \livo in C++ and Python with \note{XXX} lines of code on Ubuntu OS. As shown in~\cref{fig:architecture_livo}, the \livo can be broadly divided into 2 major components -- Sender and Receiver. The key components of the Sender are:
 \squishlist
 \item \textbf{Capture:} The sender captures synchronized RGB-D frames from each of the Azure Kinect cameras connect to the sender PC.
 \item \textbf{View generation: } Generate views by applying fast culling on the RGB-D frames using the predicted frustum obtained from Kalman filter-based view prediction.
@@ -166,7 +166,7 @@ As such, by themselves, these traces cannot support volumetric video live stream
 For this reason, we scaled \textit{trace-2} by 15$\times$ and \textit{trace-1} by 10$\times$ to reach mean throughputs around 90~Mbps and 217~Mbps, respectively; the former corresponds to current broadband bandwidth, while the latter is representative of broadband bandwidth in 3--4 years~\cite{cisco_whitepaper}.
 
 \parae{Trace replay.}
-This reads RGB-D frames from disk at 30~fps and feeds them into the \livo pipeline at the sender (\cref{fig:architecture}).
+This reads RGB-D frames from disk at 30~fps and feeds them into the \livo pipeline at the sender (\cref{fig:architecture_livo}).
 %
 %The frames go through all the sender and receiver components as in our live pipeline.
 %
@@ -241,7 +241,7 @@ This baseline runs \livo without culling.
 In addition to quantifying the importance of culling,
 \livo-NoCull is intended to mimic one small aspect of Project Starline~\cite{starline}, which also streams RGB-D captured from multiple depth cameras over 2D video streams using WebRTC and performs 3D reconstruction in the receiver.
 %
-Starline streams 2D videos at a fixed quality, but in \livo-NoCull we include bandwidth splitting (\cref{ss:bw-adaptation}) and bandwidth-adaptivity (in \cref{s:valid-design-choic}, we also quantify what happens if we disable bandwidth-adaptivity).
+Starline streams 2D videos at a fixed quality, but in \livo-NoCull we include bandwidth splitting (\cref{ss:bw-adaptation}) and bandwidth-adaptivity (in \cref{s:just-design-choic}), we also quantify what happens if we disable bandwidth-adaptivity).
 %
 So, this baseline seeks to understand what would happen if Starline were to be bandwidth-adaptive.
 %

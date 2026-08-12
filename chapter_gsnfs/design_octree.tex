@@ -466,7 +466,7 @@ The thread then writes its occupancy byte to a known location in the GPU buffer.
 % \ao{Since we already have a block diagram, refer to it here so that it's easier to understand the various blocks in the system.}
 At the end, all the occupancy bytes are written in order, similar to \cref{fig:octree}.
 %
-To improve compression efficiency, \gsnfs{} then runs a GPU-based entropy encoder (\cref{fig:architecture}), ANS~\cite{nvidia_nvcomp}.
+To improve compression efficiency, \gsnfs{} then runs a GPU-based entropy encoder (\cref{fig:architecture_gsnfs}), ANS~\cite{nvidia_nvcomp}.
 
 \parab{Detailed Algorithm.} 
 %

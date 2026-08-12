@@ -1,5 +1,5 @@
 \section{Introduction}
-\label{s:introduction}
+\label{s:intro_gsnfs}
 
 %% \begin{outline}
 
@@ -81,13 +81,13 @@ In 3D video, each frame depicts a representation of a scene in three dimensions,
 %
 This technology will enable entirely new ways of viewing sporting events, and new modes of instruction delivery, as well as new visual story-telling paradigms.
 
-\subsection{Gaussian Splatting}\label{sec:3d-gauss-splatt}
+\subsection{Gaussian Splatting}\label{sec:3d-gauss-splat}
 
 %\parab{Background.}
 %
 At the core of any 3D video technology is a technique to represent a 3-D scene.
 %
-While many representations exist, 3-D Gaussian Splats~\cite{kerbl3Dgaussians} (or \gs{}) have been the subject of recent research interest.
+While many representations exist, 3-D Gaussian Splats~\cite{gsplat} (or \gs{}) have been the subject of recent research interest.
 %
 \gs{} represents a scene as a collection of 3-D Gaussians.
 %
@@ -114,7 +114,7 @@ Higher degree ($d > 0$) AC coefficients capture more complex lighting and shadin
 A common choice of SH degree is 3, which results in $48$ SH coefficients per Gaussian.%\eduardo{16 for each color channel}
 \end{itemize}
 %
-Given a \gs{} model and a viewpoint, a rendering algorithm~\cite{kerbl3Dgaussians} produces an image of the view of the scene from the given perspective.
+Given a \gs{} model and a viewpoint, a rendering algorithm~\cite{gsplat} produces an image of the view of the scene from the given perspective.
 %
 While training a \gs{} model can take minutes, rendering only requires milliseconds.
 
@@ -122,7 +122,7 @@ While training a \gs{} model can take minutes, rendering only requires milliseco
   \centering
   \includegraphics[width=\textwidth]{figures/architecture.pdf}
   \caption{\gsnfs Architecture. Blocks in yellow are GPU-resident components.}
-  \label{fig:architecture}
+  \label{fig:architecture_gsnfs}
 \end{figure*}
 
 \parab{Dynamic \gs{}.}
@@ -145,7 +145,7 @@ To reduce the size of \dgs{}, recent work has explored compression techniques.
 %
 In addition to reducing size, compression can be used to encode \dgs{} at different bitrate levels for streaming, as for 2D video.
 %
-Two \textit{complementary} approaches have emerged (\cref{sec:related-work} discusses related work in detail).
+Two \textit{complementary} approaches have emerged (\cref{ch:related} discusses related work in detail).
 
 \textit{During-training} compression techniques reduce information in a variety of ways.
 %
@@ -249,11 +249,11 @@ To achieve this goal, \gsnfs{} uses a compression approach similar to a point-cl
 %
 This is a more natural starting point than the 2D compression used in \vthree{}~\cite{v3volumetric}, since a \gs{} frame's representation resembles that of a point-cloud.
 %
-The latter contains a set of points, each with one or more attributes; \gs{} is similar, except that each Gaussian has more attributes (\cref{sec:3d-gauss-splatt}).
+The latter contains a set of points, each with one or more attributes; \gs{} is similar, except that each Gaussian has more attributes (\cref{sec:3d-gauss-splat}).
 %
 Next, we describe the G-PCC pipeline for encoding \gs{} frames; MesonGS~\cite{mesongs} has used such an approach.
 
-G-PCC~\cite{gpcc}'s encoder takes a set of positions and associated attributes as input, then serializes (produces a bitstream) this set for transmission.
+G-PCC's~\cite{gpcc} encoder takes a set of positions and associated attributes as input, then serializes (produces a bitstream) this set for transmission.
 %
 Its decoder reconstructs the positions and attributes from the bitstream.
 %
@@ -299,7 +299,7 @@ Traversing the hierarchy requires following pointers; this \textit{pointer chasi
 %
 This problem is well-known for GPU-based computations on irregular data in general~\cite{pointer_chasing1,pointer_chasing2}, and for parallelizing point-cloud algorithms in particular~\cite{groot,octree-gpu2011}.
 
-Against this backdrop, \gsnfs{} is, to our knowledge, the first post-compression encoder/decoder for \dgs{} in which \textit{all} components (\cref{fig:architecture}) execute on a GPU and can encode and decode at full frame rate.
+Against this backdrop, \gsnfs{} is, to our knowledge, the first post-compression encoder/decoder for \dgs{} in which \textit{all} components (\cref{fig:architecture_gsnfs}) execute on a GPU and can encode and decode at full frame rate.
 %
 To achieve this, the paper makes the following novel contributions:
 \begin{itemize}

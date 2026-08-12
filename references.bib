@@ -64,9 +64,34 @@ numpages = {20},
 keywords = {user study, playfulness, museology, ludic interfaces, cultural heritage, augmented reality, Mixed reality}
 }
 
+@misc{volumetric-golf,
+	title = "The 148th Open | Sky Sports' Volumetric Capture Introduction",
+	howpublished = "\url{https://www.youtube.com/watch?v=88r5Rdg7_Bk}"
+}
+
+@misc{volumetric:gracia-example,
+	title = "Gracia - Make a Wish",
+	howpublished = "\url{https://gracia.ai/store/creator/content/5b1e023e-41c3-4f30-bfd7-2f40566ab3d5}"
+}
 
 
-
+@inproceedings{volumetric-sports,
+	author = {Wen, Jiqing and Gold, Lauren and Hu, Jinhan and Bahremand, Alireza and Shaikh, Aashiq and Farber, Charmaine and Dbeis, Yasser and Channar, Sameer and Richards, Connor and Hoang, Ryan and Spencer, Craig and Tang, Nick and LiKamWa, Robert},
+	title = {Adaptive 5G Systems for Interactive Volumetric Sports Analysis in Augmented Reality},
+	year = {2022},
+	isbn = {9781450391856},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3498361.3538660},
+	doi = {10.1145/3498361.3538660},
+	abstract = {Remote coaching for sports is challenged by the lack of 3D spatial communication. While athletes send live or recorded videos to their coaches, these 2D representations fail to capture the spatial relationships of the body, limiting the ability to understand timing, weight distribution, and smoothness in an athletic movement. This demonstration presents Augmented Coach, an AR sports coaching platform for coaches to remotely view, manipulate, and annotate athletic movements in 3D augmented space. Also, this demonstration provides an adaptive platform to study real-time efficient volumetric data transmission between remotely connected devices, including over 5G cellular networks.},
+	booktitle = {Proceedings of the 20th Annual International Conference on Mobile Systems, Applications and Services},
+	pages = {615–616},
+	numpages = {2},
+	keywords = {volumetric data streaming, augmented reality, remote coaching},
+	location = {Portland, Oregon},
+	series = {MobiSys '22}
+}
 
 
 
@@ -730,24 +755,6 @@ location = {Sydney, NSW, Australia},
 series = {EMS '24}
 }
 
-@inproceedings{nerf-ems2,
-author = {Sun, Yuan-Chun and Shi, Yuang and Ooi, Wei Tsang and Huang, Chun-Ying and Hsu, Cheng-Hsin},
-title = {Multi-frame Bitrate Allocation of Dynamic 3D Gaussian Splatting Streaming Over Dynamic Networks},
-year = {2024},
-isbn = {9798400707117},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3672196.3673394},
-doi = {10.1145/3672196.3673394},
-abstract = {Dynamic 3D Gaussian splats have emerged as an exciting new data type for modeling interactive photo-realistic 3D scenes. This work considers the problem of bitrate allocation for streaming dynamic 3D Gaussian splats under dynamic network conditions. We model four parameters that influence the rate-distortion trade-offs for different attribute categories and propose an efficient Model-driven Gradient Ascent (MGA) algorithm to search for the optimal parameters that achieve high visual quality while keeping the bitrate below a given threshold across multiple frames. In our experiments, MGA achieves up to 5.46 dB in PSNR improvement over the baseline. We further proposed an adaptive MGA that reduces close to 3x computational time with negligible visual quality loss.},
-booktitle = {Proceedings of the 2024 SIGCOMM Workshop on Emerging Multimedia Systems},
-pages = {1–7},
-numpages = {7},
-keywords = {3D Gaussian Splatting, Adaptive streaming, Bitrate allocation, Computer graphics, System design},
-location = {Sydney, NSW, Australia},
-series = {EMS '24}
-}
-
 @INPROCEEDINGS{pointssim,
   author={Alexiou, Evangelos and Ebrahimi, Touradj},
   booktitle={2020 IEEE International Conference on Multimedia \& Expo Workshops (ICMEW)}, 
@@ -1151,22 +1158,13 @@ Watanabe, Ryosuke and Nonaka, Keisuke},
   keywords={Point cloud compression;Image coding;Three-dimensional displays;Codecs;Vector quantization;Bit rate;Transform coding;Streaming media;Rendering (computer graphics);Spatial resolution;3D Gaussian Splatting;Adaptive Voxelization;3D Data Compression;Point Cloud Compression},
   doi={10.1109/ICIP55913.2025.11084522}
 }
+
 @article{ortega1998rate,
   title={Rate-distortion methods for image and video compression},
   journal={IEEE Signal processing magazine},
   volume={15},
   number={6},
   pages={23--50},
-  year={1998},
-  publisher={IEEE}
-}
-@article{sullivan1998rate,
-  title={Rate-distortion optimization for video compression},
-  author={Sullivan, Gary J and Wiegand, Thomas},
-  journal={IEEE signal processing magazine},
-  volume={15},
-  number={6},
-  pages={74--90},
   year={1998},
   publisher={IEEE}
 }
@@ -1546,24 +1544,6 @@ location = {Paris, France},
 series = {EGGH-HPG'12}
 }
 
-@inproceedings{groot,
-author = {Lee, Kyungjin and Yi, Juheon and Lee, Youngki and Choi, Sunghyun and Kim, Young Min},
-title = {GROOT: a real-time streaming system of high-fidelity volumetric videos},
-year = {2020},
-isbn = {9781450370851},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3372224.3419214},
-doi = {10.1145/3372224.3419214},
-abstract = {We present GROOT, a mobile volumetric video streaming system that delivers three-dimensional data to mobile devices for a fully immersive virtual and augmented reality experience. The system design for streaming volumetric videos should be fundamentally different from conventional 2D video streaming systems. First, the amount of data required to deliver the 3D volume is considerably larger than conventional videos with frames of 2D images, even compared to high-resolution 2D or 360° videos. Second, the 3D data representation, which encodes the surface of objects within the volume, is a sparse and unorganized data structure with varying scales, whereas a conventional video is composed of a sequence of images with the fixed-size 2D grid structure. GROOT is a streaming framework with a novel data structure that enables not only real-time transmission and decoding on mobile devices but also continuous on-demand user view adaptation. Specifically, we modify the conventional octree to introduce the independence of leaf nodes with minimal memory overhead, which enables parallel decoding of highly irregular 3D data. We also developed a suite of techniques to compress color information and filter out 3D points outside of a user's view, which efficiently minimizes the data size and decoding cost. Our extensive evaluation shows that GROOT achieves more stable but faster frame rates compared to any previous method to stream and visualize volumetric videos on mobile devices.},
-booktitle = {Proceedings of the 26th Annual International Conference on Mobile Computing and Networking},
-articleno = {57},
-numpages = {14},
-keywords = {volumetric video, virtual reality, video streaming, point cloud, mobile augmented reality},
-location = {London, United Kingdom},
-series = {MobiCom '20}
-}
-
 @book{morton-code-spc,
   title={Space-filling curves: an introduction with applications in scientific computing},
   author={Bader, Michael},
@@ -1571,49 +1551,6 @@ series = {MobiCom '20}
   year={2012},
   publisher={Springer Science \& Business Media}
 }
-
-
-
-@inproceedings{vivo,
-  author    = {Han, Bo and Liu, Yu and Qian, Feng},
-  title     = {ViVo: Visibility-Aware Mobile Volumetric Video Streaming},
-  year      = {2020},
-  isbn      = {9781450370851},
-  publisher = {Association for Computing Machinery},
-  address   = {New York, NY, USA},
-  url       = {https://doi.org/10.1145/3372224.3380888},
-  doi       = {10.1145/3372224.3380888},
-  booktitle = {Proceedings of the 26th Annual International Conference on Mobile Computing and Networking},
-  articleno = {11},
-  numpages  = {13},
-  location  = {London, United Kingdom},
-  series    = {MobiCom '20}
-}
-
-@inproceedings{metastream,
-author = {Guan, Yongjie and Hou, Xueyu and Wu, Nan and Han, Bo and Han, Tao},
-title = {MetaStream: Live Volumetric Content Capture, Creation, Delivery, and Rendering in Real Time},
-year = {2023},
-isbn = {9781450399906},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3570361.3592530},
-abstract = {While recent work explored streaming volumetric content on-demand, there is little effort on live volumetric video streaming that bears the potential of bringing more exciting applications than its on-demand counterpart. To fill this critical gap, in this paper, we propose MetaStream, which is, to the best of our knowledge, the first practical live volumetric content capture, creation, delivery, and rendering system for immersive applications such as virtual, augmented, and mixed reality. To address the key challenge of the stringent latency requirement for processing and streaming a huge amount of 3D data, MetaStream integrates several innovations into a holistic system, including dynamic camera calibration, edge-assisted object segmentation, cross-camera redundant point removal, and foveated volumetric content rendering. We implement a prototype of MetaStream using commodity devices and extensively evaluate its performance. Our results demonstrate that MetaStream achieves low-latency live volumetric video streaming at close to 30 frames per second on WiFi networks. Compared to state-of-the-art systems, MetaStream reduces end-to-end latency by up to 31.7\% while improving visual quality by up to 12.5\%.},
-booktitle = {Proceedings of the 29th Annual International Conference on Mobile Computing and Networking},
-articleno = {29},
-numpages = {15}
-}
-
-@INPROCEEDINGS{meshreduce,
-  author={Jin, Tao and Dasa, Mallesham and Smith, Connor and Apicharttrisorn, Kittipat and Seshan, Srinivasan and Rowe, Anthony},
-  booktitle={2024 IEEE Conference Virtual Reality and 3D User Interfaces (VR)}, 
-  title={MeshReduce: Scalable and Bandwidth Efficient 3D Scene Capture}, 
-  year={2024},
-  volume={},
-  number={},
-  pages={20-30},
-  keywords={Three-dimensional displays;Spectral efficiency;Pipelines;Bandwidth;Virtual reality;Streaming media;User interfaces;Computing methodologies;Computer graphics;Graphics systems and interfaces;Mixed / augmented reality;Information systems;Information systems applications;Multimedia information systems;Multimedia content creation},
-  doi={10.1109/VR58804.2024.00026}}
 
 @article{raht, 
 title={Dynamic polygon clouds: representation and compression for VR/AR}, 
@@ -1623,17 +1560,6 @@ journal={APSIPA Transactions on Signal and Information Processing},
 author={Pavez, Eduardo and Chou, Philip A. and de Queiroz, Ricardo L. and Ortega, Antonio}, 
 year={2018}, 
 pages={e15}}
-
-@article{kerbl3Dgaussians,
-  author  = {Kerbl, Bernhard and Kopanas, Georgios and Leimk{\"u}hler, Thomas and Drettakis, George},
-  title   = {3D Gaussian Splatting for Real-Time Radiance Field Rendering},
-  journal = {ACM Transactions on Graphics},
-  number  = {4},
-  volume  = {42},
-  month   = {July},
-  year    = {2023},
-  url     = {https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/}
-}
 
 @InProceedings{Vega,
   author = 	 {Kim, Gunjoong and Park, Seonghoon and Lee, Jeho and Jung, Chanyoung and Jun, Hyungchol and Cha, Hojung},
@@ -1653,7 +1579,6 @@ pages={e15}}
   location = 	 {Kerry Hotel, Hong Kong, Hong Kong, China}}
 
 @inproceedings{LTS,
-	file = {LTS.pdf},
 	author = {Sun, Yuan-Chun and Shi, Yuang and Lee, Cheng-Tse and Zhu, Mufeng and Ooi, Wei Tsang and Liu, Yao and Huang, Chun-Ying and Hsu, Cheng-Hsin},
 	title = {LTS: A DASH Streaming System for Dynamic Multi-Layer 3D Gaussian Splatting Scenes},
 	year = {2025},
@@ -1701,14 +1626,6 @@ pages={e15}}
   year={2016},
   publisher={IEEE}
 }
-@InProceedings{3dgstream,
-    author    = {Sun, Jiakai and Jiao, Han and Li, Guangyuan and Zhang, Zhanjie and Zhao, Lei and Xing, Wei},
-    title     = {3DGStream: On-the-Fly Training of 3D Gaussians for Efficient Streaming of Photo-Realistic Free-Viewpoint Videos},
-    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-    month     = {June},
-    year      = {2024},
-    pages     = {20675-20685}
-}
 
 @InProceedings{Hu_2025_CVPR,
     author    = {Hu, Qiang and Zheng, Zihan and Zhong, Houqiang and Fu, Sihua and Song, Li and Zhang, Xiaoyun and Zhai, Guangtao and Wang, Yanfeng},
@@ -1717,24 +1634,6 @@ pages={e15}}
     month     = {June},
     year      = {2025},
     pages     = {875-885}
-}
-
-@inproceedings{10.1145/3712676.3714445,
-author = {Sun, Yuan-Chun and Shi, Yuang and Lee, Cheng-Tse and Zhu, Mufeng and Ooi, Wei Tsang and Liu, Yao and Huang, Chun-Ying and Hsu, Cheng-Hsin},
-title = {LTS: A DASH Streaming System for Dynamic Multi-Layer 3D Gaussian Splatting Scenes},
-year = {2025},
-isbn = {9798400714672},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3712676.3714445},
-doi = {10.1145/3712676.3714445},
-abstract = {We present a novel DASH-based streaming system for dynamic 3D Gaussian Splatting (3DGS) scenes, addressing the challenges of streaming large amounts of 3DGS data over diverse and dynamic networks. Our Layer, Tile, and Segment Adaptive streaming (LTS) system combines three key features: (i) multi-layer streaming, which adapts to diverse client capabilities while balancing visual quality and bandwidth usage, (ii) tiled streaming, which reduces unnecessary data transmission by focusing on the user's viewport, and (iii) segment streaming, which divides dynamic 3DGS scenes into segments, letting clients request them dynamically to handle network fluctuations. Our experimental results demonstrate that our LTS system achieves superior performance in both live and on-demand streaming of dynamic 3DGS scenes compared to the baselines. For example, in live streaming, LTS could achieve up to 99.70\% reduction in missing frames on average and deliver a maximum PSNR (Peak Signal-to-Noise Ratio) improvement of 10.08 dB. In on-demand streaming, LTS could reduce the freeze time by up to 92.01\%, and increase the synthesized view quality by up to 5.14 dB in PSNR and 0.11 in SSIM (Structural Similarity Index). Our source codes are available at: https://github.com/AIINS-NTHU/LTS-DASH-Streaming-System-for-3DGS.},
-booktitle = {Proceedings of the 16th ACM Multimedia Systems Conference},
-pages = {136–147},
-numpages = {12},
-keywords = {volumetric video, streaming, multi-layer representation, adaptive bitrate algorithm},
-location = {Stellenbosch, South Africa},
-series = {MMSys '25}
 }
 
 @inproceedings{play4d,
@@ -1754,14 +1653,6 @@ keywords = {Free-Viewpoint Video, Light Field Display, 4D Gaussian Splatting},
 location = {
 },
 series = {SA Emerging Technologies '25}
-}
-
-@inproceedings{queen,
-title={{QUEEN}: {QU}antized Efficient {EN}coding for Streaming Free-viewpoint Videos},
-author={Sharath Girish and Tianye Li and Amrita Mazumdar and Abhinav Shrivastava and david luebke and Shalini De Mello},
-booktitle={The Thirty-eighth Annual Conference on Neural Information Processing Systems},
-year={2024},
-url={https://openreview.net/forum?id=7xhwE7VH4S}
 }
 
 @inproceedings{recongs2025,
@@ -1808,7 +1699,7 @@ url={https://openreview.net/forum?id=7xhwE7VH4S}
     author    = {Wu, Guanjun and Yi, Taoran and Fang, Jiemin and Xie, Lingxi and Zhang, Xiaopeng and Wei, Wei and Liu, Wenyu and Tian, Qi and Wang, Xinggang},
     title     = {4D Gaussian Splatting for Real-Time Dynamic Scene Rendering},
     booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-    month     = {June},
+    month     = {6},
     year      = {2024},
     pages     = {20310-20320}
 }
@@ -1941,16 +1832,6 @@ series = {SIGGRAPH '25}
   year={2025}
 }
 
-@misc{wang2025novelbenchmarkdatasetefficient,
-      title={A Novel Benchmark and Dataset for Efficient 3D Gaussian Splatting with Gaussian Point Cloud Compression}, 
-      author={Kangli Wang and Shihao Li and Qianxi Yi and Wei Gao},
-      year={2025},
-      eprint={2505.18197},
-      archivePrefix={arXiv},
-      primaryClass={cs.GR},
-      url={https://arxiv.org/abs/2505.18197}, 
-}
-
 @article{d-fcgs,
   title={D-FCGS: Feedforward Compression of Dynamic Gaussian Splatting for Free-Viewpoint Videos},
   author={Zhang, Wenkang and Zhao, Yan and Wang, Qiang and Song, Li and Cheng, Zhengxue},
@@ -2061,24 +1942,6 @@ series = {MM '25}
   year={2017}
 }
 
-@article{cmu-panoptic,
-  title={Panoptic Studio: A Massively Multiview System for Social Interaction Capture},
-  author={Joo, Hanbyul and Simon, Tomas and Li, Xulong and Liu, Hao and Tan, Lei and Gui, Lin and Banerjee, Sean and Godisart, Timothy Scott and Nabbe, Bart and Matthews, Iain and Kanade, Takeo and Nobuhara, Shohei and Sheikh, Yaser},
-  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
-  year={2017}
-}
-
-@misc{pcl,
-  title        = {Point Cloud Library},
-  howpublished = {\url{https://pointclouds.org/}}
-}
-
-@misc{draco,
-    key = draco,
-    title = {{Draco 3D Compression}},
-    howpublished = {\url{https://github.com/google/draco}},
-}
-
 @Misc{gpcc-github,
   author = 	 {MPEG},
   title = 	 {GPCC - mpeg-pcc-tmc13},
@@ -2098,25 +1961,11 @@ series = {MM '25}
   url = 	 {https://developer.nvidia.com/nvcomp},
 }
 
-@misc{nvenc-sdk,
-  author       = {NVIDIA},
-  title        = {NVIDIA Video Codec SDK},
-  howpublished = {\url{https://developer.nvidia.com/video-codec-sdk}},
-  year         = {2024}
-}
-
 @Misc{nvenc-limit,
   author = 	 {NVIDIA},
   title = 	 {Video Encode and Decode GPU Support Matrix},
   howpublished = {\url{https://developer.nvidia.com/video-encode-and-decode-gpu-support-matrix-new}},
   year = 	 {2024}
-}
-
-@misc{ffmpeg,
-  author = {{FFmpeg Developers}},
-  title = {FFmpeg},
-  url = {http://ffmpeg.org/},
-  year = {2026}
 }
 
 @inproceedings{3dgs-streaming-mm,
@@ -2148,7 +1997,7 @@ series = {MM '25}
   keywords={Training;Visualization;Image coding;Three-dimensional displays;Video sequences;Benchmark testing;Quality assessment;Reliability;Video recording;Compression algorithms;3D Gaussian Splatting (3DGS);Video Quality Assessment Dataset and Benchmark;3DGS Compression},
   doi={10.1109/VCIP67698.2025.11396862}}
 
-@misc{GausPcgc,
+@misc{gauspcgc,
       title={A Novel Benchmark and Dataset for Efficient 3D Gaussian Splatting with Gaussian Point Cloud Compression}, 
       author={Kangli Wang and Shihao Li and Qianxi Yi and Wei Gao},
       year={2025},
@@ -2220,8 +2069,10 @@ location = {Milan, Italy}
   volume = 	 30,
   pages = 	 {1408-1422},
   keywords = 	 {Distortion;Streaming media;Video recording;Quality assessment;Databases;Quantization (signal);Predictive models;Subjective study;video quality assessment;video codec optimization},
-  doi = 	 {10.1109/TIP.2020.3043127}}
-  @ARTICLE{1990RGBcorr,
+  doi = 	 {10.1109/TIP.2020.3043127}
+}
+
+@ARTICLE{1990RGBcorr,
   author={KOTERA, H; KANAMORI, K},
   title={A novel coding algorithm for representing full color image by a single color image},
   journal={Journal of imaging technology},
