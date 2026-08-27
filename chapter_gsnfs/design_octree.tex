@@ -68,9 +68,9 @@ We first describe our GPU-accelerated octree encoding algorithm, which encodes G
 %
 Gaussians can be positioned irregularly in space, and all 3-D compression algorithms first \textit{voxelize} Gaussian positions to regularize the data.
 %
-Voxelization discretizes the cuboid bounding all the Gaussians into a regular grid of $2^J \times 2^J \times 2^J$ cubes, where $J$ is a voxelization parameter which controls the \textit{resolution} of the \gs{} frame.
+Voxelization discretizes the cuboid, bounding all the Gaussians into a regular grid of $2^J \times 2^J \times 2^J$ cubes, where $J$ is a voxelization parameter which controls the \textit{resolution} of the \gs{} frame.
 %
-Then, it maps each Gaussian's 3-D position to one of the cubes, by quantizing the position coordinates to use $J$ bits.
+Then, it maps each Gaussian's 3-D position to one of the cubes by quantizing the position coordinates to use $J$ bits.
 %
 Multiple Gaussians might fall into a single voxel; \gsnfs{} replaces those Gaussians with a single Gaussian whose position is at the center of the voxel and other attributes are the average of the original Gaussians.\footnote{This may not be ideal for small $J$, but suffices for the range of $J$ we consider in this paper.}
 
@@ -108,7 +108,7 @@ Multiple Gaussians might fall into a single voxel; \gsnfs{} replaces those Gauss
 \label{fig:octree}
 \end{figure}
 %
-After voxelization, many voxels are often empty and only a small fraction of voxels are occupied by Gaussians.
+After voxelization, many voxels are often empty, and only a small fraction of voxels are occupied by Gaussians.
 %
 An octree~\cite{octree-orig1982} efficiently encodes the positions of occupied voxels to exploit sparsity and spatial locality.
 %
@@ -261,7 +261,7 @@ Generating the occupancy bitstream also requires a tree traversal in level-order
 %
 One line of work has explored CPU parallelism for octree construction and encoding.
 %
-ViVo~\cite{vivo}, MeshReduce~\cite{meshreduce}, and MetaStream~\cite{metastream} use coarse-grained CPU parallelism by partitioning the 3D points into separate blocks, generating the octree encoding independently for each block and concatenating these encodings.
+ViVo~\cite{vivo}, MeshReduce~\cite{meshreduce}, and MetaStream~\cite{metastream} use coarse-grained CPU parallelism by partitioning the 3D points into separate blocks, generating the octree encoding independently for each block, and concatenating these encodings.
 %
 Others~\cite{octree-cpu2020,groot} employ slightly more sophisticated hybrid CPU-GPU strategies.
 %
@@ -313,7 +313,7 @@ For a voxelized coordinate $\hat{v}=(x,y,z)\in\{0,\ldots,2^J-1\}^3$, the Morton 
 
 For example, consider the voxelization shown in~\cref{fig:morton}, which depicts a $4\times4\times4$ voxel grid ($J=2$) with 11 occupied voxels.
 %
-The occupied voxel with ID $33$ has coordinates $(1,0,2)$ so its Morton code is $100001$.
+The occupied voxel with ID $33$ has coordinates $(1,0,2)$, so its Morton code is $100001$.
 %
 The Morton code is obtained by first taking the most significant bits of the 3 coordinates ($100$) in the order from $z-x$, followed by the next most significant bits (0 for the z-coordinate value of 2, 0 for the y-coordinate value of 0, and 1 for the x-coordinate value of 1), and so on.
 
@@ -354,7 +354,7 @@ In our example, given the code $100011$, the first coordinate is obtained by con
 
 Thus, if given the Morton code for an occupied voxel, it is an $O(1)$ operation to determine its parent.
 %
-Conversely, if all octree nodes are sorted in Morton order, then a parent can in an $O(1)$ operation determine its child's Morton code, and look up its occupancy status.
+Conversely, if all octree nodes are sorted in Morton order, then a parent can, in an $O(1)$ operation, determine its child's Morton code and look up its occupancy status.
 %
 Finally, in $O(1)$, given a node's Morton code, we can obtain its voxel coordinates.
 
@@ -372,7 +372,7 @@ The input to this step is an $N \times C$ tensor for a \gs{} frame with $N$ Gaus
 %
 Step (a) is simple to parallelize on a GPU by launching one thread per Gaussian, which computes the voxel coordinates (\cref{sec:background}) of the Gaussian.
 %
-This step also computes the voxel's Morton code, and creates an array sorted by the Morton code that contains a pointer to the Gaussian.
+This step also computes the voxel's Morton code and creates an array sorted by the Morton code that contains a pointer to the Gaussian.
 %
 We use a 64-bit Morton code to support octree depths up to $J=21$, which is sufficient for all scenes of interest~\cite{mesongs}.
 %
@@ -384,7 +384,7 @@ Then, we launch one GPU thread for each cluster to average the attributes of Gau
 %
 The output of this process is an $N_v \times C$ tensor, where $N_v$ is the number of occupied voxels.
 %
-This is sorted by Morton order, and forms the input to the next step.
+This is sorted by Morton order and forms the input to the next step.
 
 \parab{Octree construction.}
 %
@@ -442,7 +442,7 @@ We make 2 observations that make this search efficient.
 %
 First, all children with Morton codes in the range $[c_m,c_m+7]$ must appear contiguously in the sorted list $L_{d+1}$.
 %
-Second, we can perform a binary search for the first occupied child code $\geq c_m$ in $L_{d+1}$, since that listed is sorted.
+Second, we can perform a binary search for the first occupied child code $\geq c_m$ in $L_{d+1}$, since that list is sorted.
 
 To compute the occupancy bytes for all octree nodes, we use a \textit{top-down} approach.
 %
@@ -453,7 +453,7 @@ with one thread per parent node $p_m$ in $L_d$.
 %
 It initializes $p_m$'s occupancy byte to 0.
 %
-Then, the thread for $p_m$ performs the following steps:.
+Then, the thread for $p_m$ performs the following steps:
 (i) compute $c_m = p_m \ll 3$;
 (ii) binary-search $L_{d+1}$ to find the first occupied child code $\geq c_m$;
 (iii) scan forward over at most 8 entries until the child code exceeds $c_m+7$;

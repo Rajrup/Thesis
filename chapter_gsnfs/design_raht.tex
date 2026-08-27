@@ -57,7 +57,7 @@ More precisely, if two siblings $l$ and $r$ have attribute values $a_l$ and $a_r
   \label{eq:raht-butterfly}
 \end{equation}
 %
-In this equation, $a^0$ represents the low-frequency (coarse) coefficient, $a^1$ the high-frequency coefficient, and $w_l$ and $w_r$ represents \textit{weights} associated with $a_l$ and $a_r$ respectively.
+In this equation, $a^0$ represents the low-frequency (coarse) coefficient, $a^1$ the high-frequency coefficient, and $w_l$ and $w_r$ represent \textit{weights} associated with $a_l$ and $a_r$ respectively.
 %
 The weight at any node is the number of occupied voxels in the octant below that node; attributes at leaf nodes have unit weights.
 %
@@ -87,7 +87,7 @@ P-RAHT takes as input occupied voxels and their associated Morton codes.
 %
 It pre-computes, in a step called the \textit{RAHT} prelude, the constructs needed for the hierarchical RAHT computation, the sibling relationships and the node weights, since these are a function of voxel occupancy alone, not of the attribute.
 %
-Then, it re-uses these when encoding each attribute.
+Then, it reuses these when encoding each attribute.
 
 %% \begin{figure}[t]
 %%   \centering
@@ -171,11 +171,11 @@ It outputs RAHT coefficients for all attributes.
 %
 Our GPU-accelerated RAHT relies on three observations.
 %
-First, we observe that the basic RAHT algorithm is similar to the octree construction, encoding and decoding algorithms (\cref{sec:gpu-octree}).
+First, we observe that the basic RAHT algorithm is similar to the octree construction, encoding, and decoding algorithms (\cref{sec:gpu-octree}).
 %
 RAHT proceeds bottom-up on a tree, performing one or more computations at some but not all nodes (\textit{e.g.}, only siblings), at each level in the tree.
 %
-The same is true for octree construction (\cref{sec:octree-encode-gpu}), for example, which performs computations only occupied nodes at each level.
+The same is true for octree construction (\cref{sec:octree-encode-gpu}), for example, which performs computations only on occupied nodes at each level.
 
 This suggests that we can compute RAHT coefficients using the following design elements from those algorithms.
 %
@@ -193,7 +193,7 @@ In particular, the pre-computed lists from the RAHT prelude greatly simplify app
 
 Our third observation is that GPUs allow us to trivially \textit{parallelize RAHT coefficient computation across attributes}.
 %
-We can simply vectorize the attributes, and compute the coefficients in one bottom-up pass.
+We can simply vectorize the attributes and compute the coefficients in one bottom-up pass.
 
 \parab{Computing RAHT coefficients on the GPU.}
 %
@@ -217,7 +217,7 @@ Each thread compares the Morton code of its current element with the next elemen
 
 After $F_\ell$ is computed, \gsnfs{} obtains the next active list $I_{\ell+1}$  by removing right siblings.
 %
-It implements this efficiently using boolean shift and masked select of tensors which are available in PyTorch (Alg.~\ref{algo:raht-prelude-gpu}).
+It implements this efficiently using boolean shift and masked select of tensors, which are available in PyTorch (Alg.~\ref{algo:raht-prelude-gpu}).
 %
 The output of this is a compacted list containing exactly the set of nodes at $\ell+1$ that should run the RAHT coefficient computation at that level.
 

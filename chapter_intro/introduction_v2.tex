@@ -7,7 +7,7 @@ On-demand services deliver large catalogs to geographically distributed audience
 %
 This transition was enabled by the maturation of an entire ecosystem of components: inexpensive displays and cameras, efficient video codecs, broadband access networks, bitrate adaptation, and hardware-accelerated processing. 
 %
-Together, these components made it possible to capture, compress, transport, and render visual information at global scale.
+Together, these components made it possible to capture, compress, transport, and render visual information at a global scale.
 
 The next step in this evolution is \textit{volumetric video}. 
 %
@@ -29,7 +29,7 @@ A two-dimensional broadcast can choose a camera angle on behalf of every viewer,
 %
 These capabilities can support richer forms of applications such as remote education~\cite{volumetric:education}, volumetric movies~\cite{volumetric:filmmaking}, tele-medicine and tele-surgery~\cite{volumetric:telemedicine}, cultural storytelling~\cite{volumetric-museology}, and sports broadcasting~\cite{volumetric-golf,volumetric-sports}.
 %
-A major application in this domain is volumetric telepresence, where multiple participants can interact with each other in a shared virtual space or real captured space in 6 degrees of freedom (6-DoF).
+A major application in this domain is volumetric telepresence, where multiple participants can interact with each other in a shared virtual space or a real captured space in 6 degrees of freedom (6-DoF).
 %
 Participants can have the illusion that they are all in the same room instead of simply seeing 2D renderings of each other (\cref{fig:telepresence}).
 
@@ -105,7 +105,7 @@ Although point-cloud standards and codecs such as G-PCC~\cite{gpcc}, V-PCC~\cite
 \parab{Technology Trends.}
 Several trends make this an opportune time to revisit the volumetric delivery pipeline. 
 %
-Commodity RGB-D sensors can capture synchronized color and depth at high frame rate.
+Commodity RGB-D sensors can capture synchronized color and depth at a high frame rate.
 %
 Broadband access rates are approaching the range needed for compressed full-scene content~\cite{cisco_whitepaper}, and modern video codecs expose direct bitrate control and hardware acceleration. 
 %
@@ -119,7 +119,7 @@ This dissertation addresses that question through two complementary systems.
 %
 \livo examines full-scene volumetric \textit{conferencing}, where the dominant requirements are direct adaptation to available bandwidth and low end-to-end latency at interactive frame rate.
 %
-\gsnfs examines frame-rate compression of dynamic Gaussian splats and point clouds, providing a native 3D video codec suitable for emerging live-streaming and on-demand delivery pipelines and perhaps also conferencing in future.
+\gsnfs examines frame-rate compression of dynamic Gaussian splats and point clouds, providing a native 3D video codec suitable for emerging live-streaming and on-demand delivery pipelines and perhaps also conferencing in the future.
 %
 Together, they support the thesis of this dissertation: volumetric video can become a practical Internet medium when representation, compression, network adaptation, and computation are designed as parts of a single end-to-end system.
 
@@ -222,7 +222,7 @@ A color error changes appearance at a fixed location; a depth or geometry error 
 %
 Point-cloud sparsity may produce holes or expose floating points as a viewer changes perspective. 
 %
-More photorealistic representations such as 3DGS improve novel-view rendering, but attach many correlated attributes to every primitive and consequently increase the compression burden. 
+More photorealistic representations, such as 3DGS, improve novel-view rendering, but attach many correlated attributes to every primitive and consequently increase the compression burden. 
 %
 A volumetric system must therefore allocate bits across geometry and appearance according to their perceptual impact, not simply minimize the error of a flattened two-dimensional representation.
 
@@ -259,7 +259,7 @@ This generality creates a bridge between the two systems.
 %
 A future \livo-like system could construct point clouds at the sender and use \gsnfs, or a rate-adaptive codec derived from it, in place of a 2D color/depth path or substantially slower 3D codecs. 
 %
-Such an integration is not evaluated in this dissertation, but it demonstrates why fast native 3D compression is relevant not only to Gaussian-splat delivery, but also to the broader evolution of volumetric streaming and conferencing.
+Such an integration is not evaluated in this dissertation, but it demonstrates why fast native 3D compression is relevant not only to Gaussian-splat delivery but also to the broader evolution of volumetric streaming and conferencing.
 
 \subsection{Bandwidth-adaptive Volumetric Conferencing with \livo}
 \label{sec:intro_v2_livo}
@@ -298,7 +298,7 @@ In evaluations using real user-viewing traces and time-varying network traces, i
 %
 A user study and objective point-cloud quality measurements show that \livo consistently improves perceived and measured quality relative to baseline schemes. 
 %
-These results establish that mature 2D video infrastructure with careful design choices can serve as a practical substrate for immersive two-way communication.
+These results establish that a mature 2D video infrastructure with careful design choices can serve as a practical substrate for immersive two-way communication.
 
 \subsection{Frame-rate 3D Compression with \gsnfs}
 \label{sec:intro_v2_gsnfs}

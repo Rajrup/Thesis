@@ -2,7 +2,7 @@
 
 In many \dgs{} videos, especially those that generate SH coefficients of degree 3, SH coefficients dominate the size of each \gs{} frame.
 %
-Some post-training compression techniques have realized this, and have developed specialized techniques to compress SH coefficients.
+Some post-training compression techniques have realized this and have developed specialized techniques to compress SH coefficients.
 %
 For example, MesonGS~\cite{mesongs} devises a vector quantization codebook for each frame, in order to compress SH coefficients.
 %
@@ -15,7 +15,7 @@ In \gs{}, each SH function has 3 RGB color channels.
 %
 It first transforms RGB to YUV for each SH function.
 %
-In YUV, since Luma (Y) has more energy and it is more perceptually important than Chroma (UV), this transformation improves compression.
+In YUV, since Luma (Y) has more energy and is more perceptually important than Chroma (UV), this transformation improves compression.
 %
 \gsnfs{} applies this RGB to YUV transformation, a simple matrix multiplication, which is fast on a GPU, to all SH  coefficients (both DC and AC).
 
@@ -37,7 +37,7 @@ In YUV, since Luma (Y) has more energy and it is more perceptually important tha
 %% %
 %% \gsnfs{} applies this RGB to YUV transformation, a simple matrix multiplication, which is fast on a GPU, to all SH degree coefficients (both DC and AC).
 
-While RGB to YUV conversion is common in image and video compression, because \gs{} represents color with high dimensional SH coefficients, there are additional opportunities to remove redundancy. After YUV conversion, \gsnfs{} applies a decorrelating transform, Karhunen-Loève transform (KLT~\cite{KLT}), \textit{only to the AC coefficients} (\textit{i.e.}, to SH coefficients of degree greater than 0). More specifically, we apply three different KLTs, one  to each channel in YUV color space. 
+While RGB to YUV conversion is common in image and video compression, because \gs{} represents color with high-dimensional SH coefficients, there are additional opportunities to remove redundancy. After YUV conversion, \gsnfs{} applies a decorrelating transform, Karhunen-Loève transform (KLT~\cite{KLT}), \textit{only to the AC coefficients} (\textit{i.e.}, to SH coefficients of degree greater than 0). More specifically, we apply three different KLTs, one to each channel in YUV color space.
 %
 The KLT effectively concentrates signal energy on the first few coefficients.
 %
@@ -45,14 +45,14 @@ The KLT effectively concentrates signal energy on the first few coefficients.
 %
 On the left is a heatmap of the Pearson correlation coefficients for the original RGB SH coefficients.
 %
-On the right is the corresponding heatmap after applying  RGB to YUV conversion followed by KLT; notice how the figure on the right has significant white-space (white corresponds to zero correlation).
+On the right is the corresponding heatmap after applying RGB to YUV conversion followed by KLT; notice how the figure on the right has significant white-space (white corresponds to zero correlation).
 %
 %% \ao{the main reason to use a decorrelating transform is that it arranges the outputs in order of decreasing average energy. For example, after taking the DCT of an 8x8 pixel block the frequencies (with a zig zag scan) can be ordered from highest to lowest energy and can be encoded in that order, so that the values after quantization are very likely to be zero (easier to encode). In our case that means that each successive RAHT transform with of a set of coefficients across Gaussians will have decreasing energy. We could use this to drop some of the lower RAHT coefficients completely (very likely they are all zero). It may also be possible to avoid using RAHT altogether for some KLT coefficients, because their spatial correlation may be too low. }
 %% As a result of this, it suffices to \textit{use a single quantization parameter for 45 transform AC coefficients}, greatly reducing the search space.
 %% %
 %% \ao{In short, my point is that we do not need the KLT to use the same quantization parameter. We could have done this for the SH directly. }
 
-By decorrelating color across AC SH coefficients, KLT reduces redundancy, concentrates energy, and  thereby improves compression.
+By decorrelating color across AC SH coefficients, KLT reduces redundancy, concentrates energy, and thereby improves compression.
 %
 We apply KLT \textit{before} RAHT (\cref{fig:architecture_gsnfs}).
 %

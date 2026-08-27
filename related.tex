@@ -26,14 +26,14 @@ Holoportation~\cite{holoportation} achieves conferencing by compressing a 3D rep
 %
 Starline~\cite{starline}, a conferencing system, streams upper body views in 3D over fixed quality 2D video streams; \cref{s:evaluation} describes how it differs from \livo.
 %
-FarfetchFusion~\cite{farfetchfusion} streams only the face, and is optimized for mobile devices.
+FarfetchFusion~\cite{farfetchfusion} streams only the face and is optimized for mobile devices.
 %
 MeshReduce~\cite{meshreduce} supports full-scene conferencing using a mesh, but achieves a lower frame rate and lower quality (\cref{s:evaluation}).
 %
 MetaStream~\cite{metastream} uses Draco encoding to stream a single person at 30~fps by reducing the number of points in the capture point cloud. 
 %
 Unlike \livo, none of the live volumetric streaming systems support full-scene 2-way live streaming with bandwidth adaptation at 30~fps.
-%To the best of our knowlege, \livo is the first to achieve this.
+%To the best of our knowledge, \livo is the first to achieve this.
 
 \parab{Other 3D Formats and Compression Standards.}
 %
@@ -47,10 +47,10 @@ Besides Draco, prior work has proposed other point cloud compression techniques:
 %
 Draco achieves faster compression with higher compression ratios than these, so we base our evaluations on it.
 %
-Recently, Hermes~\cite{hermes}, patchVVC~\cite{patchvvc}, and DeformStream~\cite{deformstream} have attempted to exploit inter-frame redundancy in volumetric videos, but these have high encoding latency so can only be used for on-demand streaming.
+Recently, Hermes~\cite{hermes}, patchVVC~\cite{patchvvc}, and DeformStream~\cite{deformstream} have attempted to exploit inter-frame redundancy in volumetric videos, but these have high encoding latency, so can only be used for on-demand streaming.
 
 \parab{Learned 3D Representations.}
-Recent work uses learned 3D representation such as Neural Radiance Fields (NeRFs)~\cite{nerf} and Gaussian Splatting (\gs)~\cite{gsplat} for streaming and conferencing.
+Recent work uses learned 3D representations such as Neural Radiance Fields (NeRFs)~\cite{nerf} and Gaussian Splatting (\gs)~\cite{gsplat} for streaming and conferencing.
 %
 % Unlike point cloud and mesh, NeRF learns a neural network on a bunch of 2D images of a 3D scene and generates novel views in 2D from any perspective of the viewer's camera. 
 % %
@@ -60,7 +60,7 @@ Research in this direction~\cite{nerf-nossdav, nerf-ems1, mga, swings, teleprese
 %
 Tele-Aloha~\cite{tele-aloha} has used Gsplat for conferencing but constrains only to upper torso of a person like Starline~\cite{starline}.
 %
-Though these representations can generate high-quality rendering superior to point clouds or meshes, they suffer from high training and rendering overheads rendering them currently unsuitable for live or conferencing systems. 
+Though these representations can generate high-quality rendering superior to point clouds or meshes, they suffer from high training and rendering overheads, making them unsuitable for live or conferencing systems. 
 %
 % We see promise in using learned representations, particularly Gsplat which is tightly linked with underlying point cloud. 
 % %
@@ -88,7 +88,7 @@ Relative to \gsnfs{}, these methods incur significantly higher overhead for comp
 %
 MesonGS~\cite{mesongs} prunes insignificant Gaussians and then applies octree and RAHT.
 %
-Some schemes~\cite{gauspcgc, entropygs} use learning based methods to find the compression parameters for position and attributes.
+Some schemes~\cite{gauspcgc, entropygs} use learning-based methods to find the compression parameters for position and attributes.
 %
 Others~\cite{LTS, gpcc-adaptive} use point cloud compression techniques to compress trained \gs{}.
 %
@@ -104,7 +104,7 @@ To address this, \vthree{}~\cite{v3volumetric} encodes \dgs{} in multiple 2D vid
 %
 Other work has explored different 3D objective quality metrics, point2point-PSNR~\cite{dong-tian}, PCQM~\cite{pcqm}, GraphSIM~\cite{graphsim}.
 %
-These compare point positions, and attributes such as colors, normals and curvatures in 3D. 
+These compare point positions, and attributes such as colors, normals, and curvatures in 3D. 
 %
 We choose PointSSIM for measuring quality since it can measure both geometry and color distortions by directly extending the popular SSIM metric to 3D. 
 %

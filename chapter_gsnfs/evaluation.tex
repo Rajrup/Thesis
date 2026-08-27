@@ -58,7 +58,7 @@ We compare \gsnfs{} against four post-training compression baselines:
 \begin{description}
   \item[\vthree{}-2D~\cite{v3volumetric}]
   %
-  maps Gaussian attributes to 2-D image stacks, one per attribute channel, and compresses the resulting images with a H.264 codec using \texttt{x264} from FFmpeg~\cite{ffmpeg}.
+  maps Gaussian attributes to 2-D image stacks, one per attribute channel, and compresses the resulting images with an H.264 codec using \texttt{x264} from FFmpeg~\cite{ffmpeg}.
   %
   It compresses each channel of attributes into a single MP4 stream, where frames for that attribute form a group of pictures (GOP), and a single quantization parameter (QP) controls the quality-size tradeoff.
   %
@@ -218,7 +218,7 @@ LTS-Draco, the next fastest baseline, is \textbf{9--17$\boldsymbol\times$ slower
 %
 Draco encoding and decoding could potentially be made faster using coarse-grained CPU parallelism~\cite{meshreduce,vivo,metastream}, but this trades off compressibility.
 
-Though 2D video codecs are fast, \vthree{}-2D's several hundred milliseconds to encode decode, due to the overhead of calling video encoder sequentially for each channel\footnote{\vthree{}-2D encodes and decode the full scene N3DV dataset faster than the HiFi4G person-centric dataset, because, on the former dataset, QUEEN does not produce degree-3 SHs.};
+Though 2D video codecs are fast, \vthree{}-2D's several hundred milliseconds to encode and decode, due to the overhead of calling the video encoder sequentially for each channel\footnote{\vthree{}-2D encodes and decodes the full scene N3DV dataset faster than the HiFi4G person-centric dataset, because, on the former dataset, QUEEN does not produce degree-3 SHs.};
 It is \textbf{16--61$\boldsymbol\times$ slower than \gsnfs{} for encoding} and \textbf{14--24$\boldsymbol\times$ slower for decoding}.
 %
 \vthree{}-2D could offload H.264 encoding to an NVIDIA GPU using \texttt{nvenc/nvdec}~\cite{nvenc-sdk}; however, \texttt{nvenc} allows only 8 parallel encoders on a desktop-class GPU~\cite{nvenc-limit}, and \vthree{}-2D needs to encode 62 videos, so it is unlikely to achieve full-frame rate performance with offloading.
@@ -233,7 +233,7 @@ It also borrows heavily from G-PCC, and uses some GPU acceleration, but takes se
 % \ao{I suppose that in practice, one would not learn a new VQ codebook for each frame. Is this the way MesonGS is meant to be used?}
 % \eduardo{probably, I did a quick scan of the MesonGS paper, and they only consider static scenes (Mipnerf, tanks and temples, synthetic nerf).}
 %
-Its decoding time is dominated by RAHT decoding which takes up to $200$--$600$~ms. 
+Its decoding time is dominated by RAHT decoding, which takes up to $200$--$600$~ms. 
 
 Overall, \gsnfs{} can encode and decode \textit{one or two orders of magnitude} faster than the baselines on our datasets.
 
@@ -326,7 +326,7 @@ On average, for both datasets, \vthree{}-2D's frame size is about half that of \
 %\ao{See my previous comment: if we encode GOPs where only frames 1, 10, 20, 30, etc are included, we are artificially reducing the performance of  this method.}
 By using a 2D codec, \vthree{}-2D can exploit inter-frame compression techniques in those codecs.
 %
-In contrast, all other techniques, including \gsnfs{} only use intra-frame compression, so have lower compression performance.
+In contrast, all other techniques, including \gsnfs{}, only use intra-frame compression, so they have lower compression performance.
 
 \parab{MesonGS.}
 %
@@ -340,7 +340,7 @@ MesonGS uses similar algorithms as ours, but with two important differences.
 %
 They use vector quantization for SH coefficients\footnote{MesonGS~\cite{mesongs} was designed to encode static scenes and we have used it to encode \dgs{}. Most video codecs would only retrain the vector quantization codebook every few frames, so our approach slightly over-estimates MesonGS frame sizes.}, but we apply KLT (\cref{sec:klt}) and then quantize RAHT coefficients.
 %
-They also use LZ77 for encoding attributes and positions, we use ANS and RLGR entropy encoders.
+They also use LZ77 for encoding attributes and positions; we use ANS and RLGR entropy encoders.
 %
 %\ao{Also, if you train a VQ codebook for every frame and need to send it along with the encoded data, this would be very inefficient. Most VQ-based algorithms either (i) train the codebook once and use it at encoder and decoder or (ii) retrain the codebook occasionally, so the bitrate penalty is spread out over multiple frames.}
 We conjecture that these differences contribute to MesonGS's lower compression performance and to its higher encode-decode latencies (\cref{tab:baseline-latency}).
@@ -421,7 +421,7 @@ We also used R-D curves to find the \gsnfs{} configuration with the nearest PSNR
 %
 We computed R-D curves for the first frame of \textit{all} sequences, for all our baselines.
 %
-To do this, we sweep the space of parameters of each baseline and \gsnfs{}, plot rate and distortion and compute the convex hull as discussed above.
+To do this, we sweep the space of parameters of each baseline and \gsnfs{}, plot rate and distortion, and compute the convex hull as discussed above.
 %
 Here, we discuss the parameters we used for each baseline and for \gsnfs{} in generating the R-D curves.
 %
@@ -498,7 +498,7 @@ $q_o$: QP for opacity.\par}
 %
 \cref{fig:rd-curves} shows the R--D curves for one HiFi4G sequence (\textit{Actor1}) and two N3DV sequences (\textit{flame\_salmon\_1} and \textit{sear\_steak}).
 %
-\cref{fig:rd-baselines-hifi4g} and \cref{fig:rd-baselines-n3dv} depict the R-D curves for the remaining sequences for the two datasets respectively.
+\cref{fig:rd-baselines-hifi4g} and \cref{fig:rd-baselines-n3dv} depict the R-D curves for the remaining sequences for the two datasets, respectively.
 %
 If the R-D curve for approach $A$ is entirely to the left of the curve for $B$, for a given sequence, we say that $A$ dominates $B$.
 %
@@ -687,7 +687,7 @@ On the other hand, \gsnfs{} does not exhibit this degradation because it uses a 
 
 \gsnfs{} supports \dgs{} playback on resource-constrained devices.
 %
-To demonstrate this, we evaluate \gsnfs{}'s decode performance on an NVIDIA Jetson Orin, a mobile GPU with compute comparable to those in in AR/VR headsets and edge devices~\cite{nvidia_jetson_orin}.
+To demonstrate this, we evaluate \gsnfs{}'s decode performance on an NVIDIA Jetson Orin, a mobile GPU with compute comparable to those in AR/VR headsets and edge devices~\cite{nvidia_jetson_orin}.
 %
 %\eduardo{missing reference above}
 \cref{tab:jetson-decode} shows end-to-end decode latency on Jetson Orin.
@@ -795,7 +795,7 @@ Specifically, our approach repeatedly takes 2 views of a person per frame (pre-l
 %
 This pipeline can achieve \textbf{22~fps} and an end-to-end latency (from capture to after decode) of \textbf{75~ms}.
 %
-While \gsnfs's encoder and decoder takes only $15$~ms each, the GPS-Gaussian generator takes ${\sim}43$~ms, and is the bottleneck in this pipeline.
+While \gsnfs's encoder and decoder take only $15$~ms each, the GPS-Gaussian generator takes ${\sim}43$~ms, and is the bottleneck in this pipeline.
 
 \parab{Point cloud compression.}
 %
@@ -888,9 +888,9 @@ The additional latency for computing and applying the KLT matrix is less than 1~
 
 \parab{CUDA vs.\ PyTorch RAHT decode on Jetson.}
 %
-RAHT takes about ${\sim}50$\% of the per frame decode latency, particularly on Jetson Orin.
+RAHT takes about ${\sim}50$\% of the per-frame decode latency, particularly on Jetson Orin.
 %
-An efficient implementation of RAHT is crucial for mobile decode.
+An efficient implementation of RAHT is crucial for mobile decoding.
 %
 \gsnfs{}'s custom CUDA RAHT kernels achieve $2.0$--$3.9\times$ speedup over a PyTorch baseline on Jetson, with larger gains for lower SH degrees (\cref{tab:jetson-raht-decode}).
 %

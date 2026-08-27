@@ -71,9 +71,9 @@ User study methodology: (about a para for each point below)
 
 \parab{Implementation.}
 %
-Our \livo implementation (\cref{fig:architecture_livo}) contains 15K lines of C++ and few hundred lines of Unity.
+Our \livo implementation (\cref{fig:architecture_livo}) contains 15K lines of C++ and a few hundred lines of Unity.
 %
-It implements pipelined capture, view generation and tiling using Boost~\cite{boost} and OpenMP~\cite{openmp}.
+It implements pipelined capture, view generation, and tiling using Boost~\cite{boost} and OpenMP~\cite{openmp}.
 %
 It also uses: Eigen~\cite{eigen} for linear algebra operations for point cloud transformation; the Kalman Filter implementation in OpenCV; WebRTC and \texttt{NVENC} (NVIDIA Video Codec) in Gstreamer~\cite{gstreamer-nvenc} for color (H.265, BGRA) and depth (H.265, Y444\_16LE); and Open3D~\cite{open3d} for rendering on PC or on a headset using Unity.
 %
@@ -146,7 +146,7 @@ There are no publicly available user traces for the videos in Panoptic dataset, 
 %
 In a 30--45 minute session, we asked each user to view 2--3 videos selected randomly.
 %
-Users could freely move around in a sufficiently empty room while viewing the videos and their headset recorded their instantaneous poses.
+Users could freely move around in a sufficiently empty room while viewing the videos, and their headsets recorded their instantaneous poses.
 %
 We collected three traces for each video.
 
@@ -176,13 +176,13 @@ We replay the network traces using Mahimahi~\cite{mahimahi} to emulate the bandw
 
 \parab{Comparison Alternatives.}
 %
-We compare the performance of \livo with other alternatives inspired by live volumetric video streaming systems such as Holoportation~\cite{holoportation}, Project Starline~\cite{starline}, LiveScan3D~\cite{livescan3d} and MetaStream~\cite{metastream} (\cref{tab:comparison}).
+We compare the performance of \livo with other alternatives inspired by live volumetric video streaming systems such as Holoportation~\cite{holoportation}, Project Starline~\cite{starline}, LiveScan3D~\cite{livescan3d}, and MetaStream~\cite{metastream} (\cref{tab:comparison}).
 %
-None of these schemes are bandwidth-adaptive, and all of them achieve live transmission on a network with sufficient bandwidth by sending more constrained views (\eg single person or torso, \cref{tab:comparison}).
+None of these schemes is bandwidth-adaptive, and all of them achieve live transmission on a network with sufficient bandwidth by sending more constrained views (\eg single person or torso, \cref{tab:comparison}).
 %
 Recall that these constrained views require an order of magnitude less bandwidth than full-frame transmission.
 %
-Most of these do not provide open-source implementations, so we resort to mimicking their essential video compression and transmissions strategies, but adapt these for full-frame transmission, so we can do a more even comparison with \livo.
+Most of these do not provide open-source implementations, so we resort to mimicking their essential video compression and transmission strategies, but adapt these for full-frame transmission, so we can do a more even comparison with \livo.
 %
 %Broadly, these fall into two classes: those that use point cloud compression~\cite{holoportation,metastream,meshreduce}, or those that embed point clouds in 2D video streams~\cite{starline}.
 %
@@ -261,8 +261,7 @@ It compresses the mesh geometry using Draco, and the mesh texture using H.264.
 %
 %The receiver in Unity decodes the geometry and color, reconstructs the mesh, and renders it.
 
-MeshReduce employs \textit{indirect} bandwidth adaptation (\cref{s:background}):
-using a profile obtained from an offline analysis, it determines the best compression parameters for a given level of available bandwidth.
+MeshReduce employs \textit{indirect} bandwidth adaptation (\cref{s:background}): using a profile obtained from an offline analysis, it determines the best compression parameters for a given level of available bandwidth.
 %
 %As discussed in \cref{s:background}, such indirect bandwidth-adaptation can be imperfect: the encoder may exceed the available bandwidth in some cases.
 %
@@ -290,7 +289,7 @@ The publicly available MeshReduce implementation decides on these parameters bas
 %
 Aside from end-to-end latency and frame rate, we also measure objective point cloud quality.
 %
-We use PointSSIM~\cite{pointssim} (or PSSIM), which is analogous to SSIM for 2D images, but extends it to 3D by exploring a higher dimensional feature space that includes geometry, normals, curvatures and color attributes.
+We use PointSSIM~\cite{pointssim} (or PSSIM), which is analogous to SSIM for 2D images, but extends it to 3D by exploring a higher-dimensional feature space that includes geometry, normals, curvatures, and color attributes.
 %
 PSSIM separately captures the quality of depth and color.
 %
@@ -488,7 +487,7 @@ MeshReduce has a median opinion score of around 2.3 (and MOS of 2.5), higher tha
 %
 In theory, MeshReduce should perform worse than Draco-Oracle, since it doesn't use a bandwidth oracle.
 %
-It performs better likely because it uses meshes, which have better perceptual quality than point clouds in general and also because MeshReduce incurs fewer stalls.
+It performs better, likely because it uses meshes, which have better perceptual quality than point clouds in general, and also because MeshReduce incurs fewer stalls.
 %% \ramesh{Raj, please review.}
 %% \raj{The implementation of Draco-Oracle and MeshReduce's Draco encoder is slightly different. Draco-Oracle uses the 1 draco encoder for encoding. So, frames are dropped based on 2 criteria - bandwidth inadequate or latency inadequate when streamed at 15 fps. On the other hand, MeshReduce splits the mesh into multiple parts and fires parallel draco sessions to get within the latency budget.}
 
@@ -506,7 +505,7 @@ Across 5 videos (\cref{plot:study_videos}), \livo and \livo-NoCull perform signi
 %
 For the \textit{dance5} video, the median opinion score for \livo and \livo-NoCull is comparable.
 %
-This video contains only one person and no objects, so requires less bandwidth, and culling does not provide any benefits.
+This video contains only one person and no objects, so it requires less bandwidth, and culling does not provide any benefits.
 
 %This video contains a child playing with toys while being watched by their mother.
 %
@@ -524,7 +523,7 @@ The performance improvement over \livo-NoCull is $6.6-43.9\%$, except for \texti
 %
 The \textit{direct} bandwidth adaptation in \livo-NoCull shows $2.0-113.3\%$ improvement over MeshReduce, which uses an \textit{indirect} adaptation.
 %
-When bandwidth is low (\textit{trace-2}, \cref{plot:study_wifi25}), \livo{}'s MOS is 4.1 due to the loss of quality at lower bitrate that affects both color and geometry.
+When bandwidth is low (\textit{trace-2}, \cref{plot:study_wifi25}), \livo{}'s MOS is 4.1 due to the loss of quality at a lower bitrate that affects both color and geometry.
 %
 At lower bandwidth, multiple competing factors influence opinions~---~lower overall quality and higher stalls vs. quality improvement due to culling.
 
@@ -599,7 +598,7 @@ $95\%$ of the participants said MeshReduce has low to medium quality, with many 
 %
 \livo and \livo-NoCull are considered superior in terms of frame rate than MeshReduce and Draco-Oracle. 
 %
-However, for \livo, some participants (6 out of 20) wrote ``corners of the video loads slowly'', ``delay when camera changes'', and ``blanks after sharp motion'', likely because of artifacts resulting from prediction error.
+However, for \livo, some participants (6 out of 20) wrote ``corners of the video load slowly'', ``delay when camera changes'', and ``blanks after sharp motion'', likely because of artifacts resulting from prediction error.
 %
 %We summarize the statistics on qualitative feedback in \cref{tab:user_study_comments}.
 
@@ -647,9 +646,9 @@ However, for \livo, some participants (6 out of 20) wrote ``corners of the video
 %
 %We now report on objective quality comparisons using PointSSIM (or PSSIM for short).
 %
-We use the same experimental setup as described above but now the receiver logs the received point cloud.
+We use the same experimental setup as described above, but now the receiver logs the received point cloud.
 %
-We compare each point cloud against ground truth for the same 5 videos, 3 user traces per video and 2 network traces.
+We compare each point cloud against ground truth for the same 5 videos, 3 user traces per video, and 2 network traces.
 
 \parab{Results.}
 %
@@ -659,7 +658,7 @@ For each video sequence, we aggregate the geometry and color PSSIM values over a
 %
 We use a metric value of 0 for frames that experience stalls.
 %
-Draco-Oracle achieves the lowest geometry and color score with mean value of $28.3$ (std. $19.1$) and $29.9$ (std. $19.8$) respectively, which correlates with the lower opinion scores in our user study.
+Draco-Oracle achieves the lowest geometry and color score with mean value of $28.3$ (std. $19.1$) and $29.9$ (std. $19.8$), respectively, which correlates with the lower opinion scores in our user study.
 %
 %\textit{Dance5} achieves the highest score for Draco-Oracle; it also achieved the highest opinion score among the 5 videos (\cref{plot:study_videos}).
 
@@ -669,7 +668,7 @@ This is consistent with our user study and demonstrates the benefits of culling.
 %
 \livo's benefits relative to \livo-NoCull are higher on videos with more subjects (\cref{tab:dataset-summary}); in such videos, users often focus on a few subjects at any given instant, so culling is very effective.
 %
-MeshReduce has significantly lower PSSIM geometry of $67.0$ (std. $1.8$) because it uses Draco, which is less bandwidth-efficient, and because it adapts indirectly to bandwidth.
+MeshReduce has a significantly lower PSSIM geometry of $67.0$ (std. $1.8$) because it uses Draco, which is less bandwidth-efficient, and because it adapts indirectly to bandwidth.
 
 \livo{} is slightly better than \livo{}-NoCull by the PSSIM color metric ($80.9$, std. $5.06$ vs. $82.9$, std. $7.59$).
 %
@@ -700,7 +699,7 @@ We omit MeshReduce since it doesn't experience stalls: it uses reliable transmis
 %
 Draco-Oracle suffers from high mean stall rate of $69.3\%$.
 %
-Even on the \textit{dance5} video which has only 1 participant and no objects in the scene (\cref{tab:dataset-summary}), it has a stall rate of $37.8\%$.
+Even on the \textit{dance5} video, which has only 1 participant and no objects in the scene (\cref{tab:dataset-summary}), it has a stall rate of $37.8\%$.
 %
 %The stalls increase significantly with increase in number of subjects or objects in the scene.
 %
@@ -856,7 +855,7 @@ These artifacts arise since nearby depth values are mapped to same quantization 
 %
 So \livo scales the depth values.
 %
-We also experimented with a strategy proposed by prior work~\cite{realsense-doc,depth-kautz,vrcomm} which colorizes each 16-bit depth pixel into a 3-channel RGB pixel using a depth to color conversion table.
+We also experimented with a strategy proposed by prior work~\cite{realsense-doc,depth-kautz,vrcomm}, which colorizes each 16-bit depth pixel into a 3-channel RGB pixel using a depth to color conversion table.
 %
 \cref{plot:compression-choice} shows that \livo{}'s scaled depth encoding achieves the highest geometry and color PSSIM relative to this approach and to unscaled depth encoding.
 
@@ -1111,7 +1110,7 @@ We find that it may be possible to match LiVo's predictor only with a large numb
 % \end{figure}
 
 \subsection{Depth vs Color Distortion}
-\cref{plot:bitrate-distortion} studies variability in PSSIM quality metric in depth (sim. color) when we fix color (sim. depth) bitrate and vary depth bitrate. \cref{plot:depth-distortion} shows how PSSIM Geometry metric varies when we increase depth bitrate (normalized as depth bitrate per point); similarly report PSSIM color in \cref{plot:color-distortion}. We observe that depth varies a lot with increase in bitrate before it flattens, while variation in color quality is minimal. Also, the bitrate that needs be allocated for depth is almost $7\times$ higher before it saturates (around vertical dotted line). This confirms that depth is much more sensitive to color and needs careful bitrate allocation.
+\cref{plot:bitrate-distortion} studies variability in PSSIM quality metric in depth (sim. color) when we fix color (sim. depth) bitrate and vary depth bitrate. \cref{plot:depth-distortion} shows how PSSIM Geometry metric varies when we increase depth bitrate (normalized as depth bitrate per point); similarly, report PSSIM color in \cref{plot:color-distortion}. We observe that depth varies a lot with an increase in bitrate before it flattens, while variation in color quality is minimal. Also, the bitrate that needs to be allocated for depth is almost $7\times$ higher before it saturates (around the vertical dotted line). This confirms that depth is much more sensitive to color and needs careful bitrate allocation.
 %
 \begin{figure}[t]
     \centering

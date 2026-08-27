@@ -133,9 +133,9 @@ Off-the-shelf RGB-D cameras have lower depth resolution than color resolution.
 %
 For example, the Azure Kinect DK offers $640 \times 576$ \textit{depth} image resolution, and the Intel RealSense D457 supports up to $1280 \times 720$, but their color images can have up to 4K resolution. %\raj{The highest possible resolution for depth is $640 \times 576$ or $1280 \times 720$, but either cameras can go upto 4K for color resolution. So, we should explicitly mention the resolution bound is for depth.}
 %
-These cameras usually include a time of flight sensor that measures, for each pixel, the depth of that pixel.
+These cameras usually include a time-of-flight sensor that measures, for each pixel, the depth of that pixel.
 %
-The cost of these sensors have resulted in the slower growth of RGB-D camera depth resolution.
+The cost of these sensors has resulted in the slower growth of RGB-D camera depth resolution.
 
 \livo exploits this observation to multiplex the 2$N$ images into \textit{two} videos: a color video and a depth video.
 
@@ -370,7 +370,7 @@ This choice is far more compute-efficient.
 %
 \livo{} continuously adapts the split using the following steps (\cref{fig:architecture_livo}):
 \begin{itemize}
-\item It uses two video decoders (running parallely) which decode the compressed tiled frames to generate the distorted tiled color and depth frames.
+\item It uses two video decoders (running in parallel), which decode the compressed tiled frames to generate the distorted tiled color and depth frames.
 \item For each decoded color (resp. depth) frame, it calculates the color RMSE $RMSE_c$ (resp. depth RMSE $RMSE_d$) by comparing the distorted tiled frame ($F'$) to the ground truth tiled frame ($F$).
 \item \livo{} does not modify the split if $|RMSE_d - RMSE_c| \le \epsilon$, where $\epsilon$ is a parameter to the algorithm.
 %% \harsha{Why the choice of $atol$ as the name?}
@@ -532,7 +532,7 @@ We show (\cref{s:evaluation}) that predictors trained from a few traces perform 
 %
 Given a frustum and a point cloud, the \textit{culled point cloud} consists of points inside the frustum.
 %
-However, RGB-D cameras do not provide point clouds; each camera produces an image, with color and depth of associated pixels.
+However, RGB-D cameras do not provide point clouds; each camera produces an image with color and depth of associated pixels.
 %
 \livo{} must efficiently determine which color and depth pixels correspond to points within the frustum.
 
@@ -608,7 +608,7 @@ Future work can explore other techniques to ensure better tracking accuracy.
 \parab{View Culling.}
 This step, performed \textit{before} stream composition and depth encoding (\cref{ss:compression}), is invoked every inter-frame interval, and takes as input the viewer's frustum and the $N$ RGB-D frames.
 %
-For each pixel in each image, it must determine if that pixel falls within the frustum or not, and replace culled pixels by a zero value (both for color and depth).
+For each pixel in each image, it must determine if that pixel falls within the frustum or not, and replace culled pixels with a zero value (both for color and depth).
 %
 %If not, it replaces the culled pixel by a zero value (for both color and depth).
 %(we explain how this is produced in \cref{ss:view-prediction}) 
